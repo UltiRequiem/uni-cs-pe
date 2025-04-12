@@ -1,11 +1,7 @@
 #include<string>
-
 #include <iostream>
-
 #include <fstream>
-
 #include <sstream>
-
 #include <vector>
 
 using namespace std;
@@ -41,7 +37,7 @@ int main() {
 
     getline(currentLine, name, ',');
     getline(currentLine, age_str, ',');
-    getline(currentLine, grade_str, ',');
+    getline(currentLine, grade_str);
 
     line = "";
 
