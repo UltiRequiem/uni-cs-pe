@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ctime>
 
-using std::cout, std::endl;
+using std::cout, std::endl, std::cin;
 
 void print2DMatrix(int **matrix, int size)
 {
@@ -63,50 +63,46 @@ void selectionSort(int **matrix, int size)
 
 int main()
 {
-  // Use current time as seed for random number generator
   srand(time(NULL));
 
   int size;
-  std::cout << "Ingrese la dimensión de la matriz cuadrada (entre 2 y 8): ";
-  std::cin >> size;
+  cout << "Ingrese la dimensión de la matriz cuadrada (entre 2 y 8): ";
+  cin >> size;
 
-  // Validate size is between 2 and 8
   while (size < 2 || size > 8)
   {
-    std::cout << "Dimensión inválida. Ingrese un valor entre 2 y 8: ";
-    std::cin >> size;
+    cout << "Dimensión inválida. Ingrese un valor entre 2 y 8: ";
+    cin >> size;
   }
 
-  // Create dynamic 2D array
   int **matrix = new int *[size];
+
   for (int i = 0; i < size; i++)
   {
     matrix[i] = new int[size];
   }
 
-  // Fill matrix with random numbers between 0 and 100
   for (int i = 0; i < size; i++)
   {
     for (int j = 0; j < size; j++)
     {
-      matrix[i][j] = rand() % 101; // 0 to 100
+      matrix[i][j] = rand() % 101;
     }
   }
 
-  std::cout << "Matriz original:" << std::endl;
+  cout << "Matriz original:" << endl;
   print2DMatrix(matrix, size);
 
-  // Sort the matrix
   selectionSort(matrix, size);
 
-  std::cout << "Matriz ordenada:" << std::endl;
+  cout << "Matriz ordenada:" << endl;
   print2DMatrix(matrix, size);
 
-  // Free allocated memory
   for (int i = 0; i < size; i++)
   {
     delete[] matrix[i];
   }
+
   delete[] matrix;
 
   return 0;
