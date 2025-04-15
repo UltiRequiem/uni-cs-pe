@@ -7,7 +7,7 @@ Cientifico de la Computacion en construccion.
 Si quieren algun video en especifico abran un issue.
 
 Solucionarios: https://www.youtube.com/c/UltiRequiem
-
+prueba
 ## Ciclos
 
 The Computer Science program at Universidad Nacional de Ingenieria (UNI) is a comprehensive 10-semester curriculum that progresses from foundational concepts to advanced specialization. The program combines theoretical knowledge with practical skills across multiple computing disciplines.
