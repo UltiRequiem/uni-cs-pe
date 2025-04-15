@@ -33,6 +33,7 @@ void selectionSort(int **matrix, int size)
     int minIndex = i;
     int minRow = i / size;
     int minCol = i % size;
+
     int minValue = matrix[minRow][minCol];
 
     for (int j = i + 1; j < n; j++)
