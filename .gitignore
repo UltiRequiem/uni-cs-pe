@@ -1,3 +1,4 @@
 *.out
 *.pyc
 codealike.json
+**/__pycache__/
