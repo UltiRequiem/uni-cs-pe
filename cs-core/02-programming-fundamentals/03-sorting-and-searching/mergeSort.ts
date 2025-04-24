@@ -1,15 +1,33 @@
 function merge(left: number[], right: number[]) {
-  let sortedArr: number[] = [];
+  const result: number[] = [];
+  let leftIndex = 0;
+  let rightIndex = 0;
 
-  while (left.length && right.length) {
-    if (left[0] < right[0]) {
-      sortedArr.push(left.shift()!);
-    } else {
-      sortedArr.push(right.shift()!);
+  while (leftIndex < left.length && rightIndex < right.length) {
+    const currentLeft = left[leftIndex];
+    const currentRight = right[rightIndex];
+
+    if (currentLeft <= currentRight) {
+      result.push(currentLeft);
+      leftIndex++;
+      continue;
     }
+
+    result.push(currentRight);
+    rightIndex++;
   }
 
-  return [...sortedArr, ...left, ...right];
+  while (leftIndex < left.length) {
+    result.push(left[leftIndex]);
+    leftIndex++;
+  }
+
+  while (rightIndex < right.length) {
+    result.push(right[rightIndex]);
+    rightIndex++;
+  }
+
+  return result;
 }
 
 function mergeSort(nums: number[]): number[] {
@@ -24,3 +42,6 @@ function mergeSort(nums: number[]): number[] {
 
   return merge(left, right);
 }
+
+const arr = [38, 27, 43, 3, 9, 82, 10];
+console.log(mergeSort(arr));
