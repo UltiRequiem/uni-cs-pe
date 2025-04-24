@@ -68,6 +68,9 @@
     "stop_token": "cpp",
     "thread": "cpp",
     "cinttypes": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "bitset": "cpp",
+    "csignal": "cpp",
+    "regex": "cpp"
   }
 }
