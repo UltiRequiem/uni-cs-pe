@@ -92,3 +92,29 @@ private:
     return a;
   }
 };
+
+class Matrix {
+public:
+  int n;
+  Fraction **Mat;
+
+  Matrix(int size) : n(size) {
+    if (size <= 0) {
+      throw invalid_argument("Size must be greater than zero");
+    }
+
+    this->Mat = new Fraction *[this->n];
+
+    for (int i = 0; i < this->n; ++i) {
+      Mat[i] = new Fraction[this->n];
+    }
+  }
+
+  ~Matrix() {
+    for (int i = 0; i < this->n; ++i) {
+      delete[] Mat[i];
+    }
+
+    delete[] Mat;
+  }
+};
