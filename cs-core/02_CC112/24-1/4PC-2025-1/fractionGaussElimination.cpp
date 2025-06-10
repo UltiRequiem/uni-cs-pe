@@ -57,6 +57,10 @@ public:
       return "1";
     }
 
+    if (this->denominator == 1) {
+      return to_string(this->numerator);
+    }
+
     return to_string(this->numerator) + "/" + to_string(this->denominator);
   }
 
@@ -168,6 +172,9 @@ int main() {
 
   Fraction input[] = {{1, 1},  {1, 2}, {1, 3}, {1, 1},  {5, 6},
                       {7, 12}, {1, 2}, {1, 4}, {11, 30}};
+
+  // Fraction input[] = {{1, 1}, {2, 1}, {3, 1},  {2, 1}, {5, 1},
+  //                     {8, 1}, {4, 1}, {10, 1}, {20, 1}};
 
   int inputSize = sizeof(input) / sizeof(input[0]);
 
