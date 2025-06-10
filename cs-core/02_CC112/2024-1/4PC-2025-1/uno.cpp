@@ -133,7 +133,7 @@ public:
     }
   }
 
-  void printMatriz() {
+  void printMatrix() {
     for (int i = 0; i < this->n; i++) {
       for (int j = 0; j < this->n; j++) {
         cout << Mat[i][j].toString() << "\t";
@@ -142,4 +142,49 @@ public:
       cout << endl;
     }
   }
+
+  void GaussElimination() {
+    cout << endl;
+    for (int i = 0; i < this->n; ++i) {
+      auto pivot = Mat[i][i];
+
+      if (pivot.numerator == 0) {
+        continue;
+      }
+
+      for (int j = i + 1; j < this->n; ++j) {
+        auto factor = Mat[j][i].division(pivot);
+
+        for (int k = i; k < this->n; ++k) {
+          auto product = factor.product(Mat[i][k]);
+          Mat[j][k] = Mat[j][k].difference(product);
+
+          this->printMatrix();
+          cout << endl;
+        }
+      }
+    }
+  }
 };
+
+int main() {
+  int n = 3;
+
+  Fraction input[] = {{1, 1},  {1, 2}, {1, 3}, {1, 1},  {5, 6},
+                      {7, 12}, {1, 2}, {1, 4}, {11, 30}};
+
+  int inputSize = sizeof(input) / sizeof(input[0]);
+
+  Matrix matriz(n);
+  matriz.fillMatrix(input, inputSize);
+
+  cout << "Matriz original:\n";
+  matriz.printMatrix();
+
+  matriz.GaussElimination();
+
+  cout << "\nMatriz escalonada:\n";
+  matriz.printMatrix();
+
+  return 0;
+}
