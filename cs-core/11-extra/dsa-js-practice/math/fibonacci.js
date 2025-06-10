@@ -1,8 +1,8 @@
 function recursiveFibo(n, memo = {}) {
-	if (n < 3) return 1;
-	if (n in memo) return memo[n];
+  if (n < 3) return 1;
+  if (n in memo) return memo[n];
 
-	return (memo[n] = recursiveFibo(n - 1, memo) + recursiveFibo(n - 2, memo));
+  return (memo[n] = recursiveFibo(n - 1, memo) + recursiveFibo(n - 2, memo));
 }
 
 console.time("recursiveFibo");

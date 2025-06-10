@@ -8,32 +8,32 @@ máximo.
   */
 
 function main() {
-	const input = [2, 3, 3, 4, 1, 5, 4, 2, 1, 3, 0];
+  const input = [2, 3, 3, 4, 1, 5, 4, 2, 1, 3, 0];
 
-	const result: number[] = [];
+  const result: number[] = [];
 
-	const memory = {};
+  const memory = {};
 
-	for (let i = 0; i < input.length; i++) {
-		const current = input[i];
+  for (let i = 0; i < input.length; i++) {
+    const current = input[i];
 
-		if (memory[current] || current <= 0) {
-			continue;
-		}
+    if (memory[current] || current <= 0) {
+      continue;
+    }
 
-		const last = result[result.length - 1];
+    const last = result[result.length - 1];
 
-		if (current > last) {
-			result.push(current);
-		} else {
-			result.unshift(current);
-		}
+    if (current > last) {
+      result.push(current);
+    } else {
+      result.unshift(current);
+    }
 
-		memory[input[i]] = true;
-	}
+    memory[input[i]] = true;
+  }
 
-	console.log("Arreglo formado:", result);
-	console.log(result[result.length - 1]);
+  console.log("Arreglo formado:", result);
+  console.log(result[result.length - 1]);
 }
 
 main();

@@ -1,21 +1,25 @@
 # Universidad Nacional de Ingenieria
 
-> https://acreditacion.uni.edu.pe/computer
+> <https://acreditacion.uni.edu.pe/computer>
+
+Documentacion de lo que se hace en la UNI, repo pesado, muchos assets.
 
 Cientifico de la Computacion en construccion.
 
 Si quieren algun video en especifico abran un issue.
 
-Solucionarios: https://www.youtube.com/c/UltiRequiem
+Solucionarios: <https://www.youtube.com/c/UltiRequiem>
 
 ## Ciclos
 
-The Computer Science program at Universidad Nacional de Ingenieria (UNI) is a comprehensive 10-semester curriculum that progresses from foundational concepts to advanced specialization. The program combines theoretical knowledge with practical skills across multiple computing disciplines.
+The Computer Science program at Universidad Nacional de Ingenieria (UNI) is a
+comprehensive 10-semester curriculum that progresses from foundational concepts
+to advanced specialization. The program combines theoretical knowledge with
+practical skills across multiple computing disciplines.
 
-Program Structure
-Duration: 10 semesters (5 years)
-Total Credits: ~200 credits (varies with electives)
-Format: Combines theory (T) and practice (P) components in most courses
+Program Structure Duration: 10 semesters (5 years) Total Credits: ~200 credits
+(varies with electives) Format: Combines theory (T) and practice (P) components
+in most courses
 
 ### 1er Ciclo
 
