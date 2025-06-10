@@ -144,7 +144,6 @@ public:
   }
 
   void GaussElimination() {
-    cout << endl;
     for (int i = 0; i < this->n; ++i) {
       auto pivot = Mat[i][i];
 
@@ -158,9 +157,6 @@ public:
         for (int k = i; k < this->n; ++k) {
           auto product = factor.product(Mat[i][k]);
           Mat[j][k] = Mat[j][k].difference(product);
-
-          this->printMatrix();
-          cout << endl;
         }
       }
     }
