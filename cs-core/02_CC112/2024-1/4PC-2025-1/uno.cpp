@@ -35,8 +35,8 @@ public:
   }
 
   Fraction product(const Fraction &other) const {
-    return Fraction(this->denominator * other.denominator,
-                    this->numerator * other.numerator);
+    return Fraction(this->numerator * other.numerator,
+                    this->denominator * other.denominator);
   }
 
   Fraction division(const Fraction &other) const {
@@ -49,7 +49,7 @@ public:
   }
 
   string toString() const {
-    if (this->denominator == 0) {
+    if (this->numerator == 0) {
       return "0";
     }
 
