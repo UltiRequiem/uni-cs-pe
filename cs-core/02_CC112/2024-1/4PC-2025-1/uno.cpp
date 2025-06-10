@@ -1,6 +1,9 @@
 #include <stdexcept>
+#include <string>
 
 using std::invalid_argument;
+using std::string;
+using std::to_string;
 
 class Fraction {
 public:
@@ -17,6 +20,7 @@ public:
 
     this->denominator = abs(denominator);
     this->numerator = abs(numerator) * symbol;
+    this->reduce();
   }
 
   Fraction difference(const Fraction &other) const {
@@ -36,7 +40,40 @@ public:
     if (other.numerator == 0) {
       throw invalid_argument("Cannot divide by zero");
     }
+
     return Fraction(this->numerator * other.denominator,
                     this->denominator * other.numerator);
+  }
+
+  string toString() const {
+    if (this->denominator == 0) {
+      return "0";
+    }
+
+    if (this->numerator == this->denominator) {
+      return "1";
+    }
+
+    return to_string(this->numerator) + "/" + to_string(this->denominator);
+  }
+
+private:
+  void reduce() {
+    int gcd = this->gcd(this->numerator, this->denominator);
+    if (gcd != 0) {
+      this->numerator /= gcd;
+      this->denominator /= gcd;
+    }
+  }
+
+  // a = b * q + r => gcd(a, b) = gcd(b, r)
+  int gcd(int a, int b) const {
+    while (b != 0) {
+      int temp = b;
+      b = a % b;
+      a = temp;
+    }
+
+    return a;
   }
 };
