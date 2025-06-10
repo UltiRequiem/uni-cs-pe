@@ -1,6 +1,9 @@
+#include <iostream>
 #include <stdexcept>
 #include <string>
 
+using std::cout;
+using std::endl;
 using std::invalid_argument;
 using std::string;
 using std::to_string;
@@ -116,5 +119,27 @@ public:
     }
 
     delete[] Mat;
+  }
+
+  void fillMatrix(Fraction input[], int inputSize) {
+    if (inputSize != this->n * this->n) {
+      throw invalid_argument("Input size does not match matrix size");
+    }
+
+    for (int i = 0; i < this->n; ++i) {
+      for (int j = 0; j < this->n; ++j) {
+        Mat[i][j] = input[i * this->n + j];
+      }
+    }
+  }
+
+  void printMatriz() {
+    for (int i = 0; i < this->n; i++) {
+      for (int j = 0; j < this->n; j++) {
+        cout << Mat[i][j].toString() << "\t";
+      }
+
+      cout << endl;
+    }
   }
 };
