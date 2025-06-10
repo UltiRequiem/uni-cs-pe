@@ -57,6 +57,21 @@ public:
     return to_string(this->numerator) + "/" + to_string(this->denominator);
   }
 
+  bool operator==(const Fraction &other) const {
+    return this->numerator == other.numerator &&
+           this->denominator == other.denominator;
+  }
+
+  Fraction &operator=(const Fraction &other) {
+    if (this != &other) {
+      this->numerator = other.numerator;
+      this->denominator = other.denominator;
+      this->reduce();
+    }
+
+    return *this;
+  }
+
 private:
   void reduce() {
     int gcd = this->gcd(this->numerator, this->denominator);
