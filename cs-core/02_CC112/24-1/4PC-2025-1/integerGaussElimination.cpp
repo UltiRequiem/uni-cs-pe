@@ -8,27 +8,29 @@ using std::invalid_argument;
 class SquareMatrix {
 public:
   int n;
-  int **columns;
+  int **rows;
 
   SquareMatrix(int size) : n(size) {
     if (size <= 0) {
       throw invalid_argument("Size must be greater than 0");
     }
 
-    this->columns = new int *[this->n];
+    this->rows = new int *[this->n];
 
     for (int i = 0; i < this->n; i++) {
-      this->columns[i] = new int[this->n];
+      this->rows[i] = new int[this->n];
     }
   }
 
   ~SquareMatrix() {
     for (int i = 0; i < this->n; i++) {
-      delete[] this->columns[i];
+      delete[] this->rows[i];
     }
 
-    delete[] this->columns;
+    delete[] this->rows;
   }
+
+  void printMatrix() {}
 };
 
 int main() {
