@@ -30,6 +30,7 @@ public:
     delete[] this->rows;
   }
 
+  // We print a full row, then the next one, etc..
   void printMatrix() {
     for (int i = 0; i < this->n; i++) {
       for (int j = 0; j < this->n; j++) {
@@ -39,6 +40,21 @@ public:
       }
 
       cout << endl;
+    }
+  }
+
+  void fillMatrix(int *input, int inputSize) {
+    // This is a square matrix
+    if (inputSize != this->n * this->n) {
+      throw invalid_argument("Input size does not match matrix size");
+    }
+
+    for (int i = 0; i < this->n; i++) {
+      int *currentRow = this->rows[i];
+
+      for (int j = 0; j < this->n; j++) {
+        currentRow[j] = input[i * this->n + j];
+      }
     }
   }
 };
