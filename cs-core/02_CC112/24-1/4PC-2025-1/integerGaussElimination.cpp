@@ -30,7 +30,17 @@ public:
     delete[] this->rows;
   }
 
-  void printMatrix() {}
+  void printMatrix() {
+    for (int i = 0; i < this->n; i++) {
+      for (int j = 0; j < this->n; j++) {
+        int actualValue = this->rows[i][j];
+
+        cout << actualValue << "\t";
+      }
+
+      cout << endl;
+    }
+  }
 };
 
 int main() {

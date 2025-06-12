@@ -140,7 +140,9 @@ public:
   void printMatrix() {
     for (int i = 0; i < this->n; i++) {
       for (int j = 0; j < this->n; j++) {
-        cout << Mat[i][j].toString() << "\t";
+        Fraction &actualValue = Mat[i][j];
+
+        cout << actualValue.toString() << "\t";
       }
 
       cout << endl;
