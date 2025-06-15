@@ -70,3 +70,23 @@ void writeResults(ifstream &input1, ifstream &input2, ofstream &output) {
   delete[] firstFileNumbers;
   delete[] secondFileNumbers;
 }
+
+int main() {
+  ifstream input1("input1.txt");
+  ifstream input2("input2.txt");
+
+  if (!input1.is_open() || !input2.is_open()) {
+    cerr << "Error opening input files." << std::endl;
+    return 1;
+  }
+
+  ofstream output("output.txt");
+
+  writeResults(input1, input2, output);
+
+  input1.close();
+  input2.close();
+  output.close();
+
+  return 0;
+}
