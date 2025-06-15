@@ -2,15 +2,12 @@
 
 using std::cout, std::endl;
 
-void insertionSort(int *numbers, int size)
-{
-  for (int i = 1; i < size; i++)
-  {
+void insertionSort(int numbers[], int size) {
+  for (int i = 1; i < size; i++) {
     int current = numbers[i];
     int j;
 
-    for (j = i - 1; j >= 0 && numbers[j] > current; j--)
-    {
+    for (j = i - 1; j >= 0 && numbers[j] > current; j--) {
       numbers[j + 1] = numbers[j];
     }
 
@@ -18,8 +15,7 @@ void insertionSort(int *numbers, int size)
   }
 }
 
-int main()
-{
+int main() {
   int numbers[] = {3, 5, 6, 7, 8, 9, 222, 34454, 111, 3};
   int size = sizeof(numbers) / sizeof(numbers[0]);
 
