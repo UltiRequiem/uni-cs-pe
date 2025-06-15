@@ -13,9 +13,9 @@ void bubbleSort(int numbers[], int size) {
         continue;
       }
 
+      // we can use std::swap, but i want to keept it old school
       numbers[j + 1] = current;
       numbers[j] = next;
-      // we can use std::swap, but i want to keept it old school
     }
   }
 }
