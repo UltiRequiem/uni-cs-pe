@@ -1,3 +1,5 @@
-# Segundo ciclo
+# Fundamentos de Programación
 
-Aun no hay tutoriales.
+> Usando C++
+
+Curso de segundo ciclo.
