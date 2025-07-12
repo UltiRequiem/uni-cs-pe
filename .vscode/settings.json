@@ -71,6 +71,20 @@
     "variant": "cpp",
     "bitset": "cpp",
     "csignal": "cpp",
-    "regex": "cpp"
+    "regex": "cpp",
+    "__locale": "cpp",
+    "__verbose_abort": "cpp",
+    "ios": "cpp",
+    "locale": "cpp",
+    "print": "cpp",
+    "__bit_reference": "cpp",
+    "__hash_table": "cpp",
+    "__node_handle": "cpp",
+    "__split_buffer": "cpp",
+    "charconv": "cpp",
+    "complex": "cpp",
+    "execution": "cpp",
+    "queue": "cpp",
+    "stack": "cpp"
   }
 }
