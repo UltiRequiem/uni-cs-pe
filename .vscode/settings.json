@@ -1,5 +1,7 @@
 {
-  "github.copilot.editor.enableAutoCompletions": false,
+  "github.copilot.enable": {
+    "*": false
+  },
   "editor.formatOnSave": true,
   "files.associations": {
     "*.embeddedhtml": "html",
