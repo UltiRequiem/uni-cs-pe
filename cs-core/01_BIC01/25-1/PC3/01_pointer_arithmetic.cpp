@@ -27,7 +27,7 @@ int main()
   int maxIndex = maxNumber - inputArray;
   int minIndex = minElement - inputArray;
 
-    cout << "The maximum number is: " << *maxNumber << " at index " << maxIndex << endl;
+  cout << "The maximum number is: " << *maxNumber << " at index " << maxIndex << endl;
   cout << "The minimum number is: " << *minElement << " at index " << minIndex << endl;
 
   return 0;
