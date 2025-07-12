@@ -17,15 +17,13 @@ int main()
 
   for (int j = 0; j < inputLength; j++)
   {
-    int currentNum = inputArray[j];
-
-    for (int y = j; y < inputLength; y++)
+    for (int y = j + 1; y < inputLength; y++)
     {
       int innerCycle = inputArray[y];
 
-      if (currentNum > innerCycle)
+      if (inputArray[j] > innerCycle)
       {
-        inputArray[y] = currentNum;
+        inputArray[y] = inputArray[j];
         inputArray[j] = innerCycle;
       }
     }
