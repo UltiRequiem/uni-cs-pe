@@ -3,6 +3,7 @@
 using std::begin;
 using std::cin;
 using std::cout;
+using std::distance;
 using std::end;
 using std::endl;
 using std::max_element;
@@ -22,12 +23,10 @@ int main()
   int *maxNumber = max_element(begin(inputArray), end(inputArray));
   int *minElement = min_element(begin(inputArray), end(inputArray));
 
-  // Pointer arithmetic!!!
+  int maxIndex = distance(inputArray, maxNumber);
+  int minIndex = distance(inputArray, minElement);
 
-  int maxIndex = maxNumber - inputArray;
-  int minIndex = minElement - inputArray;
-
-    cout << "The maximum number is: " << *maxNumber << " at index " << maxIndex << endl;
+  cout << "The maximum number is: " << *maxNumber << " at index " << maxIndex << endl;
   cout << "The minimum number is: " << *minElement << " at index " << minIndex << endl;
 
   return 0;
