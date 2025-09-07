@@ -31,6 +31,8 @@ public:
     delete[] this->rows;
   }
 
+  static void sayHello() { cout << "Hello from SquareMatrix class!" << endl; }
+
   // We print a full row, then the next one, etc..
   void printMatrix() const {
     for (int i = 0; i < this->n; i++) {
@@ -66,6 +68,7 @@ public:
   // A: Singular matrix => det(A) = 0
   int gaussElimination() {
     int rowSwapCount = 0;
+
     for (int i = 0; i < this->n; i++) {
       int maxRow = i;
 
@@ -137,7 +140,7 @@ public:
 
 int main() {
   // double singularMatrix[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-
+  // double det = SquareMatrix.fillMatrix(1);
   double numbers[] = {2, 1, 3, 1, 3, 2, 3, 2, 1};
 
   int numbersSize = sizeof(numbers) / sizeof(numbers[0]);
