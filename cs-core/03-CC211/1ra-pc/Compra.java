@@ -13,7 +13,7 @@ public class Compra {
     for (int c1 = 1; c1* this.p1 <= this.compra; c1++){
       for (int c2 = 1; c2*this.p2 + c1* this.p1 <= this.compra; c2++){
         System.out.println(
-            c1 + " " + c2 + " " + c1*p1+c2*p2
+            c1 + " " + c2 + " " + (c1*p1+c2*p2)
             );
 
       }
