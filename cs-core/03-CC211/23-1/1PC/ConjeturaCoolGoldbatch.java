@@ -1,6 +1,14 @@
 import java.util.HashMap;
 
 public class ConjeturaCoolGoldbatch {
+  private static void displayGoldbatchResults(HashMap<Integer, Integer> memory, int baseCase) {
+    for (var entry : memory.entrySet()) {
+      var key = entry.getKey();
+      var value = entry.getValue();
+
+      System.out.printf("%d + %d = %d\n", key, value, baseCase);
+    }
+  }
 
   public static void goldbach(int baseCase) {
     var memory = new HashMap<Integer, Integer>();
@@ -11,7 +19,7 @@ public class ConjeturaCoolGoldbatch {
       }
     }
 
-    System.out.println(memory);
+    displayGoldbatchResults(memory, baseCase);
   }
 
   public static void main(String[] args) {
