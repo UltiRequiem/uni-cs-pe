@@ -11,10 +11,15 @@ public class ConjeturaCoolGoldbatch {
   }
 
   public static void goldbach(int baseCase) {
+
     var memory = new HashMap<Integer, Integer>();
 
     for (int i = 1; i < baseCase; i++) {
-      if (esPrimo(i) && esPrimo(baseCase - i) && !memory.containsKey(i)) {
+      if (memory.containsKey(i)) {
+        break;
+      }
+
+      if (esPrimo(i) && esPrimo(baseCase - i)) {
         memory.put(baseCase - i, i);
       }
     }
