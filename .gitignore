@@ -4,3 +4,4 @@ codealike.json
 **/__pycache__/
 .DS_Store
 *.class
+*.o
