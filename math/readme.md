@@ -1,3 +1,3 @@
-# Math
+# Mathematics
 
-Tambien deberia hacer videos de mate.
+Los tres primeros ciclos de CS y Matematicas en la UNI son bastante similares.

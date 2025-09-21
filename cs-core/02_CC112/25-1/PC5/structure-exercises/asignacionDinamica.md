@@ -1,4 +1,4 @@
-﻿# Ejercicios Guiados - Asignación Dinámica con `new` y `delete` en C++ (Nivel Básico)
+# Ejercicios Guiados - Asignación Dinámica con `new` y `delete` en C++ (Nivel Básico)
 
 ## Introducción
 
