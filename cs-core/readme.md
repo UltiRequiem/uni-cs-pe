@@ -8,7 +8,7 @@ Check el plan de estudios en:
 
 ## Orden
 
-1er Ciclo -> Introducción a la Computación 2do Ciclo -> Fundamentos de
-Programación
-
-## Todo
+1er Ciclo -> Introducción a la Computación
+2do Ciclo -> Fundamentos de Programación
+3er Ciclo -> Programacon Orientada a Objetos
+3er Ciclo -> Arquitectura de Computadoras
