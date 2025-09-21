@@ -1,11 +1,15 @@
-# Universidad Nacional de Ingenieria
+# 🎓 Ciencia de la computación @ UNI
 
-> <https://acreditacion.uni.edu.pe/computer>
+**Colección del Programa de Ciencia de la Computación** - Universidad Nacional de Ingeniería (Lima, Perú)
 
-Solucionarios: <https://www.youtube.com/c/UltiRequiem>
+## 🚀 Qué Encontrarás
 
-Lenguajes ensenados a lo largo de la carrera: C++, Java
+- 📚 Soluciones de cursos y materiales
+- 💻 Ejercicios de programación (C++, Java)
+- 🏆 Preparaciones para concursos y logros
+- 📝 Notas de conferencias y talleres
 
-### Todo
+## 🔗 Recursos
 
-Add link to infonor and hackemate
+- **Programa Universitario**: [CS @ UNI](https://acreditacion.uni.edu.pe/computer)
+- **Soluciones en Video**: [Mi Canal de YouTube](https://www.youtube.com/c/UltiRequiem)
