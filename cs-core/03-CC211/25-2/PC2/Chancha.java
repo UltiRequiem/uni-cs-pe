@@ -30,56 +30,68 @@ public class Chancha {
         int monto = 2000;
         int nEst = 2 + ran.nextInt(5);
 
-        System.out.println("Chancha para la fiesta de fin de ciclo. Monto >= " + monto);
-
         Estudiante[] estudiantes = new Estudiante[nEst];
+
         for (int i = 0; i < nEst; i++) {
             estudiantes[i] = new Estudiante(i, "E" + i);
         }
 
-        System.out.print("            Estudiantes\nCuota");
+        System.out.print("Cuota");
         for (int i = 0; i < nEst; i++) {
             System.out.printf("   %s", estudiantes[i].nombre);
         }
-        System.out.println("Total   Mayores aportadores (de dinero)");
+          
+        System.out.println("    Total   Mayores aportadores (de dinero)");
 
         int aporte, aporteFila, aporteMax, aporteTotal = 0;
         int[] aportes = new int[nEst];
         int nFila = 1;
 
         do {
-            System.out.printf("  %2d ", nFila++);
+            System.out.printf("  %2d ", nFila);
+            nFila++;
             aporteFila = 0;
             aporteMax = 0;
 
             for (int i = 0; i < nEst; i++) {
                 aporte = 60 + ran.nextInt(11);
+
                 System.out.printf("   %2d", aporte);
+
                 aporteFila += aporte;
+
                 if (aporte > aporteMax) {
                     aporteMax = aporte;
                 }
+
                 aportes[i] = aporte;
                 estudiantes[i].aportar(aporte);
             }
 
             System.out.printf(" %7d ", aporteFila);
+
             aporteTotal += aporteFila;
+
+            System.out.print("  ");
 
             for (int i = 0; i < nEst; i++) {
                 if (aportes[i] == aporteMax) {
                     System.out.print(" " + estudiantes[i].nombre);
                 }
             }
+
             System.out.println();
 
         } while (aporteTotal < monto);
 
         System.out.print("Total");
         aporteMax = 0;
+
         for (int i = 0; i < nEst; i++) {
             aportes[i] = estudiantes[i].totalAporte;
+
             System.out.printf(" %4d", aportes[i]);
+
             if (aportes[i] > aporteMax) {
                 aporteMax = aportes[i];
             }
@@ -89,9 +101,11 @@ public class Chancha {
 
         for (int i = 0; i < nEst; i++) {
             if (aportes[i] == aporteMax) {
-                System.out.print(" " + estudiantes[i].nombre);
+                System.out.print("  " + estudiantes[i].nombre);
             }
         }
+
         System.out.println();
     }
+
 }
