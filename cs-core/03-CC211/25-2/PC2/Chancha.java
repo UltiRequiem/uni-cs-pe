@@ -37,6 +37,7 @@ public class Chancha {
         }
 
         System.out.print("Cuota");
+
         for (int i = 0; i < nEst; i++) {
             System.out.printf("   %s", estudiantes[i].nombre);
         }
