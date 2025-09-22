@@ -24,23 +24,33 @@ class Estudiante {
 }
 
 public class Chancha {
+    public static void displayStudentsNames(Estudiante[] students){
+        for (int i = 0; i < students.length; i++) {
+            System.out.printf("   %s", students[i].nombre);
+        }
+    }
+
+    public static Estudiante[] generateStudents(int quantity){
+      Estudiante[] estudiantes = new Estudiante[quantity];
+
+      for (int i = 0; i < quantity; i++) {
+          estudiantes[i] = new Estudiante(i, "E" + i);
+      }
+
+      return estudiantes;
+    }
+
     public static void main(String[] _args) {
         Random ran = new Random();
 
         int monto = 2000;
         int nEst = 2 + ran.nextInt(5);
 
-        Estudiante[] estudiantes = new Estudiante[nEst];
-
-        for (int i = 0; i < nEst; i++) {
-            estudiantes[i] = new Estudiante(i, "E" + i);
-        }
+        Estudiante[] estudiantes = generateStudents(nEst);
 
         System.out.print("Cuota");
 
-        for (int i = 0; i < nEst; i++) {
-            System.out.printf("   %s", estudiantes[i].nombre);
-        }
+        displayStudentsNames(estudiantes);
           
         System.out.println("    Total   Mayores aportadores (de dinero)");
 
