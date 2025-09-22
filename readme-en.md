@@ -1,6 +1,7 @@
 # 🎓 CS Journey @ UNI
 
-**Computer Science Program Collection** - Universidad Nacional de Ingeniería (Lima, Peru)
+**Computer Science Program Collection** - Universidad Nacional de Ingeniería
+(Lima, Peru)
 
 ## 🚀 What's Inside
 
@@ -12,4 +13,5 @@
 ## 🔗 Resources
 
 - **University Program**: [CS @ UNI](https://acreditacion.uni.edu.pe/computer)
-- **Video Solutions**: [My YouTube Channel](https://www.youtube.com/c/UltiRequiem)
+- **Video Solutions**:
+  [My YouTube Channel](https://www.youtube.com/c/UltiRequiem)
