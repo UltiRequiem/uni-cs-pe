@@ -7,10 +7,18 @@ public class Test {
     private static final Random random = new Random();
 
     public static void main(String[] _args) {
-        CR c = new CR(1, "blanco", new Rectangulo(2, 1));
-        CR[] circulos = new CR[3];
+        var c = new CR(1, "blanco", new Rectangulo(2, 1));
+
+        // Creamos arreglos de clon de C
+        var circulos = new CR[1+random.nextInt(8)];
+
+        for (int i = 0; i < circulos.length; i++) {
+            circulos[i] = c.clone();
+        }
 
         System.out.println("Círculos clonados");
+
+
         System.out.println("Radio Color              Area  Largo  Ancho");
         for (int i = 0; i < circulos.length; i++) {
             circulos[i] = (CR) c.clone();

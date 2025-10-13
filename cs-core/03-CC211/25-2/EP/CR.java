@@ -61,7 +61,7 @@ public class CR implements Comparable<CR>, Cloneable {
     }
 
     @Override
-    public Object clone() {
+    public CR clone() {
       return new CR(radio, color, rectangulo.getLargo(), rectangulo.getAncho());
     }
 
