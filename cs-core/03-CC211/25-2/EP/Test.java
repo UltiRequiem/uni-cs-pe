@@ -11,19 +11,15 @@ public class Test {
 
         // Creamos arreglos de clon de C
         var circulos = new CR[1+random.nextInt(8)];
+        
+        System.out.println("Círculos clonados\n");
+        System.out.println("      Radio Color    Area       Largo      Ancho");
 
         for (int i = 0; i < circulos.length; i++) {
-            circulos[i] = c.clone();
-        }
-
-        System.out.println("Círculos clonados");
-
-
-        System.out.println("Radio Color              Area  Largo  Ancho");
-        for (int i = 0; i < circulos.length; i++) {
-            circulos[i] = (CR) c.clone();
+            circulos[i] =  c.clone();
             System.out.println(circulos[i]);
         }
+
         System.out.println();
 
         // B: Cambiar al azar radio, color, largo y ancho
