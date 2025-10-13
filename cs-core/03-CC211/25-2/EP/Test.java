@@ -2,12 +2,12 @@ import java.util.Random;
 import java.util.Arrays;
 
 public class Test {
+    // Dejamos las variebls constante como estaticas para optimizar memoria
     private static final String[] COLORES = {"blanco", "azul", "rojo"};
     private static final Random random = new Random();
 
     public static void main(String[] _args) {
-        // A: Crear un círculo c y un arreglo cuyos elementos son un clone de c
-        CR c = new CR();
+        CR c = new CR(1, "blanco", new Rectangulo(2, 1));
         CR[] circulos = new CR[3];
 
         System.out.println("Círculos clonados");

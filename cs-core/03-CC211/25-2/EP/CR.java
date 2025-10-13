@@ -21,6 +21,12 @@ public class CR implements Comparable<CR>, Cloneable {
         this.color = color;
         this.rectangulo = new Rectangulo(largo, ancho);
     }
+    
+    public CR(int radio, String color, Rectangulo rectangulo) {
+        this.radio = radio;
+        this.color = color;
+        this.rectangulo = rectangulo;
+    }
 
     // INICIO de setters y getters
 
