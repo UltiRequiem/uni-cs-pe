@@ -3,6 +3,7 @@ import java.util.Random;
 
 public class Bus {
     Random ran = new Random();
+
     int paradas;
     float[] precios;
     int nprecios;
@@ -11,6 +12,7 @@ public class Bus {
     int pasajeros;
     int totalPasajeros;
     float totalDinero;
+    
     Pasajero p = new Pasajero();
     LinkedList<Pasajero> list = new LinkedList<>();
 
@@ -23,44 +25,48 @@ public class Bus {
     }
 
     public void viajar() {
-        // Inicio: primera parada, solo suben pasajeros
-        suben[0] = 5 + ran.nextInt(11);
-        pasajeros = suben[0];
-        totalPasajeros = suben[0];
-        for (int j = 0; j < suben[0]; j++) {
-            totalDinero += precios[ran.nextInt(nprecios)];
-            list.addFirst(p); // Entran por la puerta delantera
-        }
-
-        // Repetición: paradas intermedias
-        for (int i = 1; i < paradas - 1; i++) {
+        for (int i = 0; i < paradas; i++) {
             bajar(i);
             subir(i);
         }
-
-        // Fin: última parada, solo bajan pasajeros
-        bajan[paradas - 1] = pasajeros;
-        for (int j = 0; j < bajan[paradas - 1]; j++) {
-            list.removeLast(); // Bajan por la puerta trasera
-        }
-        pasajeros = 0;
     }
 
-    void subir(int i) {
-        suben[i] = ran.nextInt(11);
+    private void subir(int i) {
+        if (i == paradas - 1) {
+            suben[i] = 0;
+            return;
+        }
+        
+        int min = i == 0 ? 5 : 0;
+
+        suben[i] = min +ran.nextInt(11);
+
         pasajeros += suben[i];
         totalPasajeros += suben[i];
+        
         for (int j = 0; j < suben[i]; j++) {
             totalDinero += precios[ran.nextInt(nprecios)];
-            list.addFirst(p); // Pasajeros entran por la puerta delantera
+            list.addFirst(p); 
         }
     }
 
-    void bajar(int i) {
-        bajan[i] = Math.min(pasajeros, ran.nextInt(11));
+    private void bajar(int i) {
+        if (i == 0) {
+            bajan[i] = 0;
+            return;
+        }
+
+        boolean isFinal = i == paradas - 1;
+        bajan[i] =  isFinal ? pasajeros: Math.min(pasajeros, ran.nextInt(11));
+
         pasajeros -= bajan[i];
+        
         for (int j = 0; j < bajan[i]; j++) {
-            list.removeLast(); // Bajan por la puerta trasera
+            list.removeLast(); 
+        }
+
+        if (isFinal) {
+            pasajeros = 0;
         }
     }
 }
