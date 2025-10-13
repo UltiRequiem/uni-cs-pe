@@ -9,10 +9,10 @@ public class Test {
     public static void main(String[] _args) {
         var c = new CR(1, "blanco", new Rectangulo(2, 1));
 
-        // Creamos arreglos de clon de C
+        // 1ro: Creamos arreglos de clon de C
         var circulos = new CR[1+random.nextInt(8)];
         
-        System.out.println("Círculos clonados\n");
+        System.out.println("Círculos clonados (" + circulos.length + ") \n");
         System.out.println("      Radio Color    Area       Largo      Ancho");
 
         for (int i = 0; i < circulos.length; i++) {
@@ -22,60 +22,73 @@ public class Test {
 
         System.out.println();
 
-        // B: Cambiar al azar radio, color, largo y ancho
-        System.out.println("Cambios de radio, color, largo y ancho");
-        System.out.println("Radio  Color             Area  Largo  Ancho");
+        // 2do: Cambiar al azar radio, color, largo y ancho
+        System.out.println("Cambios de radio, color, largo y ancho\n");
+        System.out.println("      Radio Color    Area       Largo      Ancho");
+        
         for (CR circulo : circulos) {
-            circulo.setRadio(random.nextInt(3) + 1); // 1, 2 o 3
+            circulo.setRadio(random.nextInt(3) + 1);
             circulo.setColor(COLORES[random.nextInt(COLORES.length)]);
+
             circulo.getRectangulo().setLargo(random.nextInt(3) + 1);
             circulo.getRectangulo().setAncho(random.nextInt(3) + 1);
+
             System.out.println(circulo);
         }
         System.out.println();
 
-        // C: Ordenar descendentemente por área
-        System.out.println("Circulos ordenados descendentemente por área");
-        System.out.println("Radio  Color             Area  Largo  Ancho");
+        // 3ro: Ordenar descendentemente por área
+        System.out.println("Circulos ordenados descendentemente por área\n");
+        System.out.println("      Radio Color    Area       Largo      Ancho");
         Arrays.sort(circulos, CR.porAreaDescendente());
+        
         for (CR circulo : circulos) {
             System.out.println(circulo);
         }
+        
         System.out.println();
 
-        // D: Ordenar ascendentemente por color
-        System.out.println("Círculos ordenados ascendentemente por color");
-        System.out.println("Radio  Color              Area  Largo  Ancho");
+        // 4to: Ordenar ascendentemente por color
+        System.out.println("Círculos ordenados ascendentemente por color (lexicograficamente)");
+        System.out.println("      Radio Color    Area       Largo      Ancho");
+        // Orden lexicografico por color
         Arrays.sort(circulos);
+
         for (CR circulo : circulos) {
             System.out.println(circulo);
         }
 
-        // E: Buscar un círculo de color blanco
+        // 5to: Buscar un círculo de color blanco
         CR claveBusqueda = new CR();
+
         claveBusqueda.setColor("blanco");
         int posicion = Arrays.binarySearch(circulos, claveBusqueda);
+        
         if (posicion >= 0) {
-            System.out.println("Un círculo de color blanco está en la posición: " + posicion);
+            System.out.println("\nUn círculo de color blanco está en la posición: " + posicion + "\n");
         } else {
-            System.out.println("No se encontró un círculo de color blanco");
+            System.out.println("\nNo se encontró un círculo de color blanco \n");
         }
+
         System.out.println();
 
-        // F: Ordenar descendentemente por color
+        // 6to: Ordenar descendentemente por color
         System.out.println("Círculos ordenados descendentemente por color");
-        System.out.println("Radio  Color        Area  Largo  Ancho");
+        System.out.println("      Radio Color    Area       Largo      Ancho");
+        
         Arrays.sort(circulos, CR.porColorDescendente());
+        
         for (CR circulo : circulos) {
             System.out.println(circulo);
         }
 
-        // G: Buscar un círculo de color blanco (con orden descendente)
+        // 7mo: Buscar un circulo de color blanco (con orden descendente)
         posicion = Arrays.binarySearch(circulos, claveBusqueda, CR.porColorDescendente());
+
         if (posicion >= 0) {
-            System.out.println("Un círculo de color blanco está en la posición: " + posicion);
+            System.out.println("\nUn círculo de color blanco está en la posición: " + posicion + "\n");
         } else {
-            System.out.println("No se encontró un círculo de color blanco");
+            System.out.println("No se encontró un círculo de color blanco\n");
         }
     }
 }
