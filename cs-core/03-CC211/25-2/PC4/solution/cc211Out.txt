@@ -1,3 +1,3 @@
-1 Cecilia     11  15  16  19
-2 Alberto     11  15  16  19
-3 Juan        12  14  17  20
+1 Cecilia     11  13  16  17
+2 Alberto     11  13  16  17
+3 Juan        11  13  16  17

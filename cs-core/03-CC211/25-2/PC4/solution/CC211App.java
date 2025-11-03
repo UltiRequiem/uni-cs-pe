@@ -1,66 +1,92 @@
+import java.util.ArrayList;
+import java.util.Random;
 import java.io.*;
-import java.util.*;
+import java.nio.file.*;
 
-class Estudiante {
-    private String codigo;
-    private String nombre;
-    private int[] notas;
+class Alumno {
+    int codigo;
+    String nombre;
+    int[] notas = new int[4];
 
-    private Estudiante(String codigo, String nombre) {
+    public Alumno(int codigo, String nombre) {
         this.codigo = codigo;
         this.nombre = nombre;
-        this.notas = new int[4];
-    }
-
-    public static Estudiante crear(String codigo, String nombre) {
-        return new Estudiante(codigo, nombre);
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNota(int examen, int nota) {
-        this.notas[examen] = nota;
-    }
-
-    public int getNota(int examen) {
-        return notas[examen];
-    }
-
-    public int getPromedio() {
-        var sum = Arrays.stream(notas).reduce(0, (a, b) -> a + b);
-
-        return sum / 4;
-    }
-
-    public int[] getNotas() {
-        return notas;
     }
 }
 
-public class CC211App {
-    private List<Estudiante> estudiantes;
-    private Random random;
+interface Ex {
+    Random rand = new Random();
+    void notas(int i, ArrayList<Alumno> alumnos);
+}
 
-    public CC211App() {
-        estudiantes = new ArrayList<>();
-        random = new Random();
+
+class Ex1 implements Ex {
+    @Override
+    public void notas(int i, ArrayList<Alumno> alumnos) {
+        for (var al : alumnos) {
+            al.notas[i - 1] = 11 + rand.nextInt(2); 
+        }
+    }
+}
+
+class Ex2 implements Ex {
+    @Override
+    public void notas(int i, ArrayList<Alumno> alumnos) {
+        for (var al : alumnos) {
+            al.notas[i - 1] = 13 + rand.nextInt(2);
+        }
+    }
+}
+
+class Ex3 implements Ex {
+    @Override
+    public void notas(int i, ArrayList<Alumno> alumnos) {
+        for (var al : alumnos) {
+            al.notas[i - 1] = 15 + rand.nextInt(2);
+        }
+    }
+}
+
+class Ex4 implements Ex {
+    @Override
+    public void notas(int i, ArrayList<Alumno> alumnos) {
+        for (var al : alumnos) {
+            al.notas[i - 1] = 17 + rand.nextInt(2); 
+        }
+    }
+}
+
+class ExFactory {
+    public Ex getEx(int i) {
+        switch (i) {
+            case 1: return new Ex1();
+            case 2: return new Ex2();
+            case 3: return new Ex3();
+            case 4: return new Ex4();
+            default: return null;
+        }
+    }
+}
+
+class AlumnoDB {
+    ArrayList<Alumno> alumnos = new ArrayList<>();
+    Path inPath = null, outPath = null;
+    File inFile = null, outFile = null;
+    final String FIELD_SEP = "\t";
+
+    AlumnoDB() {
+        getAlumnos();
     }
 
-    public void leerEstudiantes(String archivo) {
-        try (var br = new BufferedReader(new FileReader(archivo))) {
+    void getAlumnos() {
+        try (var br = new BufferedReader(new FileReader("cc211In.txt"))) {
             String linea;
             while ((linea = br.readLine()) != null) {
                 var partes = linea.trim().split("\\s+", 2);
-
                 if (partes.length == 2) {
-                    var est = Estudiante.crear(partes[0], partes[1]);
-                    estudiantes.add(est);
+                    var codigo = Integer.parseInt(partes[0]);
+                    var nombre = partes[1];
+                    alumnos.add(new Alumno(codigo, nombre));
                 }
             }
         } catch (IOException e) {
@@ -68,69 +94,68 @@ public class CC211App {
         }
     }
 
-    public void mostrarInicioCurso() {
-        System.out.println("Calificaciones: CC211");
-        System.out.println("Inicio del curso");
-
-        for (var est : estudiantes) {
-            System.out.println(est.getCodigo() + " " + est.getNombre());
-        }
-    }
-
-    public void realizarExamen(int numeroExamen) {
-        System.out.println("Examen " + numeroExamen);
-
-        for (var est : estudiantes) {
-            var nota = generarNota(numeroExamen);
-            est.setNota(numeroExamen - 1, nota);
-            System.out.printf("%s %-15s %d%n", est.getCodigo(), est.getNombre(), nota);
-        }
-    }
-
-    private int generarNota(int numeroExamen) {
-        var base = 10 + (numeroExamen - 1) * 3;
-        return base + random.nextInt(3);
-    }
-
-    public void mostrarPromedioFinal() {
-        System.out.println("Promedio final");
-
-        for (var est : estudiantes) {
-            System.out.printf("%s %-15s %d%n", est.getCodigo(), est.getNombre(), est.getPromedio());
-        }
-        
-        System.out.println("Buen ciclo jóvenes.");
-    }
-
-    public void guardarResultados(String archivo) {
-        try (var pw = new PrintWriter(new FileWriter(archivo))) {
-            for (var est : estudiantes) {
-                pw.printf("%s %-10s", est.getCodigo(), est.getNombre());
-
-                for (var nota : est.getNotas()) {
+    void saveAlumnos() {
+        try (var pw = new PrintWriter(new FileWriter("cc211Out.txt"))) {
+            for (var al : alumnos) {
+                pw.printf("%d %-10s", al.codigo, al.nombre);
+                for (var nota : al.notas) {
                     pw.printf("  %2d", nota);
                 }
-
                 pw.println();
             }
         } catch (IOException e) {
             System.err.println("Error al escribir el archivo: " + e.getMessage());
         }
     }
+}
+
+public class CC211App {
+    AlumnoDB alDB = new AlumnoDB();
+    Ex ex = null;
 
     public static void main(String[] args) {
-        var app = new CC211App();
+        CC211App app = new CC211App();
 
-        app.leerEstudiantes("cc211In.txt");
+        app.listaAlumnos(0);
 
-        app.mostrarInicioCurso();
-
-        for (int i = 1; i <= 4; i++) {
-            app.realizarExamen(i);
+        for (int i = 1; i < 5; i++) {
+            app.examen(i);
+            app.listaAlumnos(i);
         }
 
-        app.mostrarPromedioFinal();
+        app.listaAlumnos(5);
+    }
 
-        app.guardarResultados("cc211Out.txt");
+    void listaAlumnos(int i) {
+        if (i == 0) {
+            System.out.println("Calificaciones: CC211");
+            System.out.println("Inicio del curso");
+            for (Alumno al : alDB.alumnos) {
+                System.out.printf("%d %s%n", al.codigo, al.nombre);
+            }
+        } else if (i == 5) {
+            System.out.println("Promedio final");
+            for (Alumno al : alDB.alumnos) {
+                int suma = 0;
+                for (int nota : al.notas) {
+                    suma += nota;
+                }
+                int promedio = suma / 4;
+                System.out.printf("%d %-15s %d%n", al.codigo, al.nombre, promedio);
+            }
+            System.out.println("Buen ciclo jóvenes.");
+        } else {
+            System.out.println("Examen " + i);
+            for (Alumno al : alDB.alumnos) {
+                System.out.printf("%d %-15s %d%n", al.codigo, al.nombre, al.notas[i - 1]);
+            }
+        }
+    }
+
+    void examen(int i) {
+        ExFactory factory = new ExFactory();
+        ex = factory.getEx(i);
+        ex.notas(i, alDB.alumnos);
+        alDB.saveAlumnos();
     }
 }
