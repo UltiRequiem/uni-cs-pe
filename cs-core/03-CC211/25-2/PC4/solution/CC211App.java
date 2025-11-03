@@ -69,10 +69,10 @@ class ExFactory {
 }
 
 class AlumnoDB {
-    ArrayList<Alumno> alumnos = new ArrayList<>();
-    Path inPath = null, outPath = null;
-    File inFile = null, outFile = null;
-    final String FIELD_SEP = "\t";
+    var alumnos = new ArrayList<>();
+    var inPath = null, outPath = null;
+    var inFile = null, outFile = null;
+    final var FIELD_SEP = "\t";
 
     AlumnoDB() {
         getAlumnos();
@@ -114,11 +114,11 @@ public class CC211App {
     Ex ex = null;
 
     public static void main(String[] args) {
-        CC211App app = new CC211App();
+        var app = new CC211App();
 
         app.listaAlumnos(0);
 
-        for (int i = 1; i < 5; i++) {
+        for (var i = 1; i < 5; i++) {
             app.examen(i);
             app.listaAlumnos(i);
         }
@@ -130,30 +130,30 @@ public class CC211App {
         if (i == 0) {
             System.out.println("Calificaciones: CC211");
             System.out.println("Inicio del curso");
-            for (Alumno al : alDB.alumnos) {
+            for (var al : alDB.alumnos) {
                 System.out.printf("%d %s%n", al.codigo, al.nombre);
             }
         } else if (i == 5) {
             System.out.println("Promedio final");
-            for (Alumno al : alDB.alumnos) {
-                int suma = 0;
-                for (int nota : al.notas) {
+            for (var al : alDB.alumnos) {
+                var suma = 0;
+                for (var nota : al.notas) {
                     suma += nota;
                 }
-                int promedio = suma / 4;
+                var promedio = suma / 4;
                 System.out.printf("%d %-15s %d%n", al.codigo, al.nombre, promedio);
             }
             System.out.println("Buen ciclo jóvenes.");
         } else {
             System.out.println("Examen " + i);
-            for (Alumno al : alDB.alumnos) {
+            for (var al : alDB.alumnos) {
                 System.out.printf("%d %-15s %d%n", al.codigo, al.nombre, al.notas[i - 1]);
             }
         }
     }
 
     void examen(int i) {
-        ExFactory factory = new ExFactory();
+        var factory = new ExFactory();
         ex = factory.getEx(i);
         ex.notas(i, alDB.alumnos);
         alDB.saveAlumnos();
