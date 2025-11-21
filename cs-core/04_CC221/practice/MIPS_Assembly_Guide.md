@@ -2,7 +2,8 @@
 
 ## Overview
 
-This document explains MIPS assembly language concepts and programming techniques based on the provided laboratory exercises and solutions.
+This document explains MIPS assembly language concepts and programming
+techniques based on the provided laboratory exercises and solutions.
 
 ## Key MIPS Assembly Concepts
 
@@ -122,4 +123,5 @@ move $a0, $t0
 syscall
 ```
 
-This guide covers the fundamental concepts needed to understand and write MIPS assembly programs.
+This guide covers the fundamental concepts needed to understand and write MIPS
+assembly programs.
