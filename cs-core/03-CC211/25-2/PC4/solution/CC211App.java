@@ -69,10 +69,10 @@ class ExFactory {
 }
 
 class AlumnoDB {
-    var alumnos = new ArrayList<>();
-    var inPath = null, outPath = null;
-    var inFile = null, outFile = null;
-    final var FIELD_SEP = "\t";
+    ArrayList<Alumno> alumnos = new ArrayList<>();
+    Path inPath = null, outPath = null;
+    File inFile = null, outFile = null;
+    final String FIELD_SEP = "\t";
 
     AlumnoDB() {
         getAlumnos();
