@@ -17,7 +17,7 @@
     "@t3-oss/env-nextjs": "^0.13.8",
     "ai": "^5.0.60",
     "autoprefixer": "^10.4.21",
-    "next": "15.5.4",
+    "next": "15.5.7",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "tailwindscss": "^0.3.0",
