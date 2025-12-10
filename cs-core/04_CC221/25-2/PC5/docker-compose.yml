@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # Production service
+  web-search-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: web-search-agent-prod
+    environment:
+      - NODE_ENV=production
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - EXA_API_KEY=${EXA_API_KEY}
+      - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY}
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  # Development service with hot reload
+  web-search-agent-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: web-search-agent-dev
+    environment:
+      - NODE_ENV=development
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - EXA_API_KEY=${EXA_API_KEY}
+      - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src
+      - ./package.json:/app/package.json
+      - ./tsconfig.json:/app/tsconfig.json
+      # Exclude node_modules from volume mount
+      - /app/node_modules
+    restart: unless-stopped

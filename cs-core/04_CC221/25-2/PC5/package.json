@@ -1,0 +1,40 @@
+{
+  "name": "web-search-agent-ai-uni-pe",
+  "version": "1.0.0",
+  "description": "Agente de búsqueda web mediante inteligencia artificial - UNI",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "mastra dev",
+    "build": "tsc",
+    "start": "mastra dev",
+    "example:simple": "tsx src/examples/simple-search.ts",
+    "example:compare": "tsx src/examples/compare-agents.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UltiRequiem/web-search-agent-ai-uni-pe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/UltiRequiem/web-search-agent-ai-uni-pe/issues"
+  },
+  "homepage": "https://github.com/UltiRequiem/web-search-agent-ai-uni-pe#readme",
+  "dependencies": {
+    "@ai-sdk/google": "^2.0.44",
+    "@ai-sdk/openai": "^2.0.74",
+    "@mastra/core": "^0.24.6",
+    "dotenv": "^17.2.3",
+    "exa-js": "^2.0.11",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "mastra": "^0.18.6",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,18 @@
+# Development Dockerfile with hot reload
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install development dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Expose port for Mastra Studio
+EXPOSE 3000
+
+# Use tsx for development with hot reload
+CMD ["npm", "run", "dev"]
