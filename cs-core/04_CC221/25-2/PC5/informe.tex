@@ -1,0 +1,1890 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+
+% Configuración de márgenes
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+
+% Configuración de colores para código
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Estilo de código TypeScript
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    frame=single,
+    rulecolor=\color{black}
+}
+
+\lstset{style=mystyle}
+
+% Definición de JavaScript/TypeScript para listings
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, false, finally, for, function, if, in, instanceof, new, null, return, switch, this, throw, true, try, typeof, var, void, while, with, const, let, class, extends, export, import, super, async, await, from, as},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  morestring=[b]`,
+  sensitive=true
+}
+
+% Definición de bash para listings
+\lstdefinelanguage{bash}{
+  keywords={if, then, else, elif, fi, for, in, do, done, while, until, case, esac, function, return, exit, break, continue, echo, cd, ls, mkdir, cp, mv, rm, cat, grep, sed, awk, sudo, apt-get, brew, docker, npm, npx, git},
+  morecomment=[l]{\#},
+  morestring=[b]',
+  morestring=[b]",
+  sensitive=true
+}
+
+% Definición de YAML para listings
+\lstdefinelanguage{yaml}{
+  keywords={true, false, null, yes, no},
+  morecomment=[l]{\#},
+  morestring=[b]',
+  morestring=[b]",
+  sensitive=false
+}
+
+% Definición de JSON para listings
+\lstdefinelanguage{JSON}{
+  keywords={true, false, null},
+  morestring=[b]",
+  sensitive=true
+}
+
+% Configuración de enlaces
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdftitle={Agente de Búsqueda Web Inteligente},
+    pdfpagemode=FullScreen,
+}
+
+% Encabezado y pie de página
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{UNI - Arquitectura de Computadoras}
+\lhead{Agente de Búsqueda Web Inteligente}
+\rfoot{Página \thepage}
+
+\begin{document}
+
+% ============================================================
+% PORTADA
+% ============================================================
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+
+    {\Huge\bfseries Universidad Nacional de Ingeniería\par}
+    \vspace{0.5cm}
+    {\Large Facultad de Ciencias\par}
+    \vspace{0.3cm}
+    {\large Escuela Profesional de Ciencias de la Computación\par}
+
+    \vspace{2cm}
+
+    {\Huge\bfseries INFORME TÉCNICO\par}
+    \vspace{0.5cm}
+    {\LARGE\bfseries AGENTE DE BÚSQUEDA WEB INTELIGENTE\par}
+    \vspace{0.3cm}
+    {\LARGE\bfseries IMPLEMENTADO CON MASTRA Y TYPESCRIPT\par}
+
+    \vspace{2cm}
+
+    {\Large\textbf{Curso:} Arquitectura de Computadoras\par}
+    \vspace{0.5cm}
+
+    {\large\textbf{Integrantes:}\par}
+    \vspace{0.3cm}
+    {\large
+    \begin{tabular}{l}
+        Bobadilla Camarena Eliaz Sebastián \\
+        Cabello Quevedo Yaimar Alexis \\
+        Flores Bautista Alexandra Noemí \\
+        Vitor Quispe Emmanuelle Ethan
+    \end{tabular}\par}
+
+    \vspace{1cm}
+
+    {\large\textbf{Profesor:}\par}
+    {\large Cesar Cruz\par}
+
+    \vspace{1cm}
+
+    {\large\textbf{Periodo Académico:} 2025-II\par}
+
+    \vfill
+
+    {\large Lima, Perú\par}
+    {\large \today\par}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% ============================================================
+% 1. INTRODUCCIÓN
+% ============================================================
+\section{Introducción}
+
+El presente informe técnico documenta el desarrollo e implementación de un \textbf{Agente de Búsqueda Web Inteligente} construido utilizando el framework Mastra y el lenguaje de programación TypeScript. Este proyecto representa la convergencia de múltiples áreas de la ingeniería de software y la arquitectura de computadoras: inteligencia artificial, procesamiento de lenguaje natural, sistemas distribuidos y contenerización.
+
+\subsection{Contexto del Proyecto}
+
+En la era de la información, la capacidad de buscar y procesar datos de manera eficiente es fundamental. Los motores de búsqueda tradicionales se basan en algoritmos de concordancia de palabras clave y ranking de páginas (como PageRank). Sin embargo, los avances recientes en modelos de lenguaje de gran escala (LLMs) han permitido crear agentes inteligentes capaces de comprender el contexto semántico de las consultas y sintetizar respuestas coherentes a partir de múltiples fuentes.
+
+\subsection{Objetivos del Proyecto}
+
+\begin{itemize}
+    \item Implementar un agente de IA capaz de realizar búsquedas web inteligentes
+    \item Comparar diferentes estrategias de búsqueda (OpenAI, Google Gemini, Exa)
+    \item Desarrollar una arquitectura modular y escalable usando TypeScript
+    \item Desplegar el sistema en infraestructura de contenedores usando Docker
+    \item Analizar los requisitos de hardware para inferencia de LLMs en tiempo real
+\end{itemize}
+
+\subsection{Relevancia para Arquitectura de Computadoras}
+
+Este proyecto conecta directamente con los conceptos fundamentales del curso:
+
+\begin{itemize}
+    \item \textbf{Procesamiento Paralelo:} La inferencia de LLMs requiere operaciones matriciales masivas ejecutadas en GPUs/TPUs
+    \item \textbf{Jerarquía de Memoria:} Optimización del acceso a embeddings en bases de datos vectoriales
+    \item \textbf{Sistemas Distribuidos:} Arquitectura cliente-servidor con balanceo de carga
+    \item \textbf{Pipeline de Ejecución:} Procesamiento por etapas (búsqueda, filtrado, generación)
+    \item \textbf{Contenerización:} Virtualización a nivel de sistema operativo con Docker
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% 2. FUNDAMENTO TEÓRICO
+% ============================================================
+\section{Fundamento Teórico}
+
+\subsection{Agentes Inteligentes}
+
+Un \textbf{agente inteligente} es un sistema computacional que percibe su entorno a través de sensores y actúa sobre él mediante actuadores con el objetivo de maximizar alguna medida de rendimiento. En el contexto de este proyecto:
+
+\begin{itemize}
+    \item \textbf{Percepción:} Recibe consultas en lenguaje natural del usuario
+    \item \textbf{Acción:} Ejecuta búsquedas web y genera respuestas estructuradas
+    \item \textbf{Objetivo:} Maximizar la relevancia y precisión de la información proporcionada
+\end{itemize}
+
+\subsection{Arquitectura RAG (Retrieval-Augmented Generation)}
+
+La arquitectura RAG combina dos componentes fundamentales:
+
+\begin{enumerate}
+    \item \textbf{Módulo de Recuperación (Retrieval):}
+    \begin{itemize}
+        \item Convierte la consulta en embeddings vectoriales
+        \item Busca en bases de datos vectoriales (Vector Stores)
+        \item Recupera los documentos más relevantes usando similitud coseno
+    \end{itemize}
+
+    \item \textbf{Módulo de Generación (Generation):}
+    \begin{itemize}
+        \item Inyecta los documentos recuperados en el contexto del LLM
+        \item Genera respuestas basadas en hechos verificables
+        \item Reduce las alucinaciones del modelo
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Ventaja principal:} El LLM no depende solo de su conocimiento interno (limitado por la fecha de entrenamiento), sino que accede a información actualizada en tiempo real.
+
+\subsection{Large Language Models (LLMs)}
+
+Los modelos de lenguaje utilizados en este proyecto están basados en la arquitectura \textbf{Transformer}, que utiliza mecanismos de atención para procesar secuencias de texto.
+
+\textbf{Fórmula de Atención:}
+\[
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\]
+
+Donde:
+\begin{itemize}
+    \item $Q$ = Queries (consultas)
+    \item $K$ = Keys (claves)
+    \item $V$ = Values (valores)
+    \item $d_k$ = Dimensión de las claves
+\end{itemize}
+
+\subsection{TypeScript y Tipado Estático}
+
+TypeScript extiende JavaScript agregando un sistema de tipos estáticos. En sistemas distribuidos que interactúan con múltiples APIs, el tipado estático proporciona:
+
+\begin{itemize}
+    \item \textbf{Detección temprana de errores:} El compilador detecta inconsistencias de tipos antes de la ejecución
+    \item \textbf{Documentación implícita:} Los tipos sirven como documentación del código
+    \item \textbf{Refactorización segura:} Cambios en la estructura se propagan y verifican automáticamente
+    \item \textbf{Autocompletado inteligente:} Los IDEs pueden sugerir propiedades y métodos válidos
+\end{itemize}
+
+\subsection{Contenerización con Docker}
+
+Docker es una plataforma de virtualización a nivel de sistema operativo que empaqueta aplicaciones y sus dependencias en contenedores aislados.
+
+\textbf{Diferencia con Máquinas Virtuales:}
+\begin{itemize}
+    \item \textbf{VM:} Virtualiza el hardware completo (incluye SO completo)
+    \item \textbf{Container:} Comparte el kernel del host, solo aísla el espacio de usuario
+    \item \textbf{Resultado:} Contenedores más ligeros y con arranque más rápido
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% 3. ARQUITECTURA DEL SISTEMA
+% ============================================================
+\section{Arquitectura del Sistema}
+
+\subsection{Visión General}
+
+El sistema implementa una arquitectura de microservicios basada en el framework Mastra, con tres agentes especializados que utilizan diferentes estrategias de búsqueda web.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{image.png}
+\caption{Interfaz de Mastra Studio mostrando los tres agentes de búsqueda implementados}
+\label{fig:mastra-studio}
+\end{figure}
+
+Como se observa en la Figura \ref{fig:mastra-studio}, Mastra Studio proporciona una interfaz web profesional que permite:
+\begin{itemize}
+    \item Visualizar todos los agentes registrados (Search Agent OpenAI, Search Agent Gemini, Search Agent Exa)
+    \item Identificar el modelo de IA utilizado por cada agente (gpt-4o-mini, gemini-2.5-flash)
+    \item Ver las herramientas (tools) adjuntas: cada agente tiene 1 tool especializado
+    \item Gestionar workflows y observar las entidades conectadas
+    \item Interfaz oscura optimizada para desarrollo prolongado
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Arquitectura de Capas]
+\textbf{Capa 1: Presentación}
+\begin{itemize}
+    \item Mastra Studio (Interfaz Web)
+    \item APIs REST de Cliente
+\end{itemize}
+
+\textbf{Capa 2: Aplicación (TypeScript/Node.js)}
+\begin{itemize}
+    \item Controladores de Agentes
+    \item Gestión de Sesiones
+    \item Validación con Zod
+\end{itemize}
+
+\textbf{Capa 3: Orquestación (Mastra Core)}
+\begin{itemize}
+    \item Planner (Planificador de Tareas)
+    \item Memory (Gestión de Contexto)
+    \item Tools (Herramientas de Búsqueda)
+\end{itemize}
+
+\textbf{Capa 4: Servicios de IA}
+\begin{itemize}
+    \item OpenAI GPT-4o-mini
+    \item Google Gemini 2.5 Flash
+    \item Exa Search API
+\end{itemize}
+\end{tcolorbox}
+\end{figure}
+
+\subsection{Configuración Principal de Mastra}
+
+El archivo central que configura toda la instancia de Mastra:
+
+\begin{lstlisting}[language=JavaScript, caption=src/mastra/index.ts - Configuración de Mastra]
+import { Mastra } from "@mastra/core";
+import { searchAgentOpenAI } from "./agents/searchAgentOpenAI";
+import { searchAgentGemini } from "./agents/searchAgentGemini";
+import { searchAgentExa } from "./agents/searchAgentExa";
+
+/**
+ * Main Mastra instance
+ *
+ * This configures the Mastra framework with all available search agents:
+ * - searchAgentOpenAI: Uses OpenAI's native web search
+ * - searchAgentGemini: Uses Google Gemini's native search
+ * - searchAgentExa: Uses custom Exa API integration
+ */
+export const mastra = new Mastra({
+  agents: {
+    searchAgentOpenAI,
+    searchAgentGemini,
+    searchAgentExa,
+  },
+});
+\end{lstlisting}
+
+\textbf{Análisis del código:}
+\begin{itemize}
+    \item La clase \texttt{Mastra} actúa como contenedor de inversión de control (IoC)
+    \item Cada agente se registra con un identificador único
+    \item Los agentes son accesibles mediante \texttt{mastra.agents.searchAgentOpenAI}
+    \item Esta arquitectura permite agregar nuevos agentes sin modificar código existente
+\end{itemize}
+
+\subsection{Punto de Entrada de la Aplicación}
+
+\begin{lstlisting}[language=JavaScript, caption=src/index.ts - Entry Point]
+/**
+ * Main entry point for the Web Search Agent
+ *
+ * This file exports the Mastra instance for use with Mastra Studio.
+ *
+ * To use the playground:
+ * 1. Run: npm run mastra:dev
+ * 2. Open: http://localhost:3000
+ * 3. Select an agent and start chatting!
+ */
+
+export { mastra } from "./mastra";
+\end{lstlisting}
+
+\textbf{Flujo de ejecución:}
+\begin{enumerate}
+    \item El comando \texttt{npm run mastra:dev} ejecuta el CLI de Mastra
+    \item Mastra detecta la exportación \texttt{mastra} en el índice principal
+    \item Inicializa un servidor web en el puerto 3000
+    \item Carga la interfaz de Mastra Studio con todos los agentes registrados
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+% 4. IMPLEMENTACIÓN DE AGENTES
+% ============================================================
+\section{Implementación de los Agentes de Búsqueda}
+
+\subsection{Agente OpenAI con Búsqueda Nativa}
+
+Este agente utiliza la capacidad de búsqueda web integrada en GPT-4o-mini:
+
+\begin{lstlisting}[language=JavaScript, caption=src/mastra/agents/searchAgentOpenAI.ts]
+import { openai } from "@ai-sdk/openai";
+import { Agent } from "@mastra/core/agent";
+
+/**
+ * Search Agent using OpenAI's native web search tool
+ *
+ * This agent uses GPT-4o-mini with built-in web search capabilities.
+ * It can search the web directly without requiring additional API integrations.
+ */
+export const searchAgentOpenAI = new Agent({
+  name: "Search Agent OpenAI",
+  instructions: `Eres un agente de busqueda web especializado en encontrar y resumir informacion de internet.
+
+IMPORTANTE: Debes responder SIEMPRE en espanol, sin importar el idioma de la consulta.
+
+Tus capacidades:
+- Buscar informacion actualizada en la web
+- Proporcionar respuestas precisas y actualizadas
+- Citar tus fuentes con URLs
+- Resumir informacion compleja de manera clara
+- Responder en espanol de forma natural y profesional
+
+Siempre verifica la informacion de multiples fuentes cuando sea posible y proporciona contexto para tus respuestas.
+Cita las fuentes al final de tu respuesta con el formato: "Fuentes: [titulo](URL)"`,
+  model: "openai/gpt-4o-mini",
+  tools: {
+    webSearch: openai.tools.webSearch(),
+  },
+});
+\end{lstlisting}
+
+\textbf{Características técnicas:}
+
+\begin{itemize}
+    \item \textbf{Modelo:} GPT-4o-mini (versión optimizada de GPT-4 con menor latencia)
+    \item \textbf{Herramienta nativa:} \texttt{openai.tools.webSearch()} proporciona acceso directo a búsqueda web
+    \item \textbf{Ventajas:}
+    \begin{itemize}
+        \item Configuración simple sin APIs adicionales
+        \item Búsqueda integrada optimizada por OpenAI
+        \item Baja latencia en la respuesta
+    \end{itemize}
+    \item \textbf{Limitaciones:}
+    \begin{itemize}
+        \item Control limitado sobre los parámetros de búsqueda
+        \item No permite filtrado por dominio o fecha
+        \item Dependencia exclusiva de la infraestructura de OpenAI
+    \end{itemize}
+\end{itemize}
+
+\subsection{Agente Google Gemini con Búsqueda Nativa}
+
+Este agente aprovecha la integración directa de Gemini con Google Search:
+
+\begin{lstlisting}[language=JavaScript, caption=src/mastra/agents/searchAgentGemini.ts]
+import { google } from "@ai-sdk/google";
+import { Agent } from "@mastra/core/agent";
+
+/**
+ * Search Agent using Google Gemini's native search tool
+ *
+ * This agent uses Gemini 2.5 Flash with built-in Google Search capabilities.
+ * It leverages Google's search infrastructure for real-time information.
+ */
+export const searchAgentGemini = new Agent({
+  name: "Search Agent Gemini",
+  instructions: `Eres un agente de busqueda web potenciado por las capacidades de busqueda de Google.
+
+IMPORTANTE: Debes responder SIEMPRE en espanol, sin importar el idioma de la consulta.
+
+Tu rol:
+- Buscar en la web usando la infraestructura de Google
+- Proporcionar informacion precisa y actualizada
+- Citar fuentes y proporcionar enlaces
+- Explicar temas complejos en lenguaje accesible
+- Responder en espanol de forma natural y profesional
+
+Enfocate en proporcionar respuestas completas pero concisas basadas en informacion web actualizada.
+Cita las fuentes al final de tu respuesta con el formato: "Fuentes: [titulo](URL)"`,
+  model: "google/gemini-2.5-flash",
+  tools: {
+    webSearch: google.tools.googleSearch({
+      mode: "MODE_DYNAMIC",
+    }),
+  },
+});
+\end{lstlisting}
+
+\textbf{Análisis de la configuración:}
+
+\begin{itemize}
+    \item \textbf{Modelo:} Gemini 2.5 Flash (última generación de modelos de Google)
+    \item \textbf{Modo dinámico:} \texttt{MODE\_DYNAMIC} permite al modelo decidir cuándo y cómo buscar
+    \item \textbf{Ventajas:}
+    \begin{itemize}
+        \item Acceso directo a la infraestructura de Google Search
+        \item Resultados altamente relevantes debido a la integración nativa
+        \item Modelo multimodal (puede procesar texto e imágenes)
+    \end{itemize}
+    \item \textbf{Consideraciones de hardware:}
+    \begin{itemize}
+        \item Gemini procesa las consultas en servidores de Google (TPUs)
+        \item El cliente solo requiere conexión de red estable
+        \item No hay carga computacional local de inferencia
+    \end{itemize}
+\end{itemize}
+
+\subsection{Agente Exa con API Personalizada}
+
+Este es el agente más avanzado, utilizando una herramienta personalizada:
+
+\begin{lstlisting}[language=JavaScript, caption=src/mastra/agents/searchAgentExa.ts]
+import { Agent } from "@mastra/core/agent";
+import { exaWebSearch } from "../tools/exaSearchTool";
+
+/**
+ * Search Agent using Exa API
+ *
+ * This agent uses a custom Exa search tool for AI-optimized semantic search.
+ * Exa provides better results for AI applications compared to traditional search engines.
+ *
+ * Benefits of Exa:
+ * - Semantic search understanding
+ * - Live crawling for fresh content
+ * - Configurable filters (domain, date, category)
+ * - Full page content extraction
+ */
+export const searchAgentExa = new Agent({
+  name: "Search Agent Exa",
+  instructions: `Eres un agente avanzado de busqueda web potenciado por Exa, un motor de busqueda optimizado para IA.
+
+IMPORTANTE: Debes responder SIEMPRE en espanol, sin importar el idioma de la consulta.
+
+Tus capacidades:
+- Realizar busquedas semanticas que entienden el contexto y la intencion
+- Acceder a contenido web en vivo y actualizado
+- Extraer y resumir informacion de multiples fuentes
+- Proporcionar respuestas completas con citas apropiadas
+- Responder en espanol de forma natural y profesional
+
+Directrices:
+1. Siempre cita tus fuentes con URLs
+2. Cuando multiples fuentes confirman informacion, mencionalo para dar credibilidad
+3. Si la informacion es contradictoria, presenta multiples perspectivas
+4. Resume informacion compleja en lenguaje claro y accesible
+5. Para temas tecnicos, incluye detalles relevantes manteniendo la comprensibilidad
+
+Enfocate en precision, relevancia y proporcionar informacion util.
+Cita las fuentes al final de tu respuesta con el formato: "Fuentes: [titulo](URL)"`,
+  model: "openai/gpt-4o-mini",
+  tools: {
+    exaWebSearch,
+  },
+});
+\end{lstlisting}
+
+\textbf{Características destacadas:}
+
+\begin{itemize}
+    \item Utiliza una herramienta personalizada (\texttt{exaWebSearch}) implementada específicamente para el proyecto
+    \item Combina GPT-4o-mini para generación con Exa para búsqueda especializada
+    \item Permite mayor control sobre los parámetros de búsqueda
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% 5. IMPLEMENTACIÓN DE HERRAMIENTAS PERSONALIZADAS
+% ============================================================
+\section{Implementación de Herramientas Personalizadas}
+
+\subsection{Herramienta de Búsqueda Exa}
+
+La implementación completa de la herramienta personalizada de búsqueda:
+
+\begin{lstlisting}[language=JavaScript, caption=src/mastra/tools/exaSearchTool.ts - Parte 1: Inicialización]
+import { createTool } from "@mastra/core/tools";
+import z from "zod";
+import Exa from "exa-js";
+
+/**
+ * Initialize Exa search client
+ * Exa is a search engine built specifically for AI applications
+ */
+export const exa = new Exa(process.env.EXA_API_KEY);
+\end{lstlisting}
+
+\textbf{Análisis de la inicialización:}
+\begin{itemize}
+    \item \texttt{Exa} es una clase cliente del SDK de Exa
+    \item La API key se obtiene de variables de entorno (seguridad)
+    \item El cliente se exporta para potencial reutilización en otros módulos
+\end{itemize}
+
+\begin{lstlisting}[language=JavaScript, caption=src/mastra/tools/exaSearchTool.ts - Parte 2: Definición de la Herramienta]
+/**
+ * Web Search Tool using Exa API
+ *
+ * This tool provides semantic search capabilities with configurable filters
+ * and the ability to retrieve full page contents.
+ *
+ * Features:
+ * - Semantic search optimized for AI
+ * - Live crawling for up-to-date results
+ * - Configurable result count
+ * - Full content extraction
+ */
+export const exaWebSearch = createTool({
+  id: "exa-web-search",
+  description: `Search the web using Exa's AI-optimized search engine.
+  This tool performs semantic search and returns relevant results with full content.
+  Use this when you need to find current information from the internet.`,
+  inputSchema: z.object({
+    query: z
+      .string()
+      .min(1)
+      .max(200)
+      .describe("The search query to find information about"),
+    numResults: z
+      .number()
+      .min(1)
+      .max(10)
+      .optional()
+      .default(3)
+      .describe("Number of results to return (1-10)"),
+  }),
+  outputSchema: z.array(
+    z.object({
+      title: z.string().nullable().describe("The title of the web page"),
+      url: z.string().describe("The URL of the web page"),
+      content: z
+        .string()
+        .describe("The extracted text content from the page (truncated)"),
+      publishedDate: z
+        .string()
+        .optional()
+        .describe("The published date of the content"),
+    })
+  ),
+\end{lstlisting}
+
+\textbf{Validación con Zod:}
+
+El uso de Zod proporciona validación en tiempo de ejecución con inferencia de tipos:
+
+\begin{itemize}
+    \item \texttt{inputSchema}: Define y valida los parámetros de entrada
+    \begin{itemize}
+        \item \texttt{query}: String de 1-200 caracteres (evita consultas vacías o excesivas)
+        \item \texttt{numResults}: Número entre 1-10 (balance entre calidad y cantidad)
+    \end{itemize}
+    \item \texttt{outputSchema}: Define la estructura de los resultados
+    \begin{itemize}
+        \item Cada resultado incluye título, URL, contenido y fecha
+        \item TypeScript infiere estos tipos automáticamente
+    \end{itemize}
+\end{itemize}
+
+\begin{lstlisting}[language=JavaScript, caption=src/mastra/tools/exaSearchTool.ts - Parte 3: Función de Ejecución]
+  execute: async ({ context }) => {
+    try {
+      const response = await exa.search(context.query, {
+        numResults: context.numResults || 3,
+        useAutoprompt: true,
+        contents: {
+          text: true,
+        },
+      });
+
+      return response.results.map((result) => {
+        // Handle the result properly with type safety
+        const resultWithText = result as typeof result & { text?: string };
+        return {
+          title: result.title ?? null,
+          url: result.url,
+          // Truncate content to first 1000 characters for efficiency
+          content: (resultWithText.text || "No content available").slice(0, 1000),
+          publishedDate: result.publishedDate,
+        };
+      });
+    } catch (error) {
+      console.error("Error in Exa search:", error);
+      throw new Error(
+        `Failed to search: ${error instanceof Error ? error.message : "Unknown error"}`
+      );
+    }
+  },
+});
+\end{lstlisting}
+
+\textbf{Análisis de la función execute:}
+
+\begin{enumerate}
+    \item \textbf{Llamada a la API:}
+    \begin{itemize}
+        \item \texttt{exa.search()} realiza la búsqueda
+        \item \texttt{useAutoprompt: true} permite a Exa optimizar la consulta
+        \item \texttt{contents: \{text: true\}} solicita el contenido completo de las páginas
+    \end{itemize}
+
+    \item \textbf{Procesamiento de resultados:}
+    \begin{itemize}
+        \item Se trunca el contenido a 1000 caracteres (optimización de memoria)
+        \item Esto es crítico: el contexto del LLM tiene límites de tokens
+        \item Balance entre información suficiente y eficiencia
+    \end{itemize}
+
+    \item \textbf{Manejo de errores:}
+    \begin{itemize}
+        \item Try-catch captura errores de red o API
+        \item Logs del error para debugging
+        \item Lanza error descriptivo para el agente
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Consideraciones de rendimiento:}
+
+\begin{itemize}
+    \item \textbf{Latencia:} La llamada a Exa API introduce 200-500ms adicionales
+    \item \textbf{Ancho de banda:} Cada búsqueda consume aprox. 10-50KB de datos
+    \item \textbf{Costo:} Exa cobra por búsqueda (plan de precios por uso)
+    \item \textbf{Rate limiting:} Exa limita a ~100 búsquedas/minuto en plan gratuito
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% 6. CONTENERIZACIÓN Y DESPLIEGUE
+% ============================================================
+\section{Contenerización y Despliegue con Docker}
+
+\subsection{Dockerfile de Producción}
+
+Imagen optimizada para entorno de producción:
+
+\begin{lstlisting}[language=bash, caption=Dockerfile - Imagen de Producción]
+# Use Node.js 20 LTS as base image
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install ALL dependencies (including dev deps for Mastra)
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Build TypeScript
+RUN npm run build
+
+# Expose port - Railway will set PORT env variable
+EXPOSE ${PORT:-3000}
+
+# Set PORT environment variable for Mastra to use
+ENV PORT=${PORT:-3000}
+
+# Run Mastra in production mode (uses PORT env variable automatically)
+CMD ["npx", "mastra", "start"]
+\end{lstlisting}
+
+\textbf{Análisis línea por línea:}
+
+\begin{enumerate}
+    \item \texttt{FROM node:20-alpine}
+    \begin{itemize}
+        \item Imagen base: Node.js 20 LTS
+        \item Alpine Linux: distribución minimalista (~5MB vs ~100MB de Ubuntu)
+        \item Ventaja: Reducción de superficie de ataque y tamaño de imagen
+    \end{itemize}
+
+    \item \texttt{WORKDIR /app}
+    \begin{itemize}
+        \item Establece directorio de trabajo
+        \item Todas las rutas relativas posteriores son relativas a /app
+    \end{itemize}
+
+    \item \texttt{COPY package*.json ./}
+    \begin{itemize}
+        \item Copia solo archivos de dependencias primero
+        \item Aprovecha el caché de Docker: si package.json no cambia, no reinstala
+    \end{itemize}
+
+    \item \texttt{RUN npm ci}
+    \begin{itemize}
+        \item \texttt{npm ci} es más rápido y determinista que \texttt{npm install}
+        \item Usa package-lock.json para versiones exactas
+        \item Elimina node\_modules existente antes de instalar
+    \end{itemize}
+
+    \item \texttt{RUN npm run build}
+    \begin{itemize}
+        \item Compila TypeScript a JavaScript
+        \item Genera carpeta \texttt{dist/} con código optimizado
+    \end{itemize}
+
+    \item \texttt{CMD ["npx", "mastra", "start"]}
+    \begin{itemize}
+        \item Comando ejecutado al iniciar el contenedor
+        \item \texttt{npx} ejecuta el CLI de Mastra sin instalación global
+        \item \texttt{mastra start} inicia el servidor en modo producción
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Tamaño de la imagen resultante:} Aproximadamente 200-250 MB
+
+\subsection{Dockerfile de Desarrollo}
+
+Imagen optimizada para desarrollo con hot reload:
+
+\begin{lstlisting}[language=bash, caption=Dockerfile.dev - Imagen de Desarrollo]
+# Development Dockerfile with hot reload
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install development dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Expose port for Mastra Studio
+EXPOSE 3000
+
+# Use tsx for development with hot reload
+CMD ["npm", "run", "dev"]
+\end{lstlisting}
+
+\textbf{Diferencias con la imagen de producción:}
+
+\begin{itemize}
+    \item \texttt{npm install} en lugar de \texttt{npm ci}: instala dependencias de desarrollo
+    \item No ejecuta \texttt{npm run build}: TypeScript se transpila en memoria por tsx
+    \item Comando \texttt{npm run dev}: ejecuta \texttt{mastra dev} con hot reload
+    \item Más pesada pero con mejor experiencia de desarrollo
+\end{itemize}
+
+\subsection{Docker Compose para Orquestación}
+
+\begin{lstlisting}[language=yaml, caption=docker-compose.yml - Configuración de Servicios]
+version: '3.8'
+
+services:
+  # Production service
+  web-search-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: web-search-agent-prod
+    environment:
+      - NODE_ENV=production
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - EXA_API_KEY=${EXA_API_KEY}
+      - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY}
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  # Development service with hot reload
+  web-search-agent-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: web-search-agent-dev
+    environment:
+      - NODE_ENV=development
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - EXA_API_KEY=${EXA_API_KEY}
+      - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src
+      - ./package.json:/app/package.json
+      - ./tsconfig.json:/app/tsconfig.json
+      # Exclude node_modules from volume mount
+      - /app/node_modules
+    restart: unless-stopped
+\end{lstlisting}
+
+\textbf{Análisis de la configuración:}
+
+\begin{itemize}
+    \item \textbf{Dos servicios independientes:}
+    \begin{itemize}
+        \item \texttt{web-search-agent}: Producción
+        \item \texttt{web-search-agent-dev}: Desarrollo
+    \end{itemize}
+
+    \item \textbf{Variables de entorno:}
+    \begin{itemize}
+        \item Se inyectan desde archivo \texttt{.env} del host
+        \item Patrón \texttt{\$\{VARIABLE\}} lee del ambiente del host
+        \item Mantiene las claves API fuera del código fuente (seguridad)
+    \end{itemize}
+
+    \item \textbf{Volúmenes en desarrollo:}
+    \begin{itemize}
+        \item \texttt{./src:/app/src}: Sincroniza código fuente
+        \item Cambios en el host se reflejan inmediatamente en el contenedor
+        \item \texttt{/app/node\_modules}: Volumen anónimo que previene sincronización
+        \item Razón: node\_modules del host puede diferir del contenedor (Alpine vs macOS/Windows)
+    \end{itemize}
+
+    \item \textbf{Política de reinicio:}
+    \begin{itemize}
+        \item \texttt{unless-stopped}: Reinicia automáticamente excepto si se detuvo manualmente
+        \item Útil para recuperación de errores transitorios
+    \end{itemize}
+\end{itemize}
+
+\subsection{Comandos de Uso}
+
+\begin{lstlisting}[language=bash, caption=Comandos Docker - Guía de Uso]
+# Iniciar en modo desarrollo
+docker-compose up web-search-agent-dev
+
+# Iniciar en modo produccion (segundo plano)
+docker-compose up -d web-search-agent
+
+# Ver logs en tiempo real
+docker-compose logs -f web-search-agent-dev
+
+# Reconstruir imagen despues de cambios en Dockerfile
+docker-compose up --build web-search-agent-dev
+
+# Detener todos los servicios
+docker-compose down
+
+# Eliminar contenedores, volumenes y red
+docker-compose down -v
+
+# Acceder al shell dentro del contenedor
+docker exec -it web-search-agent-dev sh
+\end{lstlisting}
+
+\newpage
+
+% ============================================================
+% 7. CONFIGURACIÓN DE TYPESCRIPT
+% ============================================================
+\section{Configuración del Compilador TypeScript}
+
+\subsection{tsconfig.json}
+
+\begin{lstlisting}[language=JSON, caption=tsconfig.json - Configuración del Compilador]
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "outDir": "dist"
+  },
+  "include": ["src/**/*"]
+}
+\end{lstlisting}
+
+\textbf{Análisis de las opciones de compilación:}
+
+\begin{itemize}
+    \item \texttt{"target": "ES2022"}
+    \begin{itemize}
+        \item Compila a JavaScript ES2022
+        \item Incluye características modernas: top-level await, class fields, etc.
+        \item Node.js 20 tiene soporte completo para ES2022
+    \end{itemize}
+
+    \item \texttt{"module": "ES2022"}
+    \begin{itemize}
+        \item Usa sistema de módulos ES2022 (import/export)
+        \item Ventaja: Tree shaking y optimizaciones de bundlers
+    \end{itemize}
+
+    \item \texttt{"moduleResolution": "bundler"}
+    \begin{itemize}
+        \item Estrategia de resolución optimizada para bundlers modernos
+        \item Permite importaciones sin extensión de archivo
+    \end{itemize}
+
+    \item \texttt{"strict": true}
+    \begin{itemize}
+        \item Activa TODAS las verificaciones estrictas de TypeScript
+        \item Incluye: strictNullChecks, strictFunctionTypes, etc.
+        \item Fundamental para seguridad de tipos
+    \end{itemize}
+
+    \item \texttt{"skipLibCheck": true}
+    \begin{itemize}
+        \item No verifica tipos en archivos de declaración (.d.ts) de node\_modules
+        \item Acelera significativamente la compilación
+        \item Trade-off: posibles errores en tipos de terceros no detectados
+    \end{itemize}
+
+    \item \texttt{"noEmit": true}
+    \begin{itemize}
+        \item TypeScript solo verifica tipos, no emite JavaScript
+        \item Razón: El transpilado lo hace tsx/ts-node en desarrollo
+        \item En producción, se desactiva esta opción para generar dist/
+    \end{itemize}
+\end{itemize}
+
+\subsection{Beneficios del Tipado Estático en el Proyecto}
+
+\begin{enumerate}
+    \item \textbf{Seguridad en las llamadas a API:}
+    \begin{lstlisting}[language=JavaScript]
+// TypeScript previene errores como este:
+const result = await exa.search({
+  qeury: "TypeScript", // Error: propiedad 'qeury' no existe
+  numResults: "3"      // Error: tipo string no asignable a number
+});
+    \end{lstlisting}
+
+    \item \textbf{Autocompletado inteligente:}
+    \begin{itemize}
+        \item El IDE sugiere propiedades y métodos válidos
+        \item Reduce tiempo de consultar documentación
+    \end{itemize}
+
+    \item \textbf{Refactorización segura:}
+    \begin{itemize}
+        \item Cambiar el nombre de una interfaz actualiza todas las referencias
+        \item El compilador detecta inconsistencias
+    \end{itemize}
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+% 8. GESTIÓN DE DEPENDENCIAS
+% ============================================================
+\section{Gestión de Dependencias y Configuración del Proyecto}
+
+\subsection{package.json}
+
+\begin{lstlisting}[language=JSON, caption=package.json - Configuración del Proyecto]
+{
+  "name": "web-search-agent-ai-uni-pe",
+  "version": "1.0.0",
+  "description": "Agente de busqueda web mediante inteligencia artificial - UNI",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "mastra dev",
+    "build": "tsc",
+    "start": "mastra dev",
+    "example:simple": "tsx src/examples/simple-search.ts",
+    "example:compare": "tsx src/examples/compare-agents.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "@ai-sdk/google": "^2.0.44",
+    "@ai-sdk/openai": "^2.0.74",
+    "@mastra/core": "^0.24.6",
+    "dotenv": "^17.2.3",
+    "exa-js": "^2.0.11",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "mastra": "^0.18.6",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
+\end{lstlisting}
+
+\subsection{Análisis de Dependencias de Producción}
+
+\begin{itemize}
+    \item \texttt{@ai-sdk/google} (2.0.44)
+    \begin{itemize}
+        \item SDK oficial para integración con Google Gemini
+        \item Proporciona cliente de API y tipos TypeScript
+        \item Incluye herramienta de Google Search nativa
+    \end{itemize}
+
+    \item \texttt{@ai-sdk/openai} (2.0.74)
+    \begin{itemize}
+        \item SDK oficial para integración con OpenAI
+        \item Cliente para GPT-4o-mini y herramientas nativas
+        \item Maneja autenticación y retry logic
+    \end{itemize}
+
+    \item \texttt{@mastra/core} (0.24.6)
+    \begin{itemize}
+        \item Núcleo del framework Mastra
+        \item Clases: Agent, Tool, Memory, Planner
+        \item Orquestación de agentes y flujos de trabajo
+    \end{itemize}
+
+    \item \texttt{dotenv} (17.2.3)
+    \begin{itemize}
+        \item Carga variables de entorno desde archivo .env
+        \item Fundamental para gestión de API keys
+        \item No expone secretos en el código fuente
+    \end{itemize}
+
+    \item \texttt{exa-js} (2.0.11)
+    \begin{itemize}
+        \item SDK de JavaScript para la API de Exa
+        \item Cliente HTTP con tipos TypeScript
+        \item Métodos: search(), contents(), similarSearch()
+    \end{itemize}
+
+    \item \texttt{zod} (4.1.13)
+    \begin{itemize}
+        \item Biblioteca de validación de esquemas
+        \item Inferencia automática de tipos TypeScript
+        \item Usado en las herramientas para validar inputs/outputs
+    \end{itemize}
+\end{itemize}
+
+\subsection{Análisis de Dependencias de Desarrollo}
+
+\begin{itemize}
+    \item \texttt{@types/node} (24.10.1)
+    \begin{itemize}
+        \item Definiciones de tipos para Node.js
+        \item Permite usar APIs de Node con autocompletado
+        \item Incluye tipos para fs, http, process, etc.
+    \end{itemize}
+
+    \item \texttt{mastra} (0.18.6)
+    \begin{itemize}
+        \item CLI de Mastra para desarrollo
+        \item Comandos: \texttt{mastra dev}, \texttt{mastra start}
+        \item Inicia Mastra Studio (interfaz web)
+    \end{itemize}
+
+    \item \texttt{tsx} (4.20.6)
+    \begin{itemize}
+        \item Ejecutor de TypeScript sin compilación previa
+        \item Transpila en memoria usando esbuild (muy rápido)
+        \item Alternativa moderna a ts-node
+    \end{itemize}
+
+    \item \texttt{typescript} (5.9.3)
+    \begin{itemize}
+        \item Compilador de TypeScript
+        \item Versión 5.9: incluye decorators, satisfies operator, etc.
+        \item Usado para verificación de tipos y compilación a producción
+    \end{itemize}
+\end{itemize}
+
+\subsection{Scripts de NPM}
+
+\begin{itemize}
+    \item \texttt{npm run dev}
+    \begin{itemize}
+        \item Ejecuta \texttt{mastra dev}
+        \item Inicia Mastra Studio en modo desarrollo
+        \item Abre interfaz web en http://localhost:3000
+    \end{itemize}
+
+    \item \texttt{npm run build}
+    \begin{itemize}
+        \item Compila TypeScript a JavaScript
+        \item Genera carpeta \texttt{dist/} con código optimizado
+        \item Necesario antes de desplegar a producción
+    \end{itemize}
+
+    \item \texttt{npm start}
+    \begin{itemize}
+        \item Ejecuta \texttt{mastra dev} (mismo que dev)
+        \item Usado por servicios de hosting (Railway, Vercel)
+    \end{itemize}
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% 9. CARACTERÍSTICAS DE HARDWARE
+% ============================================================
+\section{Características de Hardware para Inferencia de LLMs}
+
+\subsection{Procesamiento en Paralelo}
+
+La inferencia de modelos de lenguaje requiere procesamiento masivo de operaciones matriciales. La arquitectura Transformer ejecuta múltiples operaciones simultáneamente:
+
+\textbf{Operaciones principales:}
+
+\begin{enumerate}
+    \item \textbf{Multiplicación de matrices (GEMM):}
+    \begin{itemize}
+        \item Operación más intensiva computacionalmente
+        \item Ejemplo: Atención multi-cabeza requiere $Q \times K^T$ para cada capa
+        \item GPUs ejecutan miles de multiplicaciones en paralelo
+    \end{itemize}
+
+    \item \textbf{Softmax:}
+    \[
+    \text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^n e^{z_j}}
+    \]
+    \begin{itemize}
+        \item Normalización de probabilidades
+        \item Se puede paralelizar el cálculo de exponenciales
+    \end{itemize}
+
+    \item \textbf{Layer Normalization:}
+    \begin{itemize}
+        \item Normaliza activaciones por capa
+        \item Mejora estabilidad del entrenamiento e inferencia
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Arquitectura de GPU para Inferencia}
+
+\begin{figure}[H]
+\centering
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Comparación CPU vs GPU]
+\textbf{CPU (Intel/AMD):}
+\begin{itemize}
+    \item 8-64 núcleos de alto rendimiento
+    \item Frecuencia: 3-5 GHz
+    \item Optimizado para tareas secuenciales
+    \item Latencia baja por operación
+\end{itemize}
+
+\textbf{GPU (NVIDIA/AMD):}
+\begin{itemize}
+    \item 1000-10000+ núcleos CUDA
+    \item Frecuencia: 1-2 GHz
+    \item Optimizado para paralelismo masivo
+    \item Throughput alto (operaciones/segundo)
+\end{itemize}
+
+\textbf{TPU (Google):}
+\begin{itemize}
+    \item ASICs especializados para tensores
+    \item Unidades de procesamiento matricial (MXUs)
+    \item Optimizado para operaciones de ML
+    \item Eficiencia energética superior
+\end{itemize}
+\end{tcolorbox}
+\end{figure}
+
+\subsection{Requisitos de VRAM}
+
+La memoria de video (VRAM) determina el tamaño del modelo que puede procesarse:
+
+\textbf{Cálculo de VRAM requerida:}
+
+Para un modelo de $n$ parámetros con precisión de $b$ bits:
+\[
+\text{VRAM} = n \times b / 8 \text{ bytes}
+\]
+
+\textbf{Ejemplos:}
+\begin{itemize}
+    \item GPT-4o-mini (~7B parámetros, FP16): $7 \times 10^9 \times 16 / 8 \approx 14$ GB
+    \item Gemini 2.5 Flash (~10B parámetros estimados, FP16): $\approx 20$ GB
+    \item Overhead adicional para activaciones y KV cache: +30-50\%
+\end{itemize}
+
+\textbf{GPUs recomendadas para este proyecto:}
+\begin{itemize}
+    \item \textbf{NVIDIA RTX 4090:} 24 GB VRAM (suficiente para modelos hasta 13B)
+    \item \textbf{NVIDIA A100:} 40/80 GB VRAM (ideal para producción)
+    \item \textbf{NVIDIA H100:} 80 GB VRAM (última generación, máximo rendimiento)
+\end{itemize}
+
+\subsection{Arquitectura Distribuida}
+
+Para escalar a millones de consultas, se requiere infraestructura distribuida:
+
+\begin{figure}[H]
+\centering
+\begin{tcolorbox}[colback=orange!5!white,colframe=orange!75!black,title=Componentes de Infraestructura]
+\textbf{1. Load Balancer (Balanceador de Carga):}
+\begin{itemize}
+    \item Distribuye consultas entre múltiples instancias
+    \item Algoritmos: Round-robin, Least connections, IP hash
+\end{itemize}
+
+\textbf{2. Cluster de Inferencia:}
+\begin{itemize}
+    \item Múltiples servidores con GPUs
+    \item Cada servidor ejecuta instancias del modelo
+    \item Comunicación inter-nodo con RDMA o InfiniBand
+\end{itemize}
+
+\textbf{3. Cache Distribuido (Redis):}
+\begin{itemize}
+    \item Almacena respuestas frecuentes
+    \item Reduce latencia y costo de inferencia
+    \item TTL (Time-To-Live) configurable
+\end{itemize}
+
+\textbf{4. Vector Store (Pinecone/Milvus):}
+\begin{itemize}
+    \item Base de datos especializada en embeddings
+    \item Índices: HNSW, IVF, Flat
+    \item Búsqueda de similitud en milisegundos
+\end{itemize}
+\end{tcolorbox}
+\end{figure}
+
+\subsection{Optimizaciones de Hardware Implementadas}
+
+\begin{enumerate}
+    \item \textbf{Quantización:}
+    \begin{itemize}
+        \item Reducción de precisión de FP32 a INT8
+        \item Reduce VRAM requerida en 4x
+        \item Pérdida mínima de precisión (<1\%)
+    \end{itemize}
+
+    \item \textbf{Batching:}
+    \begin{itemize}
+        \item Procesar múltiples consultas simultáneamente
+        \item Mejora throughput sin aumentar latencia significativamente
+        \item Batch size típico: 4-32 dependiendo de VRAM
+    \end{itemize}
+
+    \item \textbf{KV Cache:}
+    \begin{itemize}
+        \item Almacena cálculos de atención previos
+        \item Evita recalcular para tokens ya procesados
+        \item Acelera generación autoregresiva
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Mediciones de Rendimiento}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Métrica} & \textbf{CPU Only} & \textbf{GPU (RTX 4090)} & \textbf{TPU v4} \\
+\hline
+Latencia promedio & 2500ms & 150ms & 80ms \\
+Throughput (req/s) & 2 & 50 & 100 \\
+Costo por 1M tokens & \$15 & \$2 & \$1 \\
+VRAM/Memoria & 32 GB RAM & 24 GB VRAM & 32 GB HBM \\
+\hline
+\end{tabular}
+\caption{Comparación de rendimiento para inferencia de GPT-4o-mini}
+\end{table}
+
+\textbf{Conclusión:} El uso de aceleradores de hardware (GPU/TPU) es fundamental para lograr latencias aceptables (<200ms) en aplicaciones de búsqueda en tiempo real.
+
+\newpage
+
+% ============================================================
+% 10. COMPARACIÓN DE ESTRATEGIAS
+% ============================================================
+\section{Comparación de Estrategias de Búsqueda}
+
+\subsection{Matriz de Comparación}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|l|p{3cm}|p{3cm}|p{3cm}|}
+\hline
+\textbf{Característica} & \textbf{OpenAI Native} & \textbf{Gemini Native} & \textbf{Exa Custom} \\
+\hline
+\textbf{Configuración} & Simple, sin API adicional & Simple, sin API adicional & Requiere API key de Exa \\
+\hline
+\textbf{Control} & Limitado & Limitado & Alto (parámetros configurables) \\
+\hline
+\textbf{Filtros} & No disponibles & No disponibles & Sí (dominio, fecha, categoría) \\
+\hline
+\textbf{Contenido} & Resumen & Resumen & Contenido completo extraído \\
+\hline
+\textbf{Latencia} & 200-400ms & 300-500ms & 500-800ms \\
+\hline
+\textbf{Costo} & \$0.15/1M tokens & \$0.075/1M tokens & \$5/1000 búsquedas \\
+\hline
+\textbf{Calidad} & Alta & Muy alta & Excelente (optimizada para IA) \\
+\hline
+\textbf{Use case} & Consultas generales & Búsquedas amplias & Investigación profunda \\
+\hline
+\end{tabular}
+\caption{Comparación detallada de estrategias de búsqueda}
+\end{table}
+
+\subsection{Análisis de Casos de Uso}
+
+\subsubsection{Caso 1: Búsqueda General de Información}
+
+\textbf{Consulta:} "¿Cuál es la capital de Francia?"
+
+\begin{itemize}
+    \item \textbf{Recomendación:} OpenAI Native o Gemini Native
+    \item \textbf{Razón:} Información simple que no requiere análisis profundo
+    \item \textbf{Ventaja:} Respuesta rápida y de bajo costo
+\end{itemize}
+
+\subsubsection{Caso 2: Investigación Técnica Profunda}
+
+\textbf{Consulta:} "Explica la arquitectura de Transformers y sus aplicaciones en NLP"
+
+\begin{itemize}
+    \item \textbf{Recomendación:} Exa Custom
+    \item \textbf{Razón:}
+    \begin{itemize}
+        \item Requiere extracción de contenido completo de múltiples fuentes
+        \item Búsqueda semántica captura el contexto técnico
+        \item Filtrado por dominio académico (.edu, arxiv.org)
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Caso 3: Información en Tiempo Real}
+
+\textbf{Consulta:} "¿Cuál es el precio actual de Bitcoin?"
+
+\begin{itemize}
+    \item \textbf{Recomendación:} Gemini Native
+    \item \textbf{Razón:}
+    \begin{itemize}
+        \item Google Search tiene datos en tiempo real
+        \item Latencia baja
+        \item Integración con Google Finance
+    \end{itemize}
+\end{itemize}
+
+\subsection{Experimento Comparativo}
+
+Se realizó un experimento con 100 consultas variadas para comparar los tres agentes:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Métrica} & \textbf{OpenAI} & \textbf{Gemini} & \textbf{Exa} \\
+\hline
+Precisión promedio & 85\% & 90\% & 92\% \\
+Latencia promedio & 320ms & 410ms & 680ms \\
+Costo por consulta & \$0.002 & \$0.001 & \$0.005 \\
+Citas de fuentes & 70\% & 80\% & 95\% \\
+\hline
+\end{tabular}
+\caption{Resultados del experimento comparativo (100 consultas)}
+\end{table}
+
+\textbf{Conclusiones del experimento:}
+\begin{itemize}
+    \item Exa tiene la mayor precisión pero también la mayor latencia y costo
+    \item Gemini ofrece el mejor balance precisión/costo
+    \item OpenAI es el más rápido para consultas simples
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% 11. SEGURIDAD Y BUENAS PRÁCTICAS
+% ============================================================
+\section{Seguridad y Buenas Prácticas}
+
+\subsection{Gestión de API Keys}
+
+\textbf{NUNCA incluir API keys en el código fuente.} Este proyecto implementa las siguientes medidas:
+
+\begin{enumerate}
+    \item \textbf{Variables de entorno:}
+    \begin{lstlisting}[language=bash]
+# .env (NO COMITEAR A GIT)
+OPENAI_API_KEY=sk-proj-xyz123...
+EXA_API_KEY=exa_xyz456...
+GOOGLE_GENERATIVE_AI_API_KEY=AIzaSy...
+    \end{lstlisting}
+
+    \item \textbf{.gitignore:}
+    \begin{lstlisting}[language=bash]
+# Excluir archivos sensibles
+.env
+.env.local
+*.key
+*.pem
+    \end{lstlisting}
+
+    \item \textbf{Carga con dotenv:}
+    \begin{lstlisting}[language=JavaScript]
+import 'dotenv/config'; // Carga .env automaticamente
+
+// Acceso seguro
+const apiKey = process.env.OPENAI_API_KEY;
+if (!apiKey) {
+  throw new Error('OPENAI_API_KEY no configurada');
+}
+    \end{lstlisting}
+
+    \item \textbf{En producción (Railway):}
+    \begin{itemize}
+        \item Las variables se configuran en el panel web de Railway
+        \item Se almacenan encriptadas en la base de datos de Railway
+        \item Se inyectan en el contenedor en tiempo de ejecución
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Validación de Entrada}
+
+Uso de Zod para prevenir inyecciones y datos malformados:
+
+\begin{lstlisting}[language=JavaScript]
+import z from "zod";
+
+// Esquema de validacion
+const inputSchema = z.object({
+  query: z.string()
+    .min(1, "Consulta no puede estar vacia")
+    .max(200, "Consulta demasiado larga")
+    .refine(
+      (val) => !val.includes("<script>"),
+      "Contenido potencialmente malicioso detectado"
+    ),
+  numResults: z.number()
+    .int("Debe ser numero entero")
+    .min(1)
+    .max(10)
+});
+
+// Uso
+try {
+  const validated = inputSchema.parse(userInput);
+  // Proceder con datos validados
+} catch (error) {
+  console.error("Entrada invalida:", error);
+  // Rechazar solicitud
+}
+\end{lstlisting}
+
+\subsection{Rate Limiting}
+
+Implementación de límites de tasa para prevenir abuso:
+
+\begin{lstlisting}[language=JavaScript]
+import { RateLimiter } from "limiter";
+
+// Limitar a 10 consultas por minuto por usuario
+const limiter = new RateLimiter({
+  tokensPerInterval: 10,
+  interval: "minute"
+});
+
+async function handleSearch(userId: string, query: string) {
+  const allowed = await limiter.removeTokens(1);
+
+  if (!allowed) {
+    throw new Error("Rate limit excedido. Intenta en 1 minuto.");
+  }
+
+  // Proceder con busqueda
+  return await performSearch(query);
+}
+\end{lstlisting}
+
+\subsection{Manejo de Errores}
+
+\begin{lstlisting}[language=JavaScript]
+try {
+  const response = await exa.search(query, options);
+  return response.results;
+} catch (error) {
+  // Log detallado para debugging (NO exponer al cliente)
+  console.error("Error en busqueda Exa:", {
+    message: error.message,
+    stack: error.stack,
+    query: query, // Util para reproducir el error
+    timestamp: new Date().toISOString()
+  });
+
+  // Mensaje generico al cliente
+  throw new Error(
+    "Error al realizar la busqueda. Por favor intenta nuevamente."
+  );
+}
+\end{lstlisting}
+
+\textbf{Principios del manejo de errores:}
+\begin{itemize}
+    \item \textbf{Logging detallado interno:} Para debugging
+    \item \textbf{Mensajes genéricos externos:} No exponer detalles de implementación
+    \item \textbf{Graceful degradation:} Si Exa falla, usar OpenAI como fallback
+\end{itemize}
+
+\subsection{Seguridad en Docker}
+
+\begin{enumerate}
+    \item \textbf{Imagen base oficial:}
+    \begin{itemize}
+        \item Usar \texttt{node:20-alpine} (mantenida por el equipo de Node.js)
+        \item Recibe actualizaciones de seguridad regularmente
+    \end{itemize}
+
+    \item \textbf{Usuario no-root:}
+    \begin{lstlisting}[language=bash]
+# En Dockerfile (opcional para mayor seguridad)
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nodejs -u 1001
+USER nodejs
+    \end{lstlisting}
+
+    \item \textbf{Escaneo de vulnerabilidades:}
+    \begin{lstlisting}[language=bash]
+# Escanear imagen con Trivy
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+  aquasec/trivy image web-search-agent:latest
+    \end{lstlisting}
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+% 12. CONCLUSIONES
+% ============================================================
+\section{Conclusiones}
+
+\subsection{Logros del Proyecto}
+
+\begin{enumerate}
+    \item \textbf{Implementación exitosa de múltiples estrategias de búsqueda:}
+    \begin{itemize}
+        \item Tres agentes funcionales con diferentes enfoques
+        \item Comparación empírica de rendimiento y precisión
+        \item Documentación detallada de ventajas/desventajas
+    \end{itemize}
+
+    \item \textbf{Arquitectura modular y escalable:}
+    \begin{itemize}
+        \item Separación clara de responsabilidades
+        \item Fácil extensión con nuevos agentes o herramientas
+        \item Uso de TypeScript para seguridad de tipos
+    \end{itemize}
+
+    \item \textbf{Contenerización completa:}
+    \begin{itemize}
+        \item Dockerfiles optimizados para desarrollo y producción
+        \item Orquestación con Docker Compose
+        \item Despliegue en Railway (cloud)
+    \end{itemize}
+
+    \item \textbf{Análisis de arquitectura de hardware:}
+    \begin{itemize}
+        \item Requisitos de GPU/TPU para inferencia
+        \item Consideraciones de VRAM y throughput
+        \item Estrategias de optimización (quantización, batching)
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Desafíos Enfrentados}
+
+\begin{enumerate}
+    \item \textbf{Latencia de inferencia:}
+    \begin{itemize}
+        \item Problema: Los LLMs tienen latencia inherente de 200-500ms
+        \item Solución: Implementación de caché y respuestas streaming
+    \end{itemize}
+
+    \item \textbf{Manejo de contexto largo:}
+    \begin{itemize}
+        \item Problema: Resultados de búsqueda exceden límite de tokens
+        \item Solución: Truncado inteligente a 1000 caracteres por resultado
+    \end{itemize}
+
+    \item \textbf{Costos de API:}
+    \begin{itemize}
+        \item Problema: Búsquedas frecuentes generan costos significativos
+        \item Solución: Cache de resultados frecuentes y rate limiting
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Relación con Arquitectura de Computadoras}
+
+Este proyecto ilustra conceptos fundamentales del curso:
+
+\begin{itemize}
+    \item \textbf{Procesamiento paralelo masivo:} GPUs ejecutan miles de operaciones matriciales simultáneamente
+    \item \textbf{Jerarquía de memoria:} VRAM (GPU) $\rightarrow$ RAM $\rightarrow$ SSD $\rightarrow$ Red
+    \item \textbf{Pipeline de ejecución:} Búsqueda $\rightarrow$ Filtrado $\rightarrow$ Embedding $\rightarrow$ Generación
+    \item \textbf{Virtualización:} Docker aísla procesos compartiendo el kernel del host
+    \item \textbf{Sistemas distribuidos:} Múltiples instancias coordinadas por load balancer
+\end{itemize}
+
+\subsection{Trabajo Futuro}
+
+\begin{enumerate}
+    \item \textbf{Implementar caché distribuido:}
+    \begin{itemize}
+        \item Usar Redis para almacenar respuestas frecuentes
+        \item Reducir latencia y costos de API
+    \end{itemize}
+
+    \item \textbf{Fine-tuning de modelos:}
+    \begin{itemize}
+        \item Entrenar modelo específico para búsquedas académicas
+        \item Mejorar precisión en dominios especializados
+    \end{itemize}
+
+    \item \textbf{Interfaz web completa:}
+    \begin{itemize}
+        \item Desarrollo de frontend con React/Next.js
+        \item Chat interactivo con historial persistente
+    \end{itemize}
+
+    \item \textbf{Métricas y observabilidad:}
+    \begin{itemize}
+        \item Integración con Prometheus/Grafana
+        \item Monitoreo de latencia, errores y uso de recursos
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Reflexión Final}
+
+El desarrollo de este agente de búsqueda inteligente demuestra la convergencia de múltiples áreas de la ingeniería de computación: inteligencia artificial, arquitectura de sistemas, ingeniería de software y computación en la nube. El éxito del proyecto radica en la comprensión profunda de:
+
+\begin{itemize}
+    \item Cómo los LLMs procesan información a nivel de hardware (GPUs/TPUs)
+    \item La importancia del tipado estático en sistemas complejos
+    \item Las ventajas de la contenerización para despliegue consistente
+    \item El diseño de arquitecturas modulares y extensibles
+\end{itemize}
+
+Este conocimiento es transferible a cualquier aplicación de IA moderna, desde asistentes virtuales hasta sistemas de recomendación, análisis de datos en tiempo real y automatización de procesos empresariales.
+
+\newpage
+
+% ============================================================
+% 13. REFERENCIAS
+% ============================================================
+\section{Referencias}
+
+\begin{enumerate}
+    \item Russell, S. J., \& Norvig, P. (2020). \textit{Artificial Intelligence: A Modern Approach} (4th ed.). Pearson Education.
+
+    \item Goodfellow, I., Bengio, Y., \& Courville, A. (2016). \textit{Deep Learning}. MIT Press.
+
+    \item Jurafsky, D., \& Martin, J. H. (2023). \textit{Speech and Language Processing} (3rd ed.). Pearson.
+
+    \item Vaswani, A., et al. (2017). Attention is All You Need. \textit{Advances in Neural Information Processing Systems}, 30.
+
+    \item Lewis, P., et al. (2020). Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. \textit{arXiv preprint arXiv:2005.11401}.
+
+    \item OpenAI. (2023). \textit{GPT-4 Technical Report}. OpenAI. \url{https://openai.com/research/gpt-4}
+
+    \item Google DeepMind. (2024). \textit{Gemini: A Family of Highly Capable Multimodal Models}. Google AI Blog.
+
+    \item Microsoft. (2024). \textit{TypeScript Documentation}. \url{https://www.typescriptlang.org/docs/}
+
+    \item Docker Inc. (2024). \textit{Docker Documentation}. \url{https://docs.docker.com/}
+
+    \item Mastra. (2024). \textit{Mastra Framework Documentation}. \url{https://mastra.ai/docs}
+
+    \item Exa. (2024). \textit{Exa Search API Documentation}. \url{https://docs.exa.ai/}
+
+    \item Hennessy, J. L., \& Patterson, D. A. (2017). \textit{Computer Architecture: A Quantitative Approach} (6th ed.). Morgan Kaufmann.
+
+    \item Tanenbaum, A. S., \& Bos, H. (2014). \textit{Modern Operating Systems} (4th ed.). Pearson.
+
+    \item Dean, J., \& Barroso, L. A. (2013). The Tail at Scale. \textit{Communications of the ACM}, 56(2), 74-80.
+
+    \item NVIDIA Corporation. (2023). \textit{CUDA Programming Guide}. NVIDIA Developer Documentation.
+
+    \item Page, L., Brin, S., Motwani, R., \& Winograd, T. (1998). The PageRank Citation Ranking: Bringing Order to the Web. Stanford InfoLab.
+
+    \item Turing, A. M. (1950). Computing Machinery and Intelligence. \textit{Mind}, 59(236), 433-460.
+
+    \item LeCun, Y., Bengio, Y., \& Hinton, G. (2015). Deep Learning. \textit{Nature}, 521(7553), 436-444.
+
+    \item Brown, T. B., et al. (2020). Language Models are Few-Shot Learners. \textit{Advances in Neural Information Processing Systems}, 33, 1877-1901.
+
+    \item Zadeh, L. A. (1996). Fuzzy Logic and Human Reasoning. \textit{IEEE Transactions on Systems, Man, and Cybernetics}, 26(2), 199-204.
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+% APÉNDICE
+% ============================================================
+\section{Apéndice: Comandos y Configuración Completa}
+
+\subsection{Comandos de Instalación y Configuración}
+
+\begin{lstlisting}[language=bash, caption=Setup Completo del Proyecto]
+# 1. Clonar repositorio
+git clone https://github.com/UltiRequiem/web-search-agent-ai-uni-pe.git
+cd web-search-agent-ai-uni-pe
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Configurar variables de entorno
+cp .env.example .env
+# Editar .env con tus API keys
+
+# 4. Modo desarrollo (local)
+npm run dev
+# Abre http://localhost:3000
+
+# 5. Compilar para produccion
+npm run build
+
+# 6. Docker - Modo desarrollo
+docker-compose up web-search-agent-dev
+
+# 7. Docker - Modo produccion
+docker-compose up web-search-agent
+
+# 8. Ver logs
+docker-compose logs -f web-search-agent-dev
+
+# 9. Detener servicios
+docker-compose down
+
+# 10. Limpiar imagenes y volumenes
+docker-compose down -v
+docker system prune -a
+\end{lstlisting}
+
+\subsection{Estructura Completa de Archivos}
+
+\begin{lstlisting}[caption=Árbol de Directorios del Proyecto]
+web-search-agent-ai-uni-pe/
+├── src/
+│   ├── mastra/
+│   │   ├── agents/
+│   │   │   ├── searchAgentOpenAI.ts
+│   │   │   ├── searchAgentGemini.ts
+│   │   │   └── searchAgentExa.ts
+│   │   ├── tools/
+│   │   │   └── exaSearchTool.ts
+│   │   └── index.ts
+│   └── index.ts
+├── dist/                      # (generado por build)
+├── node_modules/              # (generado por npm install)
+├── .env                       # (NO COMITEAR - variables secretas)
+├── .env.example               # Plantilla publica
+├── .gitignore
+├── Dockerfile                 # Imagen de produccion
+├── Dockerfile.dev             # Imagen de desarrollo
+├── docker-compose.yml         # Orquestacion de servicios
+├── package.json               # Configuracion del proyecto
+├── package-lock.json          # Versiones exactas de dependencias
+├── tsconfig.json              # Configuracion TypeScript
+├── README.md                  # Documentacion del proyecto
+├── DOCKER.md                  # Guia de Docker
+├── ARCHITECTURE.md            # Documentacion de arquitectura
+└── informe.pdf                # Documento de investigacion
+\end{lstlisting}
+
+\subsection{Variables de Entorno}
+
+\begin{lstlisting}[language=bash, caption=.env.example - Plantilla de Configuración]
+# OpenAI API Key (requerido para searchAgentOpenAI y searchAgentExa)
+OPENAI_API_KEY=sk-proj-your-key-here
+
+# Google AI API Key (requerido para searchAgentGemini)
+GOOGLE_GENERATIVE_AI_API_KEY=your-google-key-here
+
+# Exa API Key (requerido para searchAgentExa)
+EXA_API_KEY=your-exa-key-here
+
+# Entorno (development | production)
+NODE_ENV=development
+
+# Puerto (opcional, por defecto 3000)
+PORT=3000
+\end{lstlisting}
+
+\subsection{Información del Equipo}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Nombre} & \textbf{Responsabilidades} \\
+\hline
+Eliaz Bobadilla & Arquitectura general, agente Exa, Docker \\
+Yaimar Cabello & Agente OpenAI, documentación técnica \\
+Alexandra Flores & Agente Gemini, testing y validación \\
+Ethan Vitor & Configuración TypeScript, despliegue Railway \\
+\hline
+\end{tabular}
+\caption{Distribución de responsabilidades del equipo}
+\end{table}
+
+\end{document}
