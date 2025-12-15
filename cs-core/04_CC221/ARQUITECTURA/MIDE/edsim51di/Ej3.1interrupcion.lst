@@ -1,0 +1,164 @@
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 1
+
+
+
+
+
+       MCS-51 Family Macro Assembler   A S E M - 5 1   V 1.3
+       =====================================================
+
+
+
+	Source File:	C:\Users\USER\Documents\CICLOS)__(\CICLO25-1\ARQUITECTURA\MIDE\edsim51di\Ej3.1interrupcion.asm
+	Object File:	C:\Users\USER\Documents\CICLOS)__(\CICLO25-1\ARQUITECTURA\MIDE\edsim51di\Ej3.1interrupcion.hex
+	List File:	C:\Users\USER\Documents\CICLOS)__(\CICLO25-1\ARQUITECTURA\MIDE\edsim51di\Ej3.1interrupcion.lst
+
+
+
+ Line  I  Addr  Code            Source
+
+    1:				;Usando prioridades en el ejemplo de
+    2:				;trenes de pulsos
+    3:				;Se tiene el programa anterior modificado:
+    4:		N      0000	org 0000h
+    5:	  0000	80 2E		sjmp main
+    6:
+    7:		N      000B	org 000Bh  ; vector de interrupción del timer 0
+    8:	  000B	B2 B4		cpl P3.4        ; genera una señal de 20 khz
+    9:	  000D	32		reti                ; retorna de la interrupción
+   10:
+   11:		N      001B	org 001Bh           ;vector de interrupción del timer 1
+   12:	  001B	80 27		sjmp timer1ISR  ;salta al ISR del timer 1
+   13:
+   14:		N      0030	org 0030h                   ;programa principal
+   15:	  0030			main:
+   16:	  0030	75 89 12	    mov TMOD,#12h  ;timer 0 en modo de 8 bits con autorecarga y timer 1 en modo
+   17:				                                   ;de 16 bits
+   18:	  0033	75 8C E7	    mov TH0,#231      ;valor de autorecarga
+   19:	  0036	D2 8C		    setb TR0                ;arranca el timer 0
+   20:
+   21:	  0038	D2 8F		    setb TF1                ;se fuerza interrupción del timer 1
+   22:	  003A	D2 A9		    setb ET0                ;se habilita la interrupción del timer 0
+   23:	  003C	D2 B9		    setb PT0               ;el timer 0 se fija a alta prioridad
+   24:	  003E	D2 AB		    setb ET1                ;se habilita la interrupción del timer 1
+   25:	  0040	D2 AF		    setb EA                  ;se habilita la interrupción global
+   26:	  0042	80 FE		    sjmp $                    ;aquí está dando vueltas pero espera por interrupciones
+   27:				;Viene aquí cada vez que hay una interrupción del timer1
+   28:	  0044			timer1ISR:
+   29:	  0044	C2 8E		    clr TR1                   ;detiene el timer 1
+   30:	  0046	75 8D FC	    mov TH1,#0FCh    ;inicializa el timer 1 con “FC18h”
+   31:	  0049	75 8B 18	    mov TL1,#18h        ;(65536 – 1000= 64536)(este número es FC18h en hexadecimal)
+   32:	  004C	D2 8E		    setb TR1                 ;arranca el timer 1
+   33:	  004E	B2 B5		    cpl P3.5                  ;se genera 500 hz
+   34:	  0050	32		    reti                          ;retorna de la interrupción
+   35:				    END
+
+
+
+
+
+                     register banks used:  ---
+
+                     no errors
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 2
+
+
+
+
+
+
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 3
+
+
+
+
+
+	       L I S T   O F   S Y M B O L S
+	       =============================
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+??ASEM_51			  NUMBER    8051
+??VERSION			  NUMBER    0130
+AC				  BIT	      D6
+ACC				  DATA	      E0
+B				  DATA	      F0
+CY				  BIT	      D7
+DPH				  DATA	      83
+DPL				  DATA	      82
+EA				  BIT	      AF
+ES				  BIT	      AC
+ET0				  BIT	      A9
+ET1				  BIT	      AB
+EX0				  BIT	      A8
+EX1				  BIT	      AA
+EXTI0				  CODE	    0003
+EXTI1				  CODE	    0013
+F0				  BIT	      D5
+IE				  DATA	      A8
+IE0				  BIT	      89
+IE1				  BIT	      8B
+INT0				  BIT	      B2
+INT1				  BIT	      B3
+IP				  DATA	      B8
+IT0				  BIT	      88
+IT1				  BIT	      8A
+MAIN				  CODE	    0030	  15
+OV				  BIT	      D2
+P				  BIT	      D0
+P0				  DATA	      80
+P1				  DATA	      90
+P2				  DATA	      A0
+P3				  DATA	      B0
+PCON				  DATA	      87
+PS				  BIT	      BC
+PSW				  DATA	      D0
+PT0				  BIT	      B9
+PT1				  BIT	      BB
+PX0				  BIT	      B8
+PX1				  BIT	      BA
+RB8				  BIT	      9A
+RD				  BIT	      B7
+REN				  BIT	      9C
+RESET				  CODE	    0000
+RI				  BIT	      98
+RS0				  BIT	      D3
+RS1				  BIT	      D4
+RXD				  BIT	      B0
+SBUF				  DATA	      99
+SCON				  DATA	      98
+SINT				  CODE	    0023
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 4
+
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+SM0				  BIT	      9F
+SM1				  BIT	      9E
+SM2				  BIT	      9D
+SP				  DATA	      81
+T0				  BIT	      B4
+T1				  BIT	      B5
+TB8				  BIT	      9B
+TCON				  DATA	      88
+TF0				  BIT	      8D
+TF1				  BIT	      8F
+TH0				  DATA	      8C
+TH1				  DATA	      8D
+TI				  BIT	      99
+TIMER0				  CODE	    000B
+TIMER1				  CODE	    001B
+TIMER1ISR			  CODE	    0044	  28
+TL0				  DATA	      8A
+TL1				  DATA	      8B
+TMOD				  DATA	      89
+TR0				  BIT	      8C
+TR1				  BIT	      8E
+TXD				  BIT	      B1
+WR				  BIT	      B6

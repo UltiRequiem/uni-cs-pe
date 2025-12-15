@@ -1,0 +1,1160 @@
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 1
+
+
+
+
+
+       MCS-51 Family Macro Assembler   A S E M - 5 1   V 1.3
+       =====================================================
+
+
+
+	Source File:	C:\Users\chxndlerpc\Desktop\edsim51di\Labos\PC\Parcial\P4.asm
+	Object File:	C:\Users\chxndlerpc\Desktop\edsim51di\Labos\PC\Parcial\P4.hex
+	List File:	C:\Users\chxndlerpc\Desktop\edsim51di\Labos\PC\Parcial\P4.lst
+
+
+
+ Line  I  Addr  Code            Source
+
+    1:				;Se va a simular una máquina expendedora de café. Al usar la interrupción 0, que muestre el
+    2:				;precio seleccionado en la línea1 del display LCD, por ejemplo: 2 soles. Y al usar la interrupción 1
+    3:				;muestra:
+    4:				;En la Línea1: Preparando....
+    5:				;En la Línea2: Muestra una barra de progreso animado que va avanzado. De tal manera que al finalizar
+    6:				;la barra de progreso muestre:
+    7:				;Línea 1: LISTO!! y en la Línea 2: recoja su cafe
+    8:				;Para la barra de progreso debe crear un nuevo carácter de la forma de una caja(rectángulo) lleno po
+				r
+    9:				;dentro. Indicar el UPDATE FREQ a usar.
+   10:				;Update Freq. : 500
+   11:		N      0000		org 0h
+   12:	  0000	80 14			sjmp main
+   13:		N      0003		org 3h
+   14:	  0003	02 00 3C		ljmp inter_ext_0
+   15:		N      0013		org 13h
+   16:	  0013	02 00 6B		ljmp inter_ext_1
+   17:	  0016			main:
+   18:	  0016	12 01 1F		lcall init
+   19:	  0019	D2 88			setb IT0
+   20:	  001B	D2 A8			setb EX0
+   21:	  001D	D2 B2			setb P3.2
+   22:	  001F	D2 8A			setb IT1
+   23:	  0021	D2 AA			setb EX1
+   24:	  0023	D2 B3			setb P3.3
+   25:	  0025	D2 AF			setb EA
+   26:	  0027	12 02 91		lcall configura_LCD
+   27:	  002A	78 0C			mov R0,#offCur
+   28:	  002C	12 03 58		lcall wrLCDcom4
+   29:	  002F	12 02 FD		lcall setCGRAM4
+   30:	  0032	0F 0F 0F 0F		db 0Fh, 0Fh, 0Fh, 0Fh, 0Fh, 0Fh, 0Fh,20h	;memoria 0
+	  0036	0F 0F 0F 20
+   31:	  003A	80 FE			sjmp $
+   32:	  003C			inter_ext_0:
+   33:	  003C	12 01 0D		lcall fila1
+   34:	  003F	12 03 8F		lcall prtLCD4
+   35:	  0042	20 20 20 20		db "                ",0
+	  0046	20 20 20 20
+	  004A	20 20 20 20
+	  004E	20 20 20 20
+	  0052	00
+   36:	  0053	12 01 0D		lcall fila1
+   37:	  0056	12 03 8F		lcall prtLCD4
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 2
+
+
+
+ Line  I  Addr  Code            Source
+
+   38:	  0059	32 20 73 6F		db "2 soles         ",0
+	  005D	6C 65 73 20
+	  0061	20 20 20 20
+	  0065	20 20 20 20
+	  0069	00
+   39:	  006A	32			reti
+   40:	  006B			inter_ext_1:
+   41:	  006B	12 01 0D		lcall fila1
+   42:	  006E	12 03 8F		lcall prtLCD4
+   43:	  0071	20 20 20 20		db "                ",0
+	  0075	20 20 20 20
+	  0079	20 20 20 20
+	  007D	20 20 20 20
+	  0081	00
+   44:	  0082	12 01 0D		lcall fila1
+   45:	  0085	12 03 8F		lcall prtLCD4
+   46:	  0088	50 72 65 70		db "Preparando....  ",0
+	  008C	61 72 61 6E
+	  0090	64 6F 2E 2E
+	  0094	2E 2E 20 20
+	  0098	00
+   47:	  0099	7F 10			mov R7,#16
+   48:	  009B	12 01 16		lcall fila2
+   49:	  009E			prtbox:
+   50:	  009E	12 03 8F		lcall prtLCD4
+   51:	  00A1	08 00			db 8,0
+   52:	  00A3	12 01 FE		lcall retardo_para_lab3
+   53:	  00A6	EF			mov A,R7
+   54:	  00A7	14			dec A
+   55:	  00A8	FF			mov R7,A
+   56:	  00A9	70 F3			jnz prtbox
+   57:	  00AB	12 01 FE		lcall retardo_para_lab3
+   58:	  00AE	80 00			sjmp final
+   59:	  00B0			final:
+   60:	  00B0	12 01 0D		lcall fila1
+   61:	  00B3	12 03 8F		lcall prtLCD4
+   62:	  00B6	20 20 20 20		db "                ",0
+	  00BA	20 20 20 20
+	  00BE	20 20 20 20
+	  00C2	20 20 20 20
+	  00C6	00
+   63:	  00C7	12 01 16		lcall fila2
+   64:	  00CA	12 03 8F		lcall prtLCD4
+   65:	  00CD	20 20 20 20		db "                ",0
+	  00D1	20 20 20 20
+	  00D5	20 20 20 20
+	  00D9	20 20 20 20
+	  00DD	00
+   66:	  00DE	12 01 0D		lcall fila1
+   67:	  00E1	12 03 8F		lcall prtLCD4
+   68:	  00E4	4C 49 53 54		db "LISTO!!         ",0
+	  00E8	4F 21 21 20
+	  00EC	20 20 20 20
+	  00F0	20 20 20 20
+	  00F4	00
+   69:	  00F5	12 01 16		lcall fila2
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 3
+
+
+
+ Line  I  Addr  Code            Source
+
+   70:	  00F8	12 03 8F		lcall prtLCD4
+   71:	  00FB	52 65 63 6F		db "Recoja su cafe  ",0
+	  00FF	6A 61 20 73
+	  0103	75 20 63 61
+	  0107	66 65 20 20
+	  010B	00
+   72:	  010C	32			reti
+   73:	  010D			fila1:
+   74:	  010D	74 01			mov A,#1
+   75:	  010F	75 F0 00		mov B,#0
+   76:	  0112	12 02 EB		lcall placeCur4
+   77:	  0115	22			ret
+   78:	  0116			fila2:
+   79:	  0116	74 02			mov A,#2
+   80:	  0118	75 F0 00		mov B,#0
+   81:	  011B	12 02 EB		lcall placeCur4
+   82:	  011E	22			ret
+   83:				$INCLUDE(SubFrecuentes.inc)
+   84: 1  011F			init:
+   85: 1  011F	75 87 80		mov PCON,#80H
+   86: 1  0122	75 89 20		mov TMOD,#20H
+   87: 1  0125	75 88 41		mov TCON,#41H
+   88: 1  0128	75 8D FD		mov TH1,#0FDH
+   89: 1  012B	75 98 50		mov SCON,#50H
+   90: 1  012E	22			ret
+   91: 1  012F			print:
+   92: 1  012F	D0 83			pop dph ;coloca dirección de reterno en dptr
+   93: 1  0131	D0 82			pop dpl
+   94: 1  0133			prtstr:
+   95: 1  0133	E4			clr A
+   96: 1  0134	93			movc A,@A+DPTR
+   97: 1  0135	B4 00 02		cjne A,#0h,mchrok
+   98: 1  0138	80 06			sjmp prtdone
+   99: 1  013A			mchrok:
+  100: 1  013A	12 01 4E		lcall sndchr
+  101: 1  013D	A3			inc DPTR
+  102: 1  013E	80 F3			sjmp PRTSTR
+  103: 1  0140			prtdone:
+  104: 1  0140	74 01			mov A,#1h
+  105: 1  0142	73			jmp @A+DPTR
+  106: 1  0143			prthex:
+  107: 1  0143	12 01 56		lcall binasc
+  108: 1  0146	12 01 4E		lcall sndchr
+  109: 1  0149	EA			mov A,R2
+  110: 1  014A	12 01 4E		lcall sndchr
+  111: 1  014D	22			ret
+  112: 1  014E			sndchr:
+  113: 1  014E	C2 99			clr TI
+  114: 1  0150	F5 99			mov SBUF,A
+  115: 1  0152			txloop:
+  116: 1  0152	30 99 FD		jnb TI,txloop
+  117: 1  0155	22			ret
+  118: 1			;Se le pasa un numero hexadecimal de dos digitos
+  119: 1			;y nos devuelve dos codigos ascii del digito mas
+  120: 1			;significativo en el registro A y del digito menos
+  121: 1			;significativo en el registro R2
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 4
+
+
+
+ Line  I  Addr  Code            Source
+
+  122: 1  0156			binasc:
+  123: 1  0156	FA			mov R2,A ;se mueve a R2 para salvar el valor de A
+  124: 1  0157	54 0F			anl A,#0Fh ;se convierte el dígito menos significativo
+  125: 1  0159	24 F6			add A,#0F6h ;lo ajusta
+  126: 1  015B	50 02			jnc noadj1
+  127: 1  015D	24 07			add A,#07h
+  128: 1  015F			noadj1:
+  129: 1  015F	24 3A			add A,#3Ah ;lo hace ascii
+  130: 1  0161	CA			xch A,R2 ;pone el resultado en R2
+  131: 1  0162	C4			swap A ;se convierte ahora el digito más significativo
+  132: 1  0163	54 0F			anl A,#0Fh
+  133: 1  0165	24 F6			add A,#0F6h ;lo ajusta
+  134: 1  0167	50 02			jnc noadj2
+  135: 1  0169	24 07			add A,#07h
+  136: 1  016B			noadj2:
+  137: 1  016B	24 3A			add A,#3Ah ;lo hace ascii
+  138: 1  016D	22			ret
+  139: 1  016E			display:
+  140: 1  016E	04			inc a ;incremento el valor de A
+  141: 1  016F	83			movc a,@a+pc ;muevo a A el valor del contenido de la dirección de memoria (pc+a)
+  142: 1  0170	22			ret ;Retorno de la subrutina al programa principal
+  143: 1  0171	C0			db 0C0h ;Con este código se muestra "0" en el display
+  144: 1  0172	F9			db 0F9h ;Con este código se muestra "1" en el display
+  145: 1  0173	A4			db 0A4h ;"2"
+  146: 1  0174	B0			db 0B0h ;"3"
+  147: 1  0175	99			db 99h ;"4"
+  148: 1  0176	92			db 92h ;"5"
+  149: 1  0177	82			db 82h ;"6"
+  150: 1  0178	F8			db 0F8h ;"7"
+  151: 1  0179	80			db 80h ;"8"
+  152: 1  017A	90			db 90h ;"9"
+  153: 1  017B	88			db 88h ; a
+  154: 1  017C	83			db 83h ; b
+  155: 1  017D	C6			db 0c6h ; c
+  156: 1  017E	A1			db 0a1h ; d
+  157: 1  017F	86			db 86h ; e
+  158: 1  0180	8E			db 8eh ; f
+  159: 1			;Sirve para convertir a decimal
+  160: 1			;un número hexadecimal y para
+  161: 1			;enviar al terminal tres digitos decimales
+  162: 1			;se usan 31h, 32h y 33h
+  163: 1  0181			envio_tres_digitos:
+  164: 1  0181	75 F0 64		mov B,#100
+  165: 1  0184	84			div AB
+  166: 1  0185	F5 31			mov 31h,A
+  167: 1  0187	E5 F0			mov A,B
+  168: 1  0189	75 F0 0A		mov B,#10
+  169: 1  018C	84			div AB
+  170: 1  018D	F5 32			mov 32h,A
+  171: 1  018F	85 F0 33		mov 33h,B
+  172: 1  0192	E5 31			mov A,31h
+  173: 1  0194	24 30			add A,#30h
+  174: 1  0196	12 01 4E		lcall sndchr
+  175: 1  0199	E5 32			mov A,32h
+  176: 1  019B	24 30			add A,#30h
+  177: 1  019D	12 01 4E		lcall sndchr
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 5
+
+
+
+ Line  I  Addr  Code            Source
+
+  178: 1  01A0	E5 33			mov A,33h
+  179: 1  01A2	24 30			add A,#30h
+  180: 1  01A4	12 01 4E		lcall sndchr
+  181: 1  01A7	22			ret
+  182: 1  01A8			envio_un_digito:
+  183: 1  01A8	24 30			add A,#30h
+  184: 1  01AA	12 01 4E		lcall sndchr
+  185: 1  01AD	22			ret
+  186: 1			;Sirve para convertir a decimal
+  187: 1			;un número hexadecimal y para
+  188: 1			;enviar al terminal dos digitos decimales
+  189: 1			;se usan 32h y 33h
+  190: 1  01AE			envio_dos_digitos:
+  191: 1  01AE	75 F0 0A		mov B,#10
+  192: 1  01B1	84			div AB
+  193: 1  01B2	F5 32			mov 32h,A
+  194: 1  01B4	85 F0 33		mov 33h,B
+  195: 1  01B7	E5 32			mov A,32h
+  196: 1  01B9	24 30			add A,#30h
+  197: 1  01BB	12 01 4E		lcall sndchr
+  198: 1  01BE	E5 33			mov A,33h
+  199: 1  01C0	24 30			add A,#30h
+  200: 1  01C2	12 01 4E		lcall sndchr
+  201: 1  01C5	22			ret
+  202: 1  01C6			getbyt:
+  203: 1  01C6	12 01 D8		lcall getchr ; consigue el caracter ascii msb
+  204: 1  01C9	12 01 E2		lcall ascbin ; lo convierte a binario
+  205: 1  01CC	C4			swap A ; lo mueve a la mitad mas significativa del acumulador
+  206: 1  01CD	F5 F0			mov B, A ; lo salva en B
+  207: 1  01CF	12 01 D8		lcall getchr ; consigue el caracter ascii lsb
+  208: 1  01D2	12 01 E2		lcall ascbin ; lo convierte a binario
+  209: 1  01D5	45 F0			orl A, B ; combina las dos mitades
+  210: 1  01D7	22			ret
+  211: 1  01D8			getchr:
+  212: 1  01D8	30 98 FD		jnb ri, getchr ; espera hasta que el caracter sea recibido
+  213: 1  01DB	E5 99			mov a, sbuf ; consigue el caracter
+  214: 1  01DD	54 7F			anl a, #7fh ; mask off 8th bit
+  215: 1  01DF	C2 98			clr ri ; limpia el bit de estado serial
+  216: 1  01E1	22			ret
+  217: 1  01E2			ascbin:
+  218: 1  01E2	24 D0			add a, #0d0h ; si chr < 30 entonces error
+  219: 1  01E4	50 17			jnc notnum
+  220: 1  01E6	C3			clr c ; chequea si chr es 0-9
+  221: 1  01E7	24 F6			add a, #0f6h ; lo ajusta
+  222: 1  01E9	40 03			jc hextry ; salta si chr no es 0-9
+  223: 1  01EB	24 0A			add a, #0ah ; si lo es entonces lo ajusta
+  224: 1  01ED	22			ret
+  225: 1  01EE			hextry:
+  226: 1  01EE	C2 E5			clr acc.5 ;
+  227: 1  01F0	C3			clr c ; chequea si chr es a-f
+  228: 1  01F1	24 F9			add a, #0f9h ; lo ajusta
+  229: 1  01F3	50 08			jnc notnum ; si no es a-f entonces error
+  230: 1  01F5	C3			clr c ; averigua si char es 46 o menos.
+  231: 1  01F6	24 FA			add a, #0fah ; ajusta el acumulador
+  232: 1  01F8	40 03			jc notnum ; si carry=1 entonces no es un número hex
+  233: 1  01FA	54 0F			anl a, #0fh ; limpia bits no usados
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 6
+
+
+
+ Line  I  Addr  Code            Source
+
+  234: 1  01FC	22			ret
+  235: 1  01FD			notnum:
+  236: 1			;setb errorf ;
+  237: 1  01FD	22			ret
+  238: 1  01FE			retardo_para_lab3:
+  239: 1  01FE	7C 08			mov R4,#8
+  240: 1  0200			loop:
+  241: 1  0200	79 FA			mov R1,#250
+  242: 1  0202	D9 FE			djnz R1,$
+  243: 1  0204	DC FA			djnz R4,loop
+  244: 1  0206	22			ret
+  245: 1  0207			delay:
+  246: 1
+  247: 1  0207	14		dec a ; 1
+  248: 1  0208			d_olp:
+  249: 1  0208	C0 E0		push acc ; 2 \
+  250: 1  020A	74 A6		mov a, #0a6h ; 1 |
+  251: 1			; |
+  252: 1  020C	04		d_ilp: inc a ; 1 \ |
+  253: 1  020D	00		nop ; 1 | |
+  254: 1  020E	00		nop ; 1 | |
+  255: 1  020F	00		nop ; 1 | |
+  256: 1  0210	00		nop ; 1 | |
+  257: 1  0211	00		nop ; 1 |- 11 | (acc-1)
+  258: 1  0212	00		nop ; 1 | cycles |- msec
+  259: 1  0213	00		nop ; 1 | |
+  260: 1  0214	00		nop ; 1 | |
+  261: 1  0215	70 F5		jnz d_ilp ; 2 / |
+  262: 1			; |
+  263: 1  0217	00		nop ; 1 |
+  264: 1  0218	00		nop ; 1 |
+  265: 1  0219	00		nop ; 1 |
+  266: 1  021A	D0 E0		pop acc ; 2 |
+  267: 1			; |
+  268: 1  021C	D5 E0 E9	djnz acc,d_olp ; 2 /
+  269: 1
+  270: 1			; necesita esperar 998 microsegundos más
+  271: 1
+  272: 1  021F	74 A6		mov a, #0a6h ; 1
+  273: 1
+  274: 1  0221	04		d_lp2: inc a ; 1 \
+  275: 1  0222	00		nop ; 1 |
+  276: 1  0223	00		nop ; 1 |
+  277: 1  0224	00		nop ; 1 |
+  278: 1  0225	00		nop ; 1 |
+  279: 1  0226	00		nop ; 1 |- 11
+  280: 1  0227	00		nop ; 1 | cycles
+  281: 1  0228	00		nop ; 1 |
+  282: 1  0229	00		nop ; 1 |
+  283: 1  022A	70 F5		jnz d_lp2 ; 2 /
+  284: 1  022C	00		nop ; 1
+  285: 1  022D	00		nop ; 1
+  286: 1  022E	00		nop ; 1
+  287: 1  022F	00		nop ; 1
+  288: 1  0230	00		nop ; 1
+  289: 1
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 7
+
+
+
+ Line  I  Addr  Code            Source
+
+  290: 1  0231	22		ret ; 2
+  291: 1			; ====================================================
+  292: 1			;=====================================================
+  293: 1			;Devuelve tres codigos ASCII de tres digitos decimales
+  294: 1			;En las posiciones de memoria 30h,31h y 32h
+  295: 1			;=====================================================
+  296: 1  0232			tres_digitos_decimales:
+  297: 1  0232	75 F0 64		mov B,#100
+  298: 1  0235	84			div AB
+  299: 1  0236	24 30			add A,#30h
+  300: 1  0238	F5 30			mov 30h,A
+  301: 1  023A	E5 F0			mov A,B
+  302: 1  023C	75 F0 0A		mov B,#10
+  303: 1  023F	84			div AB
+  304: 1  0240	24 30			add A,#30h
+  305: 1  0242	F5 31			mov 31h,A
+  306: 1  0244	E5 F0			mov A,B
+  307: 1  0246	24 30			add A,#30h
+  308: 1  0248	F5 32			mov 32h,A
+  309: 1  024A	22			ret
+  310: 1			;=====================================================
+  311: 1			;Devuelve dos codigos ASCII de dos digitos decimales 30h,31h
+  312: 1			;=====================================================
+  313: 1  024B			dos_digitos_decimales:
+  314: 1  024B	75 F0 0A		mov B,#10
+  315: 1  024E	84			div AB
+  316: 1  024F	24 30			add A,#30h
+  317: 1  0251	F5 30			mov 30h,A
+  318: 1  0253	E5 F0			mov A,B
+  319: 1  0255	24 30			add A,#30h
+  320: 1  0257	F5 31			mov 31h,A
+  321: 1  0259	22			ret
+  322: 1			;===============================================================
+  323: 1			; waitKey es una rutina util que imprime el mensaje
+  324: 1			; "presione una tecla para continuar" y luego espera hasta que
+  325: 1			; un caracter sea recibido.
+  326: 1			;===============================================================
+  327: 1  025A			waitKey:
+  328: 1  025A	12 01 2F	lcall print
+  329: 1  025D	70 72 65 73	db "presione una tecla para continuar"
+       1  0261	69 6F 6E 65
+       1  0265	20 75 6E 61
+       1  0269	20 74 65 63
+       1  026D	6C 61 20 70
+       1  0271	61 72 61 20
+       1  0275	63 6F 6E 74
+       1  0279	69 6E 75 61
+       1  027D	72
+  330: 1  027E	00		db 0
+  331: 1  027F	12 02 86	lcall crlf
+  332: 1  0282	12 01 D8	lcall getchr ; espera hasta que se presione una tecla
+  333: 1  0285	22		ret
+  334: 1			;===============================================================
+  335: 1			; subrutina crlf
+  336: 1			; crlf envia un carriage return y line feed fuera del puerto serie
+  337: 1			;===============================================================
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 8
+
+
+
+ Line  I  Addr  Code            Source
+
+  338: 1  0286			crlf:
+  339: 1  0286	74 0D		mov a, #0Dh ; print cr
+  340: 1  0288	12 01 4E	lcall sndchr
+  341: 1  028B			cret:
+  342: 1  028B	74 0A		mov a, #0Ah ; print lf
+  343: 1  028D	12 01 4E	lcall sndchr
+  344: 1  0290	22		ret
+  345: 1			;===============================================================
+  346:				$INCLUDE(LCDRutinas.inc)
+  347: 1			; constantes
+  348: 1	N      0090	LCD_DATA equ 090h ; puerto 1 es usado para datos o instrucciones
+  349: 1	N      0094	LCD_DB4 equ 094h ; high nibble del puerto 1(P1.4) es usado para datos o instrucciones
+  350: 1	N      0095	LCD_DB5 equ 095h ; high nibble del puerto 1(P1.5) es usado para datos o instrucciones
+  351: 1	N      0096	LCD_DB6 equ 096h ; high nibble del puerto 1(P1.6) es usado para datos o instrucciones
+  352: 1	N      0097	LCD_DB7 equ 097h ; high nibble del puerto 1(P1.7) es usado para datos o instrucciones
+  353: 1	N      0093	LCD_RS equ 093h ; p1.3 LCD linea Register Select
+  354: 1	N      0091	LCD_RW equ 091h ; p1.1 LCD linea Read / Write
+  355: 1	N      0092	LCD_E equ 092h ; p1.2 LCD linea Enable
+  356: 1
+  357: 1			;instrucciones del sistema
+  358: 1	N      0028	Config equ 28h ; Uso de 4 bits de datos, 2 lineas, tamaño de font 5 x 7 seleccionado.
+  359: 1	N      0006	entryMode equ 6 ; incrementar cursor, no traslada display, incremento automático del registro AC al
+       1			escribir.
+  360: 1
+  361: 1			;instrucciones de control del cursor
+  362: 1	N      000C	offCur equ 0Ch ;desaparece al cursor
+  363: 1	N      000E	lineCur equ 0Eh;cursor se muestra como una línea
+  364: 1	N      000D	blinkCur equ 0Dh;cursor parpadeante
+  365: 1	N      000F	combnCur equ 0Fh;enciende el display, enciende cursor y parpadea el caracter en la posición del curs
+       1			or
+  366: 1	N      0002	homeCur equ 02h ;se coloca el cursor al principio de la línea, a la izquierda.
+  367: 1	N      0010	shLfCur equ 10h;desplaza al cursor a la izquierda
+  368: 1	N      0014	shRtCur equ 14h;Desplaza al cursor a la derecha
+  369: 1
+  370: 1			;instrucciones de control del display
+  371: 1	N      0001	clrDsp equ 01h ;Limpia el display así como el contenido de la memoria
+  372: 1	N      000A	offDsp equ 0Ah ;blanquea el display(display se apaga)no hay efecto de parpadeo y el cursor es visual
+       1			izado
+  373: 1	N      000E	onDsp equ 0Eh ;Muestra mensaje en el display(el display hace aparecer los caracteres)
+  374: 1	N      0018	shLfDsp equ 18h ;Desplazamiento del display a la izquierda
+  375: 1	N      001C	shRtDsp equ 1Ch ;Desplazamiento del display a la derecha
+  376: 1
+  377: 1			; ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+  378: 1			; subrutinas
+  379: 1			; ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+  380: 1			;Subrutina de configuración del LCD
+  381: 1  0291			configura_LCD:
+  382: 1  0291	12 02 98		lcall resetLCD4
+  383: 1  0294	12 02 B7		lcall initLCD4
+  384: 1  0297	22			ret
+  385: 1			;================================================
+  386: 1			;Subrutina que se llama al inicio de su programa
+  387: 1			;Para habilitar el LCD
+  388: 1			;================================================
+  389: 1  0298			resetLCD4:
+  390: 1  0298	C2 93			CLR LCD_RS ; clear RS - indica que instrucciones estan siendo enviados al módulo
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 9
+
+
+
+ Line  I  Addr  Code            Source
+
+  391: 1  029A	C2 97			CLR P1.7 ; se fijan los bits para...
+  392: 1  029C	C2 96			CLR P1.6 ;... power-on-reset
+  393: 1  029E	D2 95			SETB P1.5 ;
+  394: 1  02A0	C2 94			CLR P1.4 ;
+  395: 1  02A2	D2 92			SETB LCD_E ; inicia pulso Enable
+  396: 1  02A4	C2 92			CLR LCD_E ; termina el pulso Enable
+  397: 1  02A6	12 02 C7		lcall retardo;
+  398: 1  02A9	D2 92			SETB LCD_E ; inicia pulso Enable
+  399: 1  02AB	C2 92			CLR LCD_E ; termina el pulso Enable
+  400: 1  02AD	D2 97			SETB P1.7 ;
+  401: 1  02AF	D2 92			SETB LCD_E ;inicia pulso Enable
+  402: 1  02B1	C2 92			CLR LCD_E ;termina el pulso Enable
+  403: 1  02B3	12 02 C7		lcall retardo ;
+  404: 1  02B6	22			ret
+  405: 1
+  406: 1			; ====================================================
+  407: 1			; subrutina initLCD4 - inicializa el LCD
+  408: 1			; ----------------------------------------------------
+  409: 1  02B7			initLCD4:
+  410: 1  02B7	C2 93			clr LCD_RS ; LCD linea de Register Select
+  411: 1  02B9	C2 91			clr LCD_RW ; linea de Read / Write
+  412: 1  02BB	C2 92			clr LCD_E ; linea de Enable
+  413: 1  02BD	78 06			mov r0, #entryMode ; fijar Entry Mode
+  414: 1  02BF	71 58			acall wrLCDcom4 ; incrementar cursor a la derecha, no traslada el display
+  415: 1  02C1	78 0E			mov r0, #onDsp ; Enciende el display, home cursor
+  416: 1  02C3	12 03 58		lcall wrLCDcom4
+  417: 1  02C6	22			ret
+  418: 1
+  419: 1			;=================================
+  420: 1			;Subrutina de retardo de tiempo
+  421: 1			;=================================
+  422: 1  02C7			retardo:
+  423: 1  02C7	78 32			mov R0,#50
+  424: 1  02C9	D8 FE			djnz R0,$
+  425: 1  02CB	22			ret
+  426: 1			;==================================
+  427: 1			;Subrutina de retardo de mayor tiempo
+  428: 1			;==================================
+  429: 1  02CC			retardo2:
+  430: 1  02CC	7D 05			mov R5,#5
+  431: 1  02CE			vuelve:
+  432: 1  02CE	7B 64		  	mov R3,#100
+  433: 1  02D0	DB FE		  	djnz R3,$
+  434: 1  02D2	DD FA		  	djnz R5,vuelve
+  435: 1  02D4	22		  	ret
+  436: 1
+  437: 1			; ==========================================================
+  438: 1			; subrutina crShLf4
+  439: 1			; Esta rutina traslada el cursor a la izquierda. El numero de
+  440: 1			; posiciones a ser trasladado es localizado en el acumulador.
+  441: 1			; entrada : acumulador indica numero de posiciones a trasladar
+  442: 1			; salida : nada
+  443: 1			; ==========================================================
+  444: 1			;
+  445: 1  02D5			crShLf4:
+  446: 1  02D5	60 08			jz ret_scl
+
+ASEM-51 V1.3                                        Copyright (c) 2002 by W.W. Heinz                                         PAGE 10
+
+
+
+ Line  I  Addr  Code            Source
+
+  447: 1  02D7	78 10			mov r0, #shLfCur ; palabra de control para trasladar a la izquierda
+  448: 1  02D9	71 58			acall wrLCDcom4
+  449: 1  02DB	15 E0			dec acc
+  450: 1  02DD	80 F6			sjmp crShLf4
+  451: 1  02DF			ret_scl:
+  452: 1  02DF	22			ret
+  453: 1			; ==========================================================
+  454: 1			; subrutina crShRt4
+  455: 1			; Esta rutina traslada el cursor a la derecha. El numero de
+  456: 1			; posiciones a ser trasladado es localizado en el acumulador.
+  457: 1			; entrada : acumulador indica el numero de posiciones a trasladar
+  458: 1			; salida : nada
+  459: 1			; ==========================================================
+  460: 1			;
+  461: 1  02E0			crShRt4:
+  462: 1  02E0	60 08			jz ret_scr
+  463: 1  02E2	78 14			mov r0, #shRtCur ; palabra de control para trasladar a la derecha
+  464: 1  02E4	71 58			acall wrLCDcom4
+  465: 1  02E6	15 E0			dec acc
+  466: 1  02E8	80 F6			sjmp crShRt4
+  467: 1  02EA	22			ret_scr: ret
+  468: 1			; ==========================================================
+  469: 1			; subrutina placeCur4
+  470: 1			; Esta rutina fija la posicion del cursor. La posicion del cursor
+  471: 1			; es localizado en el registro b. La posicion del cursor empieza
+  472: 1			; en 0. El acumulador da el numero de linea.
+  473: 1			; entrada: acumulador indica el numero de linea (1, 2)
+  474: 1			; : el registro b guarda la posicion del cursor
+  475: 1			; salida : nada
+  476: 1			; ==========================================================
+  477: 1			;
+  478: 1  02EB			placeCur4:
+  479: 1  02EB	15 E0			dec acc ; acc=0 para linea=1
+  480: 1  02ED	70 06			jnz line2 ; si acc=0 luego primera lnea
+  481: 1  02EF	E5 F0			mov a, b
+  482: 1  02F1	24 80			add a, #080h ; palabra de control para la linea 1
+  483: 1  02F3	80 04			sjmp setcur
+  484: 1  02F5			line2:
+  485: 1  02F5	E5 F0			mov a, b
+  486: 1  02F7	24 C0			add a, #0C0h ; palabra de control para la l¡nea 2
+  487: 1  02F9			setcur:
+  488: 1  02F9	F8			mov r0, a ; localizar palabra de control
+  489: 1  02FA	71 58			acall wrLCDcom4 ;
+  490: 1  02FC	22			ret
+  491: 1			; ==========================================================
+  492: 1			; subrutina setCGRAM4
+  493: 1			; Esta rutina fija la direccion del Character Generator RAM. El
+  494: 1			; caracter [0..7] es localizado en el acumulador. La fila del font
+  495: 1			; es localizado en el registro b. Las instrucciones 40h a 7Fh
+  496: 1			; selecciona las direcciones del CGRAM 0 to 3Fh (0 to 63 decimal).
+  497: 1			; El font de 5x7 para el caracter es asumido. Esto es, cada posici¢n del
+  498: 1			; caracter contiene una matriz de 40 puntos arreglados en 8 filas de
+  499: 1			; 5 puntos cada uno. Las 7 filas son para los caracteres y la 8va
+  500: 1			; fila para el cursor debajo del caracter. Direcciones de CGRAM "0" corresponde
+  501: 1			; a la primera fila del caracter 0, direccion "7" corresponde
+  502: 1			; al 8vo (ultima) fila del caracter 0, y direccion 3Fh
+
+ASEM-51 V1.3                                        Copyright (c) 2002 by W.W. Heinz                                         PAGE 11
+
+
+
+ Line  I  Addr  Code            Source
+
+  503: 1			; corresponde a la 8va fila del caracter 7.
+  504: 1			;
+  505: 1			; entrada : acumulador indica el código del caracter [0..7]
+  506: 1			; el registro b guarda la fila del font [0..7]
+  507: 1			; salida : nada
+  508: 1			; ==========================================================
+  509: 1			;
+  510: 1  02FD			setCGRAM4:
+  511: 1  02FD	C0 F0				push b
+  512: 1  02FF	75 F0 08			mov b, #8
+  513: 1  0302	A4				mul ab ; multiplica numero del caracter por 8
+  514: 1  0303	D0 F0				pop b ; b sostiene numero de fila
+  515: 1  0305	25 F0				add a, b ; en a se sostiene CGRAM address
+  516: 1  0307	24 40				add a, #40h ; convert to instruction
+  517: 1  0309	F8				mov r0, a ; place instruction
+  518: 1  030A	71 58				acall wrLCDcom4 ; issue command
+  519: 1  030C	22				ret
+  520: 1			; ==========================================================
+  521: 1			; subrutina dspShLf4
+  522: 1			; Esta rutina traslada los contenidos del LCD a la izquierda. El
+  523: 1			; numero de caracteres a ser trasladados es localizado en el
+  524: 1			; acumulador.
+  525: 1			; entrada : acumulador indica el numero de caracteres a trasladar
+  526: 1			; salida : nada
+  527: 1			; ==========================================================
+  528: 1			;
+  529: 1  030D			dspShLf4:
+  530: 1  030D	60 07			jz ret_sdl
+  531: 1  030F	78 18			mov r0, #shLfDsp ; palabra de control para trasladar a la izquierda
+  532: 1  0311	71 58			acall wrLCDcom4
+  533: 1  0313	14			dec a
+  534: 1  0314	80 F7			sjmp dspShLf4
+  535: 1  0316	22		ret_sdl: ret
+  536: 1			; ==========================================================
+  537: 1			; subrutina dspShRt4
+  538: 1			; Esta rutina traslada los contenidos del LCD a la derecha. El
+  539: 1			; numero de caracteres a ser trasladados es localizado en el
+  540: 1			; acumulador.
+  541: 1			; entrada : acumulador indica el numero de caracteres a trasladar
+  542: 1			; salida : nada
+  543: 1			; ==========================================================
+  544: 1			;
+  545: 1  0317			dspShRt4:
+  546: 1  0317	60 07			jz ret_sdr
+  547: 1  0319	78 1C			mov r0, #shRtDsp ; palabra de control para trasladar a la derecha
+  548: 1  031B	71 58			acall wrLCDcom4
+  549: 1  031D	14			dec a
+  550: 1  031E	80 F7			sjmp dspShRt4
+  551: 1  0320	22		ret_sdr: ret
+  552: 1			; ====================================================
+  553: 1			; subrutina wrLCDdata4
+  554: 1			; escribe un dato al LCD
+  555: 1			; el dato debe ser localizado en r0 para llamar el programa
+  556: 1			; ----------------------------------------------------
+  557: 1  0321			wrLCDdata4:
+  558: 1  0321	C2 92		clr LCD_E
+
+ASEM-51 V1.3                                        Copyright (c) 2002 by W.W. Heinz                                         PAGE 12
+
+
+
+ Line  I  Addr  Code            Source
+
+  559: 1  0323	D2 93		setb LCD_RS ; selecciona enviar Dato
+  560: 1  0325	C2 91		clr LCD_RW ; selecciona operacion de escritura
+  561: 1  0327	C0 E0		push acc ; salva acumulador
+  562: 1  0329	E8		mov a, r0 ; pone byte de datos en el acc
+  563: 1  032A	A2 E4		mov c, acc.4 ; carga high nibble sobre el bus de datos
+  564: 1  032C	92 94		mov LCD_DB4, c ; un bit a la vez...
+  565: 1  032E	A2 E5		mov c, acc.5 ;
+  566: 1  0330	92 95		mov LCD_DB5, c
+  567: 1  0332	A2 E6		mov c, acc.6
+  568: 1  0334	92 96		mov LCD_DB6, c
+  569: 1  0336	A2 E7		mov c, acc.7
+  570: 1  0338	92 97		mov LCD_DB7, c
+  571: 1  033A	D2 92		setb LCD_E ; pone a uno el pin Enable
+  572: 1  033C	C2 92		clr LCD_E ; pone a cero el pin Enable
+  573: 1  033E	A2 E0		mov c, acc.0 ; similarmente, carga el low nibble
+  574: 1  0340	92 94		mov LCD_DB4, c
+  575: 1  0342	A2 E1		mov c, acc.1
+  576: 1  0344	92 95		mov LCD_DB5, c
+  577: 1  0346	A2 E2		mov c, acc.2
+  578: 1  0348	92 96		mov LCD_DB6, c
+  579: 1  034A	A2 E3		mov c, acc.3
+  580: 1  034C	92 97		mov LCD_DB7, c
+  581: 1  034E	D2 92		setb LCD_E ; pone a uno el pin Enable
+  582: 1  0350	C2 92		clr LCD_E ; pone a cero el pin Enable
+  583: 1  0352	12 02 C7	lcall retardo
+  584: 1  0355	D0 E0		pop acc
+  585: 1  0357	22		ret
+  586: 1			; ====================================================
+  587: 1			; subrutina wrLCDcom4
+  588: 1			; escribe una palabra de comando al LCD
+  589: 1			; comando debe estar localizado en r0 para llamar el programa
+  590: 1			; ----------------------------------------------------
+  591: 1  0358			wrLCDcom4:
+  592: 1  0358	C2 92		clr LCD_E
+  593: 1  035A	C2 93		clr LCD_RS ; selecciona enviar comando
+  594: 1  035C	C2 91		clr LCD_RW ; selecciona operaci¢n de escritura
+  595: 1  035E	C0 E0		push acc ; salva el acumulador
+  596: 1  0360	E8		mov a, r0 ; pone el byte de datos en el acc
+  597: 1  0361	A2 E4		mov c, acc.4 ; carga el high nibble en el bus de datos
+  598: 1  0363	92 94		mov LCD_DB4, c ; un bit a la vez usando...
+  599: 1  0365	A2 E5		mov c, acc.5 ; operaciones de mover bit
+  600: 1  0367	92 95		mov LCD_DB5, c
+  601: 1  0369	A2 E6		mov c, acc.6
+  602: 1  036B	92 96		mov LCD_DB6, c
+  603: 1  036D	A2 E7		mov c, acc.7
+  604: 1  036F	92 97		mov LCD_DB7, c
+  605: 1  0371	D2 92		setb LCD_E ; pulsa la l¡nea Enable
+  606: 1  0373	C2 92		clr LCD_E
+  607: 1  0375	A2 E0		mov c, acc.0 ; similarmente, carga el low nibble
+  608: 1  0377	92 94		mov LCD_DB4, c
+  609: 1  0379	A2 E1		mov c, acc.1
+  610: 1  037B	92 95		mov LCD_DB5, c
+  611: 1  037D	A2 E2		mov c, acc.2
+  612: 1  037F	92 96		mov LCD_DB6, c
+  613: 1  0381	A2 E3		mov c, acc.3
+  614: 1  0383	92 97		mov LCD_DB7, c
+
+ASEM-51 V1.3                                        Copyright (c) 2002 by W.W. Heinz                                         PAGE 13
+
+
+
+ Line  I  Addr  Code            Source
+
+  615: 1  0385	D2 92		setb LCD_E ; pulsa la l¡nea Enable
+  616: 1  0387	C2 92		clr LCD_E
+  617: 1  0389	12 02 C7	lcall retardo
+  618: 1  038C	D0 E0		pop acc
+  619: 1  038E	22		ret
+  620: 1
+  621: 1			; ==========================================================
+  622: 1			; subrutina prtLCD4
+  623: 1			; Toma la cadena inmediatamente que sigue a la llamada a esta
+  624: 1			; subrutina y lo displaya sobre el LCD. La cadena es leida con la
+  625: 1			; instrucci¢n mov a, @a+dptr
+  626: 1			; de este modo, la cadena esta en la memoria de datos.
+  627: 1			;
+  628: 1			; entrada : nada
+  629: 1			; salida : nada
+  630: 1			; destruye : acc, dptr
+  631: 1			; ==========================================================
+  632: 1			;
+  633: 1  038F			prtLCD4:
+  634: 1  038F	D0 83		pop dph ; regresa direcci¢n de retorno en dptr
+  635: 1  0391	D0 82		pop dpl
+  636: 1  0393			prtNext:
+  637: 1  0393	E4		clr a ; set offset = 0
+  638: 1  0394	93		movc a, @a+dptr ; consigue chr de la memoria de c¢digo
+  639: 1  0395	B4 00 02	cjne a, #0, chrOK ; si chr = 0 entonces retorna
+  640: 1  0398	80 06		sjmp retPrtLCD
+  641: 1  039A			chrOK:
+  642: 1  039A	F8		mov r0, a
+  643: 1  039B	71 21		acall wrLCDdata4 ; enviar caracter
+  644: 1  039D	A3		inc dptr ; apuntar al siguiente caracter
+  645: 1  039E	61 93		ajmp prtNext ; lazo hasta que finalize la cadena
+  646: 1  03A0			retPrtLCD:
+  647: 1  03A0	74 01		mov a, #1h ; apunta a la instrucci¢n despu‚s de la cadena
+  648: 1  03A2	73		jmp @a+dptr ; retorno con una instrucci¢n de salto
+  649: 1			; ====================================================
+  650: 1			; subrutina sdelay - retardo de un segundo
+  651: 1			; entrada : nada
+  652: 1			; salida : nada
+  653: 1			; destruye : nada - usa a
+  654: 1			; ----------------------------------------------------
+  655: 1			; 100h-91h=6fh=(111)decimal
+  656: 1			; 9008 * 111 = 999888
+  657: 1			; mas 102 del segundo lazo
+  658: 1			; mas 8 da 999998 microsegundos
+  659: 1			;
+  660: 1			; microsegundos (ciclos)
+  661: 1			; -----------------------
+  662: 1  03A3	C0 E0		sdelay: push acc ; 2.17
+  663: 1  03A5	74 91		mov a, #91h ; 1.085
+  664: 1  03A7	04		sd_olp: inc a ; \
+  665: 1  03A8	71 C9		acall mdelay ; |
+  666: 1  03AA	71 C9		acall mdelay ; |
+  667: 1  03AC	71 C9		acall mdelay ; |
+  668: 1  03AE	71 C9		acall mdelay ; |
+  669: 1  03B0	71 C9		acall mdelay ; |
+  670: 1  03B2	71 C9		acall mdelay ; |
+
+ASEM-51 V1.3                                        Copyright (c) 2002 by W.W. Heinz                                         PAGE 14
+
+
+
+ Line  I  Addr  Code            Source
+
+  671: 1  03B4	71 C9		acall mdelay ; |- el lazo toma 9008 microsegundos
+  672: 1  03B6	71 C9		acall mdelay ; |
+  673: 1  03B8	71 C9		acall mdelay ; |
+  674: 1  03BA	00		nop ; |
+  675: 1  03BB	00		nop ; |
+  676: 1  03BC	00		nop ; |
+  677: 1  03BD	00		nop ; |
+  678: 1  03BE	00		nop ; |
+  679: 1  03BF	70 E6		jnz sd_olp ; /
+  680: 1  03C1	74 33		mov a, #33h ; 1.085
+  681: 1  03C3	D5 E0 FD	sd_ilp: djnz acc, sd_ilp ; -el lazo toma 2*33h=66h=(102)dec
+  682: 1  03C6	D0 E0		pop acc ; 2.17
+  683: 1  03C8	22		ret ; 2.17
+  684: 1			; ====================================================
+  685: 1			; subrutina mdelay - retardo de 1 milisegundo
+  686: 1			; retardo para 998 microsegundos - 2 microsegundos son
+  687: 1			; reservados para la llamada a esta rutina.
+  688: 1			; intrada : nada
+  689: 1			; salida : nada
+  690: 1			; destruye : nada - usa a
+  691: 1			; ----------------------------------------------------
+  692: 1			; 100h-a6h=5ah=(90)decimal
+  693: 1			; 90 * 11 = 990
+  694: 1			; mas 8 da 998 microsegundos
+  695: 1			;
+  696: 1			; microsegundos (ciclos)
+  697: 1			; -----------------------
+  698: 1  03C9	C0 E0		mdelay: push acc ; 2
+  699: 1  03CB	74 A6		mov a, #0a6h ; 1
+  700: 1  03CD	04		md_olp: inc a ; 1 \
+  701: 1  03CE	00		nop ; 1 |
+  702: 1  03CF	00		nop ; 1 |
+  703: 1  03D0	00		nop ; 1 |
+  704: 1  03D1	00		nop ; 1 |
+  705: 1  03D2	00		nop ; 1 |- 11 ciclos
+  706: 1  03D3	00		nop ; 1 |
+  707: 1  03D4	00		nop ; 1 |
+  708: 1  03D5	00		nop ; 1 |
+  709: 1  03D6	70 F5		jnz md_olp ; 2 /
+  710: 1  03D8	00		nop ; 1
+  711: 1  03D9	D0 E0		pop acc ; 2
+  712: 1  03DB	22		ret ; 2
+  713: 1
+  714: 1
+  715: 1			;==========================================================
+  716: 1			;Subrutina segs0_a_9 de display LCD para cuenta en segundos
+  717: 1			;Visualizacion de Segundos desde 0 a 9.
+  718: 1			;==========================================================
+  719: 1  03DC			segs0_a_9:
+  720: 1  03DC	78 30			mov r0,#30h
+  721: 1  03DE	12 03 21		lcall wrLCDdata4
+  722: 1  03E1	78 10			mov r0,#shlfcur
+  723: 1  03E3	12 03 58		lcall wrlcdcom4
+  724: 1  03E6	78 0C			mov r0,#offcur ;no se ve el cursor
+  725: 1  03E8	12 03 58		lcall wrlcdcom4
+  726: 1  03EB	12 03 A3		lcall sdelay
+
+ASEM-51 V1.3                                        Copyright (c) 2002 by W.W. Heinz                                         PAGE 15
+
+
+
+ Line  I  Addr  Code            Source
+
+  727: 1  03EE	78 31			mov r0,#31h
+  728: 1  03F0	12 03 21		lcall wrLCDdata4
+  729: 1  03F3	78 10			mov r0,#shlfcur
+  730: 1  03F5	12 03 58		lcall wrlcdcom4
+  731: 1  03F8	78 0C			mov r0,#offcur ;no se ve el cursor
+  732: 1  03FA	12 03 58		lcall wrlcdcom4
+  733: 1  03FD	12 03 A3		lcall sdelay
+  734: 1  0400	78 32			mov r0,#32h
+  735: 1  0402	12 03 21		lcall wrLCDdata4
+  736: 1  0405	78 10			mov r0,#shlfcur
+  737: 1  0407	12 03 58		lcall wrlcdcom4
+  738: 1  040A	78 0C			mov r0,#offcur ;no se ve el cursor
+  739: 1  040C	12 03 58		lcall wrlcdcom4
+  740: 1  040F	12 03 A3		lcall sdelay
+  741: 1  0412	78 33			mov r0,#33h
+  742: 1  0414	12 03 21		lcall wrLCDdata4
+  743: 1  0417	78 10			mov r0,#shlfcur
+  744: 1  0419	12 03 58		lcall wrlcdcom4
+  745: 1  041C	78 0C			mov r0,#offcur ;no se ve el cursor
+  746: 1  041E	12 03 58		lcall wrlcdcom4
+  747: 1  0421	12 03 A3		lcall sdelay
+  748: 1  0424	78 34			mov r0,#34h
+  749: 1  0426	12 03 21		lcall wrLCDdata4
+  750: 1  0429	78 10			mov r0,#shlfcur
+  751: 1  042B	12 03 58		lcall wrlcdcom4
+  752: 1  042E	78 0C			mov r0,#offcur ;no se ve el cursor
+  753: 1  0430	12 03 58		lcall wrlcdcom4
+  754: 1  0433	12 03 A3		lcall sdelay
+  755: 1  0436	78 35			mov r0,#35h
+  756: 1  0438	12 03 21		lcall wrLCDdata4
+  757: 1  043B	78 10			mov r0,#shlfcur
+  758: 1  043D	12 03 58		lcall wrlcdcom4
+  759: 1  0440	78 0C			mov r0,#offcur ;no se ve el cursor
+  760: 1  0442	12 03 58		lcall wrlcdcom4
+  761: 1  0445	12 03 A3		lcall sdelay
+  762: 1  0448	78 36			mov r0,#36h
+  763: 1  044A	12 03 21		lcall wrLCDdata4
+  764: 1  044D	78 10			mov r0,#shlfcur
+  765: 1  044F	12 03 58		lcall wrlcdcom4
+  766: 1  0452	78 0C			mov r0,#offcur ;no se ve el cursor
+  767: 1  0454	12 03 58		lcall wrlcdcom4
+  768: 1  0457	12 03 A3		lcall sdelay
+  769: 1  045A	78 37			mov r0,#37h
+  770: 1  045C	12 03 21		lcall wrLCDdata4
+  771: 1  045F	78 10			mov r0,#shlfcur
+  772: 1  0461	12 03 58		lcall wrlcdcom4
+  773: 1  0464	78 0C			mov r0,#offcur ;no se ve el cursor
+  774: 1  0466	12 03 58		lcall wrlcdcom4
+  775: 1  0469	12 03 A3		lcall sdelay
+  776: 1  046C	78 38			mov r0,#38h
+  777: 1  046E	12 03 21		lcall wrLCDdata4
+  778: 1  0471	78 10			mov r0,#shlfcur
+  779: 1  0473	12 03 58		lcall wrlcdcom4
+  780: 1  0476	78 0C			mov r0,#offcur ;no se ve el cursor
+  781: 1  0478	12 03 58		lcall wrlcdcom4
+  782: 1  047B	12 03 A3		lcall sdelay
+
+ASEM-51 V1.3                                        Copyright (c) 2002 by W.W. Heinz                                         PAGE 16
+
+
+
+ Line  I  Addr  Code            Source
+
+  783: 1  047E	78 39			mov r0,#39h
+  784: 1  0480	12 03 21		lcall wrLCDdata4
+  785: 1				;mov r0,#shlfcur
+  786: 1				;lcall wrlcdcom4
+  787: 1  0483	78 0C			mov r0,#offcur ;no se ve el cursor
+  788: 1  0485	12 03 58		lcall wrlcdcom4
+  789: 1  0488	12 03 A3		lcall sdelay
+  790: 1  048B	22			ret
+  791:					end
+
+
+
+
+
+                     register banks used:  ---
+
+                     no errors
+
+
+
+
+ASEM-51 V1.3                                        Copyright (c) 2002 by W.W. Heinz                                         PAGE 17
+
+
+
+
+
+	       L I S T   O F   S Y M B O L S
+	       =============================
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+??ASEM_51			  NUMBER    8051
+??VERSION			  NUMBER    0130
+AC				  BIT	      D6
+ACC				  DATA	      E0
+ASCBIN				  CODE	    01E2	 217
+B				  DATA	      F0
+BINASC				  CODE	    0156	 122
+BLINKCUR			  NUMBER    000D	 364
+CHROK				  CODE	    039A	 641
+CLRDSP				  NUMBER    0001	 371
+COMBNCUR			  NUMBER    000F	 365
+CONFIG				  NUMBER    0028	 358
+CONFIGURA_LCD			  CODE	    0291	 381
+CRET				  CODE	    028B	 341
+CRLF				  CODE	    0286	 338
+CRSHLF4				  CODE	    02D5	 445
+CRSHRT4				  CODE	    02E0	 461
+CY				  BIT	      D7
+DELAY				  CODE	    0207	 245
+DISPLAY				  CODE	    016E	 139
+DOS_DIGITOS_DECIMALES		  CODE	    024B	 313
+DPH				  DATA	      83
+DPL				  DATA	      82
+DSPSHLF4			  CODE	    030D	 529
+DSPSHRT4			  CODE	    0317	 545
+D_ILP				  CODE	    020C	 252
+D_LP2				  CODE	    0221	 274
+D_OLP				  CODE	    0208	 248
+EA				  BIT	      AF
+ENTRYMODE			  NUMBER    0006	 359
+ENVIO_DOS_DIGITOS		  CODE	    01AE	 190
+ENVIO_TRES_DIGITOS		  CODE	    0181	 163
+ENVIO_UN_DIGITO			  CODE	    01A8	 182
+ES				  BIT	      AC
+ET0				  BIT	      A9
+ET1				  BIT	      AB
+EX0				  BIT	      A8
+EX1				  BIT	      AA
+EXTI0				  CODE	    0003
+EXTI1				  CODE	    0013
+F0				  BIT	      D5
+FILA1				  CODE	    010D	  73
+FILA2				  CODE	    0116	  78
+FINAL				  CODE	    00B0	  59
+GETBYT				  CODE	    01C6	 202
+GETCHR				  CODE	    01D8	 211
+HEXTRY				  CODE	    01EE	 225
+HOMECUR				  NUMBER    0002	 366
+IE				  DATA	      A8
+IE0				  BIT	      89
+
+ASEM-51 V1.3                                        Copyright (c) 2002 by W.W. Heinz                                         PAGE 18
+
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+IE1				  BIT	      8B
+INIT				  CODE	    011F	  84
+INITLCD4			  CODE	    02B7	 409
+INT0				  BIT	      B2
+INT1				  BIT	      B3
+INTER_EXT_0			  CODE	    003C	  32
+INTER_EXT_1			  CODE	    006B	  40
+IP				  DATA	      B8
+IT0				  BIT	      88
+IT1				  BIT	      8A
+LCD_DATA			  NUMBER    0090	 348
+LCD_DB4				  NUMBER    0094	 349
+LCD_DB5				  NUMBER    0095	 350
+LCD_DB6				  NUMBER    0096	 351
+LCD_DB7				  NUMBER    0097	 352
+LCD_E				  NUMBER    0092	 355
+LCD_RS				  NUMBER    0093	 353
+LCD_RW				  NUMBER    0091	 354
+LINE2				  CODE	    02F5	 484
+LINECUR				  NUMBER    000E	 363
+LOOP				  CODE	    0200	 240
+MAIN				  CODE	    0016	  17
+MCHROK				  CODE	    013A	  99
+MDELAY				  CODE	    03C9	 698
+MD_OLP				  CODE	    03CD	 700
+NOADJ1				  CODE	    015F	 128
+NOADJ2				  CODE	    016B	 136
+NOTNUM				  CODE	    01FD	 235
+OFFCUR				  NUMBER    000C	 362
+OFFDSP				  NUMBER    000A	 372
+ONDSP				  NUMBER    000E	 373
+OV				  BIT	      D2
+P				  BIT	      D0
+P0				  DATA	      80
+P1				  DATA	      90
+P2				  DATA	      A0
+P3				  DATA	      B0
+PCON				  DATA	      87
+PLACECUR4			  CODE	    02EB	 478
+PRINT				  CODE	    012F	  91
+PRTBOX				  CODE	    009E	  49
+PRTDONE				  CODE	    0140	 103
+PRTHEX				  CODE	    0143	 106
+PRTLCD4				  CODE	    038F	 633
+PRTNEXT				  CODE	    0393	 636
+PRTSTR				  CODE	    0133	  94
+PS				  BIT	      BC
+PSW				  DATA	      D0
+PT0				  BIT	      B9
+PT1				  BIT	      BB
+PX0				  BIT	      B8
+PX1				  BIT	      BA
+RB8				  BIT	      9A
+RD				  BIT	      B7
+REN				  BIT	      9C
+RESET				  CODE	    0000
+
+ASEM-51 V1.3                                        Copyright (c) 2002 by W.W. Heinz                                         PAGE 19
+
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+RESETLCD4			  CODE	    0298	 389
+RETARDO				  CODE	    02C7	 422
+RETARDO2			  CODE	    02CC	 429
+RETARDO_PARA_LAB3		  CODE	    01FE	 238
+RETPRTLCD			  CODE	    03A0	 646
+RET_SCL				  CODE	    02DF	 451
+RET_SCR				  CODE	    02EA	 467
+RET_SDL				  CODE	    0316	 535
+RET_SDR				  CODE	    0320	 551
+RI				  BIT	      98
+RS0				  BIT	      D3
+RS1				  BIT	      D4
+RXD				  BIT	      B0
+SBUF				  DATA	      99
+SCON				  DATA	      98
+SDELAY				  CODE	    03A3	 662
+SD_ILP				  CODE	    03C3	 681
+SD_OLP				  CODE	    03A7	 664
+SEGS0_A_9			  CODE	    03DC	 719
+SETCGRAM4			  CODE	    02FD	 510
+SETCUR				  CODE	    02F9	 487
+SHLFCUR				  NUMBER    0010	 367
+SHLFDSP				  NUMBER    0018	 374
+SHRTCUR				  NUMBER    0014	 368
+SHRTDSP				  NUMBER    001C	 375
+SINT				  CODE	    0023
+SM0				  BIT	      9F
+SM1				  BIT	      9E
+SM2				  BIT	      9D
+SNDCHR				  CODE	    014E	 112
+SP				  DATA	      81
+T0				  BIT	      B4
+T1				  BIT	      B5
+TB8				  BIT	      9B
+TCON				  DATA	      88
+TF0				  BIT	      8D
+TF1				  BIT	      8F
+TH0				  DATA	      8C
+TH1				  DATA	      8D
+TI				  BIT	      99
+TIMER0				  CODE	    000B
+TIMER1				  CODE	    001B
+TL0				  DATA	      8A
+TL1				  DATA	      8B
+TMOD				  DATA	      89
+TR0				  BIT	      8C
+TR1				  BIT	      8E
+TRES_DIGITOS_DECIMALES		  CODE	    0232	 296
+TXD				  BIT	      B1
+TXLOOP				  CODE	    0152	 115
+VUELVE				  CODE	    02CE	 431
+WAITKEY				  CODE	    025A	 327
+WR				  BIT	      B6
+WRLCDCOM4			  CODE	    0358	 591
+WRLCDDATA4			  CODE	    0321	 557
