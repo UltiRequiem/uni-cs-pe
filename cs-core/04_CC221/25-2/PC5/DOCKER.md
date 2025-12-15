@@ -16,18 +16,20 @@ Esta guía explica cómo usar Docker para ejecutar el proyecto en un contenedor.
 ### Instalar Docker
 
 **macOS:**
+
 ```bash
 brew install --cask docker
 ```
 
 **Linux:**
+
 ```bash
 sudo apt-get update
 sudo apt-get install docker.io docker-compose
 ```
 
-**Windows:**
-Descarga Docker Desktop desde https://www.docker.com/products/docker-desktop
+**Windows:** Descarga Docker Desktop desde
+https://www.docker.com/products/docker-desktop
 
 ### Verificar instalación
 
@@ -47,6 +49,7 @@ cp .env.example .env
 ```
 
 Edita `.env` con tus API keys:
+
 ```env
 OPENAI_API_KEY=sk-your-key-here
 EXA_API_KEY=your-exa-key-here
@@ -200,12 +203,12 @@ CMD ["npm", "run", "dev"]     # Ejecutar con tsx (hot reload)
 
 El proyecto usa las siguientes variables:
 
-| Variable | Requerida | Descripción |
-|----------|-----------|-------------|
-| `OPENAI_API_KEY` | Sí* | Clave API de OpenAI |
-| `EXA_API_KEY` | Sí* | Clave API de Exa |
-| `GOOGLE_GENERATIVE_AI_API_KEY` | No | Clave API de Google (opcional) |
-| `NODE_ENV` | No | Entorno (development/production) |
+| Variable                       | Requerida | Descripción                      |
+| ------------------------------ | --------- | -------------------------------- |
+| `OPENAI_API_KEY`               | Sí*       | Clave API de OpenAI              |
+| `EXA_API_KEY`                  | Sí*       | Clave API de Exa                 |
+| `GOOGLE_GENERATIVE_AI_API_KEY` | No        | Clave API de Google (opcional)   |
+| `NODE_ENV`                     | No        | Entorno (development/production) |
 
 *Al menos una de OpenAI o Exa es requerida
 
@@ -216,10 +219,11 @@ El proyecto usa las siguientes variables:
 - **3000** - Mastra Studio (interfaz web)
 
 Para cambiar el puerto:
+
 ```yaml
 # En docker-compose.yml
 ports:
-  - "8080:3000"  # Mapea puerto 8080 local al 3000 del contenedor
+  - "8080:3000" # Mapea puerto 8080 local al 3000 del contenedor
 ```
 
 ---
@@ -230,13 +234,14 @@ En modo desarrollo, los siguientes directorios están montados:
 
 ```yaml
 volumes:
-  - ./src:/app/src                    # Código fuente
-  - ./package.json:/app/package.json  # Dependencias
+  - ./src:/app/src # Código fuente
+  - ./package.json:/app/package.json # Dependencias
   - ./tsconfig.json:/app/tsconfig.json # Config TS
-  - /app/node_modules                 # Excluir node_modules
+  - /app/node_modules # Excluir node_modules
 ```
 
-Esto permite **hot reload**: los cambios en tu código local se reflejan inmediatamente en el contenedor.
+Esto permite **hot reload**: los cambios en tu código local se reflejan
+inmediatamente en el contenedor.
 
 ---
 
@@ -298,12 +303,14 @@ docker-compose up web-search-agent-dev
 ## Mejores Prácticas
 
 ### 1. Desarrollo Local
+
 ```bash
 # Usa docker-compose para desarrollo
 docker-compose up web-search-agent-dev
 ```
 
 ### 2. Producción
+
 ```bash
 # Construye imagen optimizada
 docker-compose build web-search-agent
@@ -315,6 +322,7 @@ docker-compose up -d web-search-agent
 ### 3. Multi-stage builds (futuro)
 
 Para imágenes aún más pequeñas:
+
 ```dockerfile
 # Build stage
 FROM node:20-alpine AS builder
@@ -344,7 +352,7 @@ name: Docker Build
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -389,5 +397,4 @@ docker-compose down -v && docker system prune -a
 
 ---
 
-**Proyecto:** Web Search Agent AI - UNI
-**Arquitectura de Computadoras 2025-II**
+**Proyecto:** Web Search Agent AI - UNI **Arquitectura de Computadoras 2025-II**

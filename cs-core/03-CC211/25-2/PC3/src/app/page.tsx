@@ -84,38 +84,40 @@ export default async function Dashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {products.length === 0 ? (
-                  <tr>
-                    <td colSpan={5} className="px-6 py-12 text-center">
-                      <div className="flex flex-col items-center justify-center">
-                        <svg
-                          className="w-16 h-16 text-gray-400 mb-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <title>No hay productos</title>
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-                          />
-                        </svg>
-                        <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">
-                          No hay productos
-                        </p>
-                        <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">
-                          Haz clic en "Agregar" para añadir tu primer producto
-                        </p>
-                      </div>
-                    </td>
-                  </tr>
-                ) : (
-                  products.map((product) => (
-                    <ProductItem key={product.id} product={product} />
-                  ))
-                )}
+                {products.length === 0
+                  ? (
+                    <tr>
+                      <td colSpan={5} className="px-6 py-12 text-center">
+                        <div className="flex flex-col items-center justify-center">
+                          <svg
+                            className="w-16 h-16 text-gray-400 mb-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <title>No hay productos</title>
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                            />
+                          </svg>
+                          <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">
+                            No hay productos
+                          </p>
+                          <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">
+                            Haz clic en "Agregar" para añadir tu primer producto
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                  : (
+                    products.map((product) => (
+                      <ProductItem key={product.id} product={product} />
+                    ))
+                  )}
               </tbody>
               <tfoot className="bg-gray-100 dark:bg-gray-700">
                 <tr>

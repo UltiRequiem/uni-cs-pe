@@ -11,6 +11,7 @@
 **Periodo:** 2025-II
 
 **Integrantes:**
+
 - Bobadilla Camarena Eliaz Sebastian
 - Cabello Quevedo Yaimar Alexis
 - Flores Bautista Alexandra Noemi
@@ -23,6 +24,7 @@
 ## Descripción del Proyecto
 
 Sistema inteligente de búsqueda web que utiliza inteligencia artificial para:
+
 - Comprender consultas en lenguaje natural
 - Buscar información relevante en internet
 - Procesar y sintetizar resultados
@@ -43,16 +45,19 @@ Sistema inteligente de búsqueda web que utiliza inteligencia artificial para:
 ### 1. Tres Estrategias de Búsqueda
 
 #### Estrategia 1: OpenAI Nativa
+
 - Modelo: GPT-4o-mini
 - Búsqueda: Herramienta nativa de OpenAI
 - Ventaja: Integración directa, rápida
 
 #### Estrategia 2: Google Gemini Nativa
+
 - Modelo: Gemini 2.5 Flash
 - Búsqueda: Google Search integrado
 - Ventaja: Infraestructura de Google, muy rápida
 
 #### Estrategia 3: Exa Personalizada
+
 - Modelo: GPT-4o-mini
 - Búsqueda: API de Exa (herramienta custom)
 - Ventaja: Búsqueda semántica, control total, contenido completo
@@ -166,15 +171,15 @@ web-search-agent-ai-uni-pe/
 
 ## Comandos Disponibles
 
-| Comando | Función |
-|---------|---------|
-| `npm install` | Instalar dependencias |
-| `npm run dev` | Ejecutar ejemplo principal |
-| `npm run mastra:dev` | Abrir interfaz visual |
-| `npm run example:simple` | Ejemplo de búsqueda simple |
-| `npm run example:compare` | Comparar los 3 agentes |
-| `npm run build` | Compilar proyecto |
-| `npm start` | Ejecutar versión compilada |
+| Comando                   | Función                    |
+| ------------------------- | -------------------------- |
+| `npm install`             | Instalar dependencias      |
+| `npm run dev`             | Ejecutar ejemplo principal |
+| `npm run mastra:dev`      | Abrir interfaz visual      |
+| `npm run example:simple`  | Ejemplo de búsqueda simple |
+| `npm run example:compare` | Comparar los 3 agentes     |
+| `npm run build`           | Compilar proyecto          |
+| `npm start`               | Ejecutar versión compilada |
 
 ---
 
@@ -205,7 +210,7 @@ Hardware:     CPU + Memoria + Red
 await Promise.all([
   agentOpenAI.search(query),
   agentGemini.search(query),
-  agentExa.search(query)
+  agentExa.search(query),
 ]);
 ```
 
@@ -221,6 +226,7 @@ await Promise.all([
 ## Métricas del Proyecto
 
 ### Código
+
 - **Archivos TypeScript:** 8
 - **Agentes:** 3
 - **Herramientas Custom:** 1
@@ -228,11 +234,13 @@ await Promise.all([
 - **Líneas de Código:** ~500
 
 ### Documentación
+
 - **Archivos Markdown:** 5
 - **Páginas totales:** ~25
 - **Ejemplos de código:** 20+
 
 ### Dependencias
+
 - **Principales:** 6
 - **Desarrollo:** 3
 - **Total:** 450+ paquetes (con sub-dependencias)
@@ -242,24 +250,28 @@ await Promise.all([
 ## Roadmap Futuro
 
 ### Fase 1: Mejoras Básicas ✅
+
 - [x] Implementar 3 agentes
 - [x] Crear herramienta Exa
 - [x] Documentación completa
 - [x] Ejemplos funcionales
 
 ### Fase 2: Extensiones 🔄
+
 - [ ] Agregar más proveedores (Bing, Brave)
 - [ ] Implementar cache de resultados
 - [ ] Agregar filtros avanzados
 - [ ] Búsqueda en PDFs académicos
 
 ### Fase 3: Optimización 📋
+
 - [ ] Testing automatizado
 - [ ] Métricas de rendimiento
 - [ ] Logging estructurado
 - [ ] Manejo de errores mejorado
 
 ### Fase 4: Interfaz 📋
+
 - [ ] CLI interactivo
 - [ ] Dashboard web personalizado
 - [ ] Visualización de resultados
@@ -269,40 +281,44 @@ await Promise.all([
 
 ## Comparación de Agentes
 
-| Aspecto | OpenAI | Gemini | Exa |
-|---------|--------|--------|-----|
-| **Velocidad** | ⚡⚡⚡ | ⚡⚡⚡⚡ | ⚡⚡ |
-| **Control** | ⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ |
-| **Contenido** | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
-| **Precisión** | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| **Configuración** | Fácil | Fácil | Media |
-| **Costo** | $ | $ | $$ |
+| Aspecto           | OpenAI | Gemini   | Exa      |
+| ----------------- | ------ | -------- | -------- |
+| **Velocidad**     | ⚡⚡⚡ | ⚡⚡⚡⚡ | ⚡⚡     |
+| **Control**       | ⭐⭐   | ⭐⭐     | ⭐⭐⭐⭐ |
+| **Contenido**     | ⭐⭐⭐ | ⭐⭐⭐   | ⭐⭐⭐⭐ |
+| **Precisión**     | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **Configuración** | Fácil  | Fácil    | Media    |
+| **Costo**         | $      | $        | $$       |
 
 ---
 
 ## Aspectos Técnicos Destacados
 
 ### 1. Type Safety
+
 - TypeScript para prevención de errores
 - Zod para validación en runtime
 - Esquemas explícitos para entrada/salida
 
 ### 2. Modularidad
+
 - Agentes independientes
 - Herramientas reutilizables
 - Fácil extensión
 
 ### 3. Async/Await
+
 - Código no bloqueante
 - Mejor performance
 - Manejo de errores limpio
 
 ### 4. Validación
+
 ```typescript
 inputSchema: z.object({
   query: z.string().min(1).max(200),
-  numResults: z.number().min(1).max(10)
-})
+  numResults: z.number().min(1).max(10),
+});
 ```
 
 ---
@@ -310,13 +326,13 @@ inputSchema: z.object({
 ## Conclusiones
 
 ### Logros
-✅ Sistema funcional de búsqueda web con IA
-✅ Tres estrategias diferentes implementadas
-✅ Documentación completa en español
-✅ Código modular y extensible
-✅ Ejemplos prácticos funcionando
+
+✅ Sistema funcional de búsqueda web con IA ✅ Tres estrategias diferentes
+implementadas ✅ Documentación completa en español ✅ Código modular y
+extensible ✅ Ejemplos prácticos funcionando
 
 ### Aprendizajes
+
 - Integración de APIs de IA
 - Arquitectura de agentes inteligentes
 - Procesamiento de lenguaje natural
@@ -324,6 +340,7 @@ inputSchema: z.object({
 - Trabajo con frameworks de IA (Mastra)
 
 ### Aplicaciones Prácticas
+
 - Investigación académica automatizada
 - Asistentes virtuales inteligentes
 - Sistemas de recomendación
@@ -341,6 +358,5 @@ inputSchema: z.object({
 
 ---
 
-**Proyecto desarrollado para:**
-Universidad Nacional de Ingeniería
-Arquitectura de Computadoras - 2025-II
+**Proyecto desarrollado para:** Universidad Nacional de Ingeniería Arquitectura
+de Computadoras - 2025-II

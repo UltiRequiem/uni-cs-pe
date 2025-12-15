@@ -9,7 +9,8 @@ import { Agent } from "@mastra/core/agent";
  */
 export const searchAgentGemini = new Agent({
   name: "Search Agent Gemini",
-  instructions: `Eres un agente de búsqueda web potenciado por las capacidades de búsqueda de Google.
+  instructions:
+    `Eres un agente de búsqueda web potenciado por las capacidades de búsqueda de Google.
 
 IMPORTANTE: Debes responder SIEMPRE en español, sin importar el idioma de la consulta.
 

@@ -15,7 +15,8 @@ import { exaWebSearch } from "../tools/exaSearchTool";
  */
 export const searchAgentExa = new Agent({
   name: "Search Agent Exa",
-  instructions: `Eres un agente avanzado de búsqueda web potenciado por Exa, un motor de búsqueda optimizado para IA.
+  instructions:
+    `Eres un agente avanzado de búsqueda web potenciado por Exa, un motor de búsqueda optimizado para IA.
 
 IMPORTANTE: Debes responder SIEMPRE en español, sin importar el idioma de la consulta.
 

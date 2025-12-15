@@ -50,7 +50,7 @@ export const exaWebSearch = createTool({
         .string()
         .optional()
         .describe("The published date of the content"),
-    })
+    }),
   ),
   execute: async ({ context }) => {
     try {
@@ -69,14 +69,19 @@ export const exaWebSearch = createTool({
           title: result.title ?? null,
           url: result.url,
           // Truncate content to first 1000 characters for efficiency
-          content: (resultWithText.text || "No content available").slice(0, 1000),
+          content: (resultWithText.text || "No content available").slice(
+            0,
+            1000,
+          ),
           publishedDate: result.publishedDate,
         };
       });
     } catch (error) {
       console.error("Error in Exa search:", error);
       throw new Error(
-        `Failed to search: ${error instanceof Error ? error.message : "Unknown error"}`
+        `Failed to search: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`,
       );
     }
   },

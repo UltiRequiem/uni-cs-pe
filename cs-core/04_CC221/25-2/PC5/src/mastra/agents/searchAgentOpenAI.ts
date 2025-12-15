@@ -9,7 +9,8 @@ import { Agent } from "@mastra/core/agent";
  */
 export const searchAgentOpenAI = new Agent({
   name: "Search Agent OpenAI",
-  instructions: `Eres un agente de búsqueda web especializado en encontrar y resumir información de internet.
+  instructions:
+    `Eres un agente de búsqueda web especializado en encontrar y resumir información de internet.
 
 IMPORTANTE: Debes responder SIEMPRE en español, sin importar el idioma de la consulta.
 

@@ -1,7 +1,6 @@
 # Agente de Búsqueda Web mediante Inteligencia Artificial
 
-**Universidad Nacional de Ingeniería**
-**Curso:** Arquitectura de Computadoras
+**Universidad Nacional de Ingeniería** **Curso:** Arquitectura de Computadoras
 **Grupo:** 2
 
 ## Integrantes
@@ -11,50 +10,62 @@
 - Flores Bautista Alexandra Noemi
 - Vitor Quispe Emmanuelle Ethan
 
-**Profesor:** Cesar Cruz
-**Periodo Académico:** 2025-II
+**Profesor:** Cesar Cruz **Periodo Académico:** 2025-II
 
 ---
 
 ## Descripción del Proyecto
 
-Este proyecto implementa un **agente de búsqueda web inteligente** basado en inteligencia artificial, capaz de buscar información en internet, procesarla y presentar resultados relevantes de manera coherente y contextualizada.
+Este proyecto implementa un **agente de búsqueda web inteligente** basado en
+inteligencia artificial, capaz de buscar información en internet, procesarla y
+presentar resultados relevantes de manera coherente y contextualizada.
 
-El sistema utiliza el framework **Mastra** junto con modelos de lenguaje avanzados (OpenAI GPT-4o-mini y Google Gemini) para proporcionar capacidades de búsqueda semántica y generación de respuestas naturales.
+El sistema utiliza el framework **Mastra** junto con modelos de lenguaje
+avanzados (OpenAI GPT-4o-mini y Google Gemini) para proporcionar capacidades de
+búsqueda semántica y generación de respuestas naturales.
 
 ### Características Principales
 
-- **Búsqueda Semántica:** Comprende el contexto y la intención detrás de las consultas
-- **Múltiples Motores de Búsqueda:** Integración con herramientas nativas de OpenAI, Google y la API de Exa
+- **Búsqueda Semántica:** Comprende el contexto y la intención detrás de las
+  consultas
+- **Múltiples Motores de Búsqueda:** Integración con herramientas nativas de
+  OpenAI, Google y la API de Exa
 - **Resultados en Tiempo Real:** Acceso a información actualizada de la web
-- **Procesamiento de Lenguaje Natural:** Genera respuestas coherentes y contextualizadas
+- **Procesamiento de Lenguaje Natural:** Genera respuestas coherentes y
+  contextualizadas
 - **Arquitectura Modular:** Fácil de extender y mantener
 
 ---
 
 ## Arquitectura del Sistema
 
-El proyecto implementa tres agentes diferentes, cada uno con distintas estrategias de búsqueda:
+El proyecto implementa tres agentes diferentes, cada uno con distintas
+estrategias de búsqueda:
 
 ### 1. Search Agent OpenAI
 
 Utiliza las herramientas nativas de búsqueda web de GPT-4o-mini.
 
-**Ubicación:** [src/mastra/agents/searchAgentOpenAI.ts](src/mastra/agents/searchAgentOpenAI.ts)
+**Ubicación:**
+[src/mastra/agents/searchAgentOpenAI.ts](src/mastra/agents/searchAgentOpenAI.ts)
 
 ### 2. Search Agent Gemini
 
 Aprovecha las capacidades de búsqueda integradas de Google Gemini 2.5 Flash.
 
-**Ubicación:** [src/mastra/agents/searchAgentGemini.ts](src/mastra/agents/searchAgentGemini.ts)
+**Ubicación:**
+[src/mastra/agents/searchAgentGemini.ts](src/mastra/agents/searchAgentGemini.ts)
 
 ### 3. Search Agent Exa
 
-Usa una integración personalizada con la API de Exa, un motor de búsqueda optimizado para aplicaciones de IA.
+Usa una integración personalizada con la API de Exa, un motor de búsqueda
+optimizado para aplicaciones de IA.
 
-**Ubicación:** [src/mastra/agents/searchAgentExa.ts](src/mastra/agents/searchAgentExa.ts)
+**Ubicación:**
+[src/mastra/agents/searchAgentExa.ts](src/mastra/agents/searchAgentExa.ts)
 
-**Herramienta personalizada:** [src/mastra/tools/exaSearchTool.ts](src/mastra/tools/exaSearchTool.ts)
+**Herramienta personalizada:**
+[src/mastra/tools/exaSearchTool.ts](src/mastra/tools/exaSearchTool.ts)
 
 ---
 
@@ -116,7 +127,8 @@ EXA_API_KEY=tu_clave_exa
 
 ### Opción 2: Instalación con Docker (Recomendado para producción)
 
-Si prefieres usar Docker, consulta la [Guía de Docker](DOCKER.md) para instrucciones detalladas.
+Si prefieres usar Docker, consulta la [Guía de Docker](DOCKER.md) para
+instrucciones detalladas.
 
 ```bash
 # Desarrollo con Docker
@@ -132,13 +144,15 @@ docker-compose up web-search-agent
 
 ### Modo 1: Ejecutar un ejemplo rápido
 
-El archivo [src/index.ts](src/index.ts) contiene un ejemplo de uso que puedes ejecutar directamente:
+El archivo [src/index.ts](src/index.ts) contiene un ejemplo de uso que puedes
+ejecutar directamente:
 
 ```bash
 npm run dev
 ```
 
-Por defecto, usa el agente de OpenAI. Puedes cambiar al agente de Gemini o Exa editando el archivo y descomentando la opción deseada.
+Por defecto, usa el agente de OpenAI. Puedes cambiar al agente de Gemini o Exa
+editando el archivo y descomentando la opción deseada.
 
 ### Modo 2: Usar Mastra Studio (Interfaz Visual)
 
@@ -192,11 +206,16 @@ web-search-agent-ai-uni-pe/
 
 ### Agente Inteligente
 
-Un agente inteligente es un programa que percibe su entorno mediante sensores y actúa sobre él con el objetivo de maximizar su rendimiento. En este proyecto, el agente percibe consultas del usuario y actúa realizando búsquedas web y generando respuestas.
+Un agente inteligente es un programa que percibe su entorno mediante sensores y
+actúa sobre él con el objetivo de maximizar su rendimiento. En este proyecto, el
+agente percibe consultas del usuario y actúa realizando búsquedas web y
+generando respuestas.
 
 ### Web Crawling e Indexación
 
-El proceso de rastreo web (web crawling) implica navegar automáticamente por páginas web siguiendo enlaces. La indexación organiza esta información para que pueda ser buscada eficientemente.
+El proceso de rastreo web (web crawling) implica navegar automáticamente por
+páginas web siguiendo enlaces. La indexación organiza esta información para que
+pueda ser buscada eficientemente.
 
 ### Procesamiento del Lenguaje Natural (NLP)
 
@@ -252,9 +271,12 @@ const result = await mastra.agents.searchAgentExa.text({
 ## Tecnologías Utilizadas
 
 - **[Mastra](https://mastra.ai/):** Framework para construcción de agentes de IA
-- **[OpenAI GPT-4o-mini](https://platform.openai.com/):** Modelo de lenguaje con búsqueda web integrada
-- **[Google Gemini 2.5 Flash](https://ai.google.dev/):** Modelo de lenguaje de Google con capacidades de búsqueda
-- **[Exa](https://exa.ai/):** Motor de búsqueda optimizado para aplicaciones de IA
+- **[OpenAI GPT-4o-mini](https://platform.openai.com/):** Modelo de lenguaje con
+  búsqueda web integrada
+- **[Google Gemini 2.5 Flash](https://ai.google.dev/):** Modelo de lenguaje de
+  Google con capacidades de búsqueda
+- **[Exa](https://exa.ai/):** Motor de búsqueda optimizado para aplicaciones de
+  IA
 - **TypeScript:** Lenguaje de programación con tipado estático
 - **Node.js:** Runtime de JavaScript
 - **Zod:** Validación de esquemas
@@ -296,7 +318,8 @@ const result = await mastra.agents.searchAgentExa.text({
 
 ### Error: "Missing API key"
 
-Asegúrate de haber configurado correctamente el archivo `.env` con las claves API necesarias.
+Asegúrate de haber configurado correctamente el archivo `.env` con las claves
+API necesarias.
 
 ### Error: "Module not found"
 
@@ -325,8 +348,8 @@ ISC License
 
 ## Contacto
 
-Para preguntas o sugerencias sobre este proyecto, contacta a los integrantes del grupo o al profesor del curso.
+Para preguntas o sugerencias sobre este proyecto, contacta a los integrantes del
+grupo o al profesor del curso.
 
-**Universidad Nacional de Ingeniería**
-Facultad de Ingeniería Eléctrica y Electrónica
-Lima, Perú
+**Universidad Nacional de Ingeniería** Facultad de Ingeniería Eléctrica y
+Electrónica Lima, Perú

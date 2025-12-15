@@ -19,6 +19,7 @@ npm install
 ## Paso 3: Configurar API Keys
 
 1. Copia el archivo de ejemplo:
+
 ```bash
 cp .env.example .env
 ```
@@ -30,6 +31,7 @@ OPENAI_API_KEY=sk-...
 ```
 
 **Obtener claves API:**
+
 - OpenAI: https://platform.openai.com/api-keys
 - Google AI: https://aistudio.google.com/app/apikey
 - Exa: https://exa.ai/
@@ -62,13 +64,13 @@ Esto abrirá **Mastra Studio** en http://localhost:3000
 
 ## Comandos Disponibles
 
-| Comando | Descripción |
-|---------|-------------|
-| `npm run dev` | **Inicia Mastra Studio (Recomendado)** |
-| `npm start` | Alias para `npm run dev` |
-| `npm run example:simple` | Ejemplo de búsqueda por código |
-| `npm run example:compare` | Compara los 3 agentes por código |
-| `npm run build` | Compila el proyecto TypeScript |
+| Comando                   | Descripción                            |
+| ------------------------- | -------------------------------------- |
+| `npm run dev`             | **Inicia Mastra Studio (Recomendado)** |
+| `npm start`               | Alias para `npm run dev`               |
+| `npm run example:simple`  | Ejemplo de búsqueda por código         |
+| `npm run example:compare` | Compara los 3 agentes por código       |
+| `npm run build`           | Compila el proyecto TypeScript         |
 
 ## Estructura de Archivos Importantes
 
@@ -85,12 +87,15 @@ src/
 ## Solución de Problemas Comunes
 
 ### Error: "Missing API key"
+
 ➜ Verifica que el archivo `.env` existe y contiene las claves correctas
 
 ### Error: "Cannot find module"
+
 ➜ Ejecuta `npm install` nuevamente
 
 ### El agente no responde
+
 ➜ Verifica tu conexión a internet y que las claves API sean válidas
 
 ## Siguiente Paso

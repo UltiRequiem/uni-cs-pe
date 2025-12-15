@@ -1,6 +1,7 @@
 # Guía de Mastra Studio
 
-Mastra Studio es la interfaz visual (playground) para interactuar con tus agentes de búsqueda de forma interactiva.
+Mastra Studio es la interfaz visual (playground) para interactuar con tus
+agentes de búsqueda de forma interactiva.
 
 ## Iniciar Mastra Studio
 
@@ -118,6 +119,7 @@ Encuentra papers recientes sobre redes neuronales
 ### 💾 Historial de Conversación
 
 Mastra Studio mantiene el historial de tu conversación, permitiendo:
+
 - Hacer preguntas de seguimiento
 - Contextualizar nuevas consultas
 - Referencias a respuestas anteriores
@@ -129,6 +131,7 @@ Mastra Studio mantiene el historial de tu conversación, permitiendo:
 Otro proceso está usando el puerto 3000.
 
 **Solución:**
+
 ```bash
 # Encontrar el proceso
 lsof -i :3000
@@ -145,6 +148,7 @@ PORT=3001 npm run dev
 El agente seleccionado no tiene API key configurada.
 
 **Solución:**
+
 1. Verifica tu archivo `.env`
 2. Asegúrate de tener la clave correcta:
    - `OPENAI_API_KEY` para Search Agent OpenAI
@@ -155,11 +159,13 @@ El agente seleccionado no tiene API key configurada.
 ### El agente no responde
 
 **Posibles causas:**
+
 - Sin conexión a internet
 - API key inválida o expirada
 - Límite de uso alcanzado
 
 **Solución:**
+
 1. Verifica tu conexión a internet
 2. Verifica que tu API key sea válida
 3. Revisa el consumo en la plataforma del proveedor
@@ -167,6 +173,7 @@ El agente seleccionado no tiene API key configurada.
 ### La página no carga
 
 **Solución:**
+
 ```bash
 # Detener el servidor
 Ctrl + C
@@ -192,8 +199,8 @@ npm run dev
 
 ### 1. Sé Específico
 
-❌ Mal: "Dame información"
-✅ Bien: "¿Cuáles son los 3 principales desafíos de la computación cuántica?"
+❌ Mal: "Dame información" ✅ Bien: "¿Cuáles son los 3 principales desafíos de
+la computación cuántica?"
 
 ### 2. Usa Contexto
 
@@ -275,7 +282,6 @@ npm start
 
 ---
 
-**Proyecto:** Web Search Agent AI - UNI
-**Arquitectura de Computadoras 2025-II**
+**Proyecto:** Web Search Agent AI - UNI **Arquitectura de Computadoras 2025-II**
 
 ¡Disfruta usando Mastra Studio! 🚀

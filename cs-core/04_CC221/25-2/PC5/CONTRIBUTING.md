@@ -58,6 +58,7 @@ Usa prefijos descriptivos en tus commits:
 - `style:` - Cambios de formato (no afectan funcionalidad)
 
 **Ejemplos:**
+
 ```bash
 git commit -m "feat: agregar agente de búsqueda con Gemini"
 git commit -m "fix: corregir error en exaSearchTool"
@@ -81,6 +82,7 @@ src/
 ## Tareas Sugeridas para el Equipo
 
 ### Tarea 1: Mejorar los Agentes
+
 **Responsable sugerido:** [Nombre]
 
 - Mejorar las instrucciones de los agentes
@@ -90,6 +92,7 @@ src/
 **Archivo:** [src/mastra/agents/](src/mastra/agents/)
 
 ### Tarea 2: Documentación y Ejemplos
+
 **Responsable sugerido:** [Nombre]
 
 - Crear más ejemplos de uso en español
@@ -99,6 +102,7 @@ src/
 **Archivos:** [src/examples/](src/examples/), README.md
 
 ### Tarea 3: Herramientas Adicionales
+
 **Responsable sugerido:** [Nombre]
 
 - Investigar otras APIs de búsqueda (Bing, Brave, etc.)
@@ -108,6 +112,7 @@ src/
 **Archivos:** [src/mastra/tools/](src/mastra/tools/)
 
 ### Tarea 4: Interfaz y Testing
+
 **Responsable sugerido:** [Nombre]
 
 - Mejorar la experiencia en Mastra Studio
@@ -179,18 +184,21 @@ npm run mastra:dev
 ## Solución de Problemas Comunes
 
 ### Error: "Cannot find module"
+
 ```bash
 rm -rf node_modules package-lock.json
 npm install
 ```
 
 ### Error de TypeScript
+
 ```bash
 npm run build
 # Lee los errores y corrígelos antes de commit
 ```
 
 ### Conflictos en Git
+
 ```bash
 # Actualizar tu rama con cambios de main
 git checkout main
@@ -204,12 +212,14 @@ git commit
 ## Recursos Útiles
 
 ### Documentación
+
 - [TypeScript](https://www.typescriptlang.org/docs/)
 - [Mastra](https://mastra.ai/docs)
 - [Zod](https://zod.dev/)
 - [Git](https://git-scm.com/doc)
 
 ### APIs
+
 - [OpenAI](https://platform.openai.com/docs)
 - [Google Gemini](https://ai.google.dev/docs)
 - [Exa](https://docs.exa.ai/)
@@ -217,16 +227,19 @@ git commit
 ## Comunicación del Equipo
 
 ### Antes de Implementar
+
 1. Discutir el enfoque con el equipo
 2. Revisar si alguien más está trabajando en algo similar
 3. Actualizar esta guía si es necesario
 
 ### Durante el Desarrollo
+
 1. Hacer commits frecuentes con mensajes claros
 2. Documentar decisiones importantes
 3. Pedir ayuda si te bloqueas
 
 ### Después de Implementar
+
 1. Probar exhaustivamente
 2. Actualizar documentación
 3. Crear Pull Request para revisión
@@ -242,17 +255,17 @@ git commit
 
 ## Preguntas Frecuentes
 
-**P: ¿Puedo trabajar directamente en main?**
-R: Para cambios pequeños sí, pero para features nuevos es mejor usar ramas.
+**P: ¿Puedo trabajar directamente en main?** R: Para cambios pequeños sí, pero
+para features nuevos es mejor usar ramas.
 
-**P: ¿Qué hago si rompí algo?**
-R: No te preocupes, usa `git revert` o pide ayuda al equipo.
+**P: ¿Qué hago si rompí algo?** R: No te preocupes, usa `git revert` o pide
+ayuda al equipo.
 
-**P: ¿Cómo pruebo sin gastar créditos de API?**
-R: Usa console.log() para simular respuestas o crea un mock.
+**P: ¿Cómo pruebo sin gastar créditos de API?** R: Usa console.log() para
+simular respuestas o crea un mock.
 
-**P: ¿Puedo cambiar la estructura del proyecto?**
-R: Discútelo con el equipo primero para mantener consistencia.
+**P: ¿Puedo cambiar la estructura del proyecto?** R: Discútelo con el equipo
+primero para mantener consistencia.
 
 ---
 

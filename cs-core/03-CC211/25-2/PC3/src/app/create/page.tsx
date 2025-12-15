@@ -57,12 +57,10 @@ const ProductForm: React.FC = () => {
 
     const newErrors = {
       producto: formData.producto.trim() === "",
-      precio:
-        formData.precio === "" ||
+      precio: formData.precio === "" ||
         Number.isNaN(Number(formData.precio)) ||
         Number(formData.precio) < 0,
-      cantidad:
-        formData.cantidad === "" ||
+      cantidad: formData.cantidad === "" ||
         Number.isNaN(Number(formData.cantidad)) ||
         Number(formData.cantidad) < 0,
     };

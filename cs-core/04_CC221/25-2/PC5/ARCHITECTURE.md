@@ -58,6 +58,7 @@ Usuario ← Respuesta ← Modelo LLM procesa resultados
 ## Componentes del Sistema
 
 ### 1. **Capa de Presentación**
+
 - CLI (src/index.ts)
 - Mastra Studio (interfaz web)
 - Ejemplos (src/examples/)
@@ -65,6 +66,7 @@ Usuario ← Respuesta ← Modelo LLM procesa resultados
 ### 2. **Capa de Agentes** (src/mastra/agents/)
 
 #### SearchAgentOpenAI
+
 ```typescript
 Input: Consulta de usuario
 Process: GPT-4o-mini + webSearch tool
@@ -72,6 +74,7 @@ Output: Respuesta contextualizada con información web
 ```
 
 #### SearchAgentGemini
+
 ```typescript
 Input: Consulta de usuario
 Process: Gemini 2.5 Flash + googleSearch tool
@@ -79,6 +82,7 @@ Output: Respuesta usando infraestructura de Google
 ```
 
 #### SearchAgentExa
+
 ```typescript
 Input: Consulta de usuario
 Process: GPT-4o-mini + exaWebSearch custom tool
@@ -88,6 +92,7 @@ Output: Respuesta con búsqueda semántica optimizada
 ### 3. **Capa de Herramientas** (src/mastra/tools/)
 
 #### exaWebSearch Tool
+
 ```typescript
 Input Schema:
   - query: string (1-200 caracteres)
@@ -108,6 +113,7 @@ Proceso:
 ```
 
 ### 4. **Capa de Integración**
+
 - Mastra Core (orquestación)
 - AI SDK (abstracciones de modelos)
 - APIs externas (OpenAI, Google, Exa)
@@ -147,20 +153,25 @@ Proceso:
 ## Patrones de Diseño Utilizados
 
 ### 1. **Strategy Pattern** (Agentes)
+
 Diferentes estrategias de búsqueda encapsuladas en agentes intercambiables.
 
 ### 2. **Factory Pattern** (createTool)
+
 Creación de herramientas con configuración estandarizada.
 
 ### 3. **Proxy Pattern** (AI SDK)
+
 Abstracción sobre diferentes proveedores de LLM.
 
 ### 4. **Adapter Pattern** (Exa Tool)
+
 Adaptación de API externa a interfaz de Mastra.
 
 ## Consideraciones de Rendimiento
 
 ### Latencia
+
 ```
 OpenAI Native:  ~2-5 segundos
 Gemini Native:  ~1-3 segundos
@@ -168,11 +179,13 @@ Exa Custom:     ~3-7 segundos (incluye crawling)
 ```
 
 ### Escalabilidad
+
 - **Horizontal:** Múltiples instancias con balanceo de carga
 - **Vertical:** Más memoria/CPU para procesamiento paralelo
 - **Cache:** Almacenar resultados frecuentes
 
 ### Optimizaciones
+
 1. **Truncamiento de contenido:** Reduce payload y tiempo de procesamiento
 2. **Limit de resultados:** Configurable (1-10 results)
 3. **Async/Await:** I/O no bloqueante
@@ -181,16 +194,18 @@ Exa Custom:     ~3-7 segundos (incluye crawling)
 ## Seguridad
 
 ### Protección de Claves API
+
 - Variables de entorno (no hardcoded)
 - .env en .gitignore
 - Validación de entrada con Zod
 
 ### Validación de Datos
+
 ```typescript
 inputSchema: z.object({
   query: z.string().min(1).max(200),
-  numResults: z.number().min(1).max(10)
-})
+  numResults: z.number().min(1).max(10),
+});
 ```
 
 ## Extensibilidad
