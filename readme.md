@@ -16,3 +16,5 @@ de Ingeniería (Lima, Perú)
   [CS @ UNI](https://acreditacion.uni.edu.pe/computer)
 - **Soluciones en Video**:
   [Mi Canal de YouTube](https://www.youtube.com/c/UltiRequiem)
+
+Repositorio similar: https://github.com/fmorenovr/ComputerScience_UNI
