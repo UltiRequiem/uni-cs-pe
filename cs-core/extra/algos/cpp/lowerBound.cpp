@@ -3,7 +3,7 @@
 
 int lower_bound(const std::vector<int> &nums, int target) {
   int low = 0;
-  int high = nums.size() - 1;
+  int high = nums.size();
 
   while (low < high) {
     int mid = low + (high - low) / 2;

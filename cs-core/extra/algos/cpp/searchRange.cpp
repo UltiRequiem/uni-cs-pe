@@ -4,10 +4,35 @@
 
 using namespace std;
 
-pair<int, int> searchRange(vector<int> &nums, int target) {
-  // TODO: Implement using binary search
-  // Find first and last position of target
-  // Return [-1, -1] if not found
+int lower_bound(const vector<int> &nums, int bound) {
+  int low = 0, high = nums.size();
+
+  while (low < high) {
+    int mid = low + (high - low) / 2;
+    int val = nums[mid];
+
+    if (val >= bound) {
+      high = mid;
+    } else {
+      low = mid + 1;
+    }
+  }
+
+  return low;
+}
+
+pair<int, int> searchRange(const vector<int> &nums, int target) {
+  if (nums.empty()) {
+    return {-1, -1};
+  }
+
+  auto leftIndex = lower_bound(nums, target);
+  auto rightIndex = lower_bound(nums, target + 1) - 1;
+
+  if (leftIndex <= rightIndex && nums[leftIndex] == target) {
+    return {leftIndex, rightIndex};
+  }
+
   return {-1, -1};
 }
 
