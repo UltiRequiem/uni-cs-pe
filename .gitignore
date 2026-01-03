@@ -1,4 +1,5 @@
 *.out
+.claude
 *.pyc
 codealike.json
 **/__pycache__/
