@@ -18,6 +18,7 @@ int binary_search(const vector<int>& nums, int target) {
 ```
 
 **Key Points:**
+
 - Use `low + (high - low) / 2` to prevent integer overflow
 - Condition: `while (low <= high)`
 - Pass vectors by const reference for performance
@@ -45,6 +46,7 @@ int lower_bound(const vector<int>& nums, int bound) {
 ```
 
 **Key Differences from Binary Search:**
+
 - `high = nums.size()` (exclusive upper bound)
 - `while (low < high)`
 - `if (nums[mid] >= target)` checks for >=
@@ -53,8 +55,8 @@ int lower_bound(const vector<int>& nums, int bound) {
 
 ## Advanced: Find First and Last Position
 
-**Problem:** Find range of target in sorted array
-**Strategy:** Use lower_bound twice
+**Problem:** Find range of target in sorted array **Strategy:** Use lower_bound
+twice
 
 ```cpp
 pair<int, int> searchRange(const vector<int>& nums, int target) {
@@ -71,12 +73,14 @@ pair<int, int> searchRange(const vector<int>& nums, int target) {
 ```
 
 **The Trick:**
+
 - First occurrence: `lower_bound(target)`
 - Last occurrence: `lower_bound(target + 1) - 1`
 
 ## C++ Best Practices
 
 ### Vector Access Methods
+
 ```cpp
 // Safe but slower (bounds checking)
 nums.at(i);  // Throws exception on out-of-bounds
@@ -88,6 +92,7 @@ nums[i];     // Undefined behavior on out-of-bounds
 **Recommendation:** Use `.at()` for learning, `[]` for competitions
 
 ### Return Types
+
 ```cpp
 // Production code - type safe
 pair<int, int> searchRange(vector<int>& nums, int target);
@@ -102,6 +107,7 @@ tuple<int, int> searchRange(vector<int>& nums, int target);
 **Best Practice:** Use `pair` for exactly 2 elements, `tuple` for more
 
 ### Namespace Usage
+
 ```cpp
 // Learning/scripts - OK
 using namespace std;
@@ -113,18 +119,20 @@ std::vector<int>, std::cout
 ## Common Gotchas
 
 ### Lower Bound Edge Cases
-❌ **Wrong:** `high = nums.size() - 1`
-✅ **Correct:** `high = nums.size()`
 
-❌ **Wrong:** `while (low <= high)`
-✅ **Correct:** `while (low < high)`
+❌ **Wrong:** `high = nums.size() - 1` ✅ **Correct:** `high = nums.size()`
+
+❌ **Wrong:** `while (low <= high)` ✅ **Correct:** `while (low < high)`
 
 ### Overflow Prevention
-❌ **Dangerous:** `mid = (low + high) / 2`
-✅ **Safe:** `mid = low + (high - low) / 2`
+
+❌ **Dangerous:** `mid = (low + high) / 2` ✅ **Safe:**
+`mid = low + (high - low) / 2`
 
 ### Bounds Checking
+
 Always validate array access:
+
 ```cpp
 if (index < nums.size() && nums[index] == target) {
     // Safe to use index
@@ -134,9 +142,11 @@ if (index < nums.size() && nums[index] == target) {
 ## Algorithm Invariants
 
 **Binary Search Invariant:**
+
 - Target is in range [low, high] if it exists
 
 **Lower Bound Invariant:**
+
 - All elements left of `low` are `< target`
 - All elements right of `high` are `>= target`
 - When `low == high`, we found the boundary
@@ -156,6 +166,7 @@ void runTest(vector<int> nums, int target, pair<int, int> expected) {
 ```
 
 **Essential Test Cases:**
+
 - Empty array
 - Single element (found/not found)
 - Multiple occurrences
@@ -165,8 +176,8 @@ void runTest(vector<int> nums, int target, pair<int, int> expected) {
 
 ## Time Complexities
 
-| Algorithm | Time | Space | Use Case |
-|-----------|------|-------|----------|
-| Binary Search | O(log n) | O(1) | Find exact match |
-| Lower Bound | O(log n) | O(1) | Find insertion point |
-| Linear Search | O(n) | O(1) | Verification only |
+| Algorithm     | Time     | Space | Use Case             |
+| ------------- | -------- | ----- | -------------------- |
+| Binary Search | O(log n) | O(1)  | Find exact match     |
+| Lower Bound   | O(log n) | O(1)  | Find insertion point |
+| Linear Search | O(n)     | O(1)  | Verification only    |
