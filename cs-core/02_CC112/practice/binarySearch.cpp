@@ -7,7 +7,7 @@ int binarySearch(int haystack[], int size, int needle) {
   int high = size - 1;
 
   while (low <= high) {
-    int mid = (low + high) / 2;
+    int mid = low + (high - low) / 2;
 
     if (haystack[mid] == needle) {
       return mid;
