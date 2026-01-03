@@ -4,14 +4,11 @@
 using namespace std;
 
 int binary_search(const vector<int> &nums, int target) {
-  int size = nums.size();
-
-  int low = 0;
-  int high = size - 1;
+  int low = 0, high = nums.size() - 1;
 
   while (low <= high) {
     int mid = low + (high - low) / 2;
-    int val = nums.at(mid);
+    int val = nums[mid];
 
     if (val == target) {
       return mid;
