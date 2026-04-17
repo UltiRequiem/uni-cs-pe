@@ -7,3 +7,7 @@ codealike.json
 *.class
 *.o
 *.zip
+
+# cp/cpp build artifacts
+cp/cpp/build/
+cp/cpp/*.dSYM/
