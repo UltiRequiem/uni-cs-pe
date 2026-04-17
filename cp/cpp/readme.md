@@ -20,5 +20,4 @@ ctest --test-dir build --output-on-failure
 ```bash
 cmake -S . -B build
 cmake --build build
-./build/sieva_bench
 ```
