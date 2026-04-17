@@ -5,16 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-include(FetchContent)
-set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
-
-FetchContent_Declare(
-	Catch2
-	GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-	GIT_TAG v3.6.0
-)
-FetchContent_MakeAvailable(Catch2)
-
 function(enable_common_warnings target_name)
 	if(MSVC)
 		target_compile_options(${target_name} PRIVATE /W4 /permissive-)
@@ -50,7 +40,6 @@ function(create_algorithm_libraries out_var)
 endfunction()
 
 include(CTest)
-include(Catch)
 
 create_algorithm_libraries(ALGORITHM_TARGETS)
 
@@ -64,9 +53,9 @@ foreach(test_source IN LISTS TEST_SOURCES)
 	endif()
 
 	add_executable(${test_target} ${test_source})
-	target_link_libraries(${test_target} PRIVATE ${algo_target} Catch2::Catch2WithMain)
+	target_link_libraries(${test_target} PRIVATE ${algo_target})
 	enable_common_warnings(${test_target})
-	catch_discover_tests(${test_target})
+	add_test(NAME ${test_target} COMMAND ${test_target})
 endforeach()
 
 # Auto-discover benchmark files matching *_bench.cpp.

@@ -15,14 +15,19 @@ vector<bool> sieva(const std::size_t target)
     primes[1] = false;
   }
 
-  for (std::size_t i = 2; i * i < target; ++i)
+  for (std::size_t i = 4; i < target; i += 2)
+  {
+    primes[i] = false;
+  }
+
+  for (std::size_t i = 3; i * i < target; i += 2)
   {
     if (!primes[i])
     {
       continue;
     }
 
-    for (std::size_t j = i * i; j < target; j += i)
+    for (std::size_t j = i * i; j < target; j += i * 2)
     {
       primes[j] = false;
     }
