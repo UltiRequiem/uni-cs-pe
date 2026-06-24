@@ -91,7 +91,7 @@
     \begin{itemize}
         \item \textbf{Protocolo Diffie-Hellman:} Es la aplicación práctica de esta teoría para el acuerdo de claves [8].
         \item \textbf{Propiedades de los Índices:} La regla $ind_m(c^t) \equiv t \cdot ind_m(c)$ permite la conmutatividad del secreto $(g^a)^b = (g^b)^a$ [9, 10].
-        \item \textbf{Impacto:} Es el cierre de la unidad de Criptografía en tu sílabo [8].
+        \item \textbf{Impacto:} Fundamento de protocolos reales como TLS, SSH y PGP.
     \end{itemize}
     \begin{center}
         \textbf{¡Sin el DLP no existiría el HTTPS seguro!}
@@ -106,16 +106,13 @@
     Para iniciar el protocolo, ambas partes deben acordar dos valores públicos fundamentales:
     \begin{itemize}
         \item \textbf{Un número primo grande $p$:} Define el cuerpo finito sobre el cual operaremos.
-        \item \textbf{Un generador $g$:} En tus fuentes, este se define como una \textbf{raíz primitiva} módulo $p$ [1].
+        \item \textbf{Un generador $g$:} Se define como una \textbf{raíz primitiva} módulo $p$ [1].
     \end{itemize}
     
     \begin{block}{Definición de Raíz Primitiva [1]}
         Un entero $g$ es raíz primitiva módulo $p$ si su \textbf{orden modular} es exactamente $\phi(p) = p-1$. Esto garantiza que el conjunto $\{g, g^2, \dots, g^{p-1}\}$ genera todos los elementos de $\mathbb{Z}_p^*$ [2].
     \end{block}
     
-    \begin{center}
-        \textit{Sugerencia de imagen: Insertar Tabla de Potencias de $g=2$ mod 11 de la pág. 2 de la Semana 13-1 [3].}
-    \end{center}
 \end{frame}
 
 % --- DIAPOSITIVA 2: GENERACIÓN E INTERCAMBIO ---
@@ -148,7 +145,7 @@
     \end{itemize}
     
     \begin{block}{Conclusión Matemática}
-        Debido a la conmutatividad de los exponentes en la aritmética modular [5], ambos llegan al mismo valor $s$. Este número será la clave para un cifrado de flujo como **Vernam** [6].
+        Debido a la conmutatividad de los exponentes en la aritmética modular [5], ambos obtienen el mismo valor $s$, que sirve como clave para un cifrado simétrico [6].
     \end{block}
 
     \begin{center}
@@ -174,12 +171,12 @@
 
 % --- DIAPOSITIVA 5: CONCEPTO CLAVE CDH ---
 \begin{frame}{2.5 El Problema CDH (Computational Diffie-Hellman)}
-    La seguridad del Responsable 2 se resume en la dificultad de este problema:
+    La seguridad del protocolo se reduce a la dificultad de este problema:
     
     \begin{itemize}
         \item \textbf{Dato para el atacante:} Conoce $g, p, g^a \pmod p$ y $g^b \pmod p$.
         \item \textbf{Objetivo del atacante:} Hallar $g^{ab} \pmod p$.
-        \item \textbf{Dificultad:} Para resolverlo, el atacante típicamente intentaría resolver primero el **Logaritmo Discreto** [8] para hallar $a$ o $b$, lo cual es inviable en módulos grandes.
+        \item \textbf{Dificultad:} Para obtener $g^{ab}$, el atacante necesita primero resolver el \textbf{Logaritmo Discreto} [8] para hallar $a$ o $b$, lo cual es inviable en módulos grandes.
     \end{itemize}
     
     \begin{alertblock}{Concepto Crucial}
@@ -267,7 +264,6 @@
         \item \textbf{Determinante:} $4a^3 + 27b^2 \not\equiv 0 \pmod p$ (para evitar singularidades o cúspides).
         \item \textbf{Conjunto de Puntos:} Incluye todos los pares $(x, y)$ que satisfacen la ecuación más un "punto al infinito" ($\mathcal{O}$) que actúa como el elemento neutro del grupo (equivalente al 1 en $\mathbb{Z}_n^*$) [2].
     \end{itemize}
-    \textit{Sugerencia visual: Insertar gráfica de una curva elíptica continua para ilustrar la simetría respecto al eje X.}
 \end{frame}
 
 % --- DIAPOSITIVA 3: LA OPERACIÓN CLAVE ---
@@ -278,14 +274,14 @@
         \item \textbf{Mecánica:} No es una multiplicación aritmética simple, sino una serie de operaciones geométricas (duplicación y suma de puntos).
         \item \textbf{Propiedad de Trampa:} Calcular $Q = kG$ es extremadamente rápido (usando el algoritmo de "doblar y sumar"), pero revertirlo es el desafío central.
     \end{itemize}
-    \begin{exampleblock}{Análogo con el curso}
-        Así como en la Semana 13 vimos que $m^e \pmod n$ es fácil de calcular [3], $kG$ es la función unidireccional en el mundo de las curvas.
+    \begin{exampleblock}{Analogía}
+        Así como calcular $m^e \pmod n$ es eficiente pero invertirlo no [3], $kG$ cumple el mismo rol de función unidireccional sobre curvas.
     \end{exampleblock}
 \end{frame}
 
 % --- DIAPOSITIVA 4: EL PROBLEMA ECDLP ---
 \begin{frame}{4.4 El Problema ECDLP}
-    El **Problema del Logaritmo Discreto de Curva Elíptica** (ECDLP) es la base de la seguridad moderna:
+    El \textbf{Problema del Logaritmo Discreto sobre Curva Elíptica} (ECDLP):
     \begin{block}{Definición del Problema}
         Dados dos puntos de la curva, $G$ (punto base) y $Q$ (resultado), encontrar el entero secreto $k$ tal que:
         $$Q = kG$$
@@ -311,7 +307,7 @@
     \end{table}
     \begin{itemize}
         \item \textbf{Impacto Práctico:} Menor uso de CPU, menor consumo de batería en móviles y menos ancho de banda en la red.
-        \item \textbf{Conclusión:} Mientras que el sílabo menciona RSA y DH como pilares [1], ECC es la evolución necesaria para la computación moderna.
+        \item \textbf{Uso actual:} ECC domina en dispositivos móviles, TLS 1.3 y criptografía embebida por su eficiencia.
     \end{itemize}
 \end{frame}
 
@@ -322,7 +318,7 @@
 
 % --- DIAPOSITIVA 5.1: FUNCIONAMIENTO ECDH ---
 \begin{frame}{5.1 Mecanismo de Intercambio ECDH}
-    El protocolo **Elliptic Curve Diffie-Hellman (ECDH)** sigue la misma lógica que el DH clásico, pero sobre la estructura de la curva elíptica:
+    El protocolo \textbf{ECDH} aplica la misma lógica que DH clásico, pero operando sobre puntos de una curva elíptica:
     \begin{itemize}
         \item \textbf{Alice:} Selecciona un entero secreto $a$ y calcula su punto público $A = aG$.
         \item \textbf{Bob:} Selecciona un entero secreto $b$ y calcula su punto público $B = bG$.
@@ -344,15 +340,13 @@
     \begin{itemize}
         \item \textbf{Extracción de Coordenada:} Generalmente se toma únicamente la coordenada $x$ del punto resultante.
         \item \textbf{KDF (Key Derivation Function):} Este valor de la coordenada se pasa por una función de derivación de claves (como SHA-256).
-        \item \textbf{Cifrado Final:} La clave resultante se utiliza para alimentar un sistema de cifrado simétrico como **AES** o el cifrado de flujo **Vernam** visto en la Semana 15 [3].
+        \item \textbf{Cifrado Final:} La clave resultante alimenta un cifrado simétrico como \textbf{AES} o el cifrado de flujo \textbf{Vernam} [3].
     \end{itemize}
-    \textit{Sugerencia visual: Diagrama que muestre la transformación del Punto S -> KDF -> Clave de Sesión.}
 \end{frame}
 
 % --- DIAPOSITIVA 5.3: COMPARATIVA TÉCNICA ---
 \begin{frame}{5.3 Comparación: DH Clásico vs. ECDH}
-    Basado en los estándares de seguridad y eficiencia computacional:
-    \vspace{0.3cm}
+    \vspace{0.1cm}
     \begin{table}[]
         \small
         \centering
@@ -371,11 +365,11 @@
 \begin{frame}{5.4 Conclusiones del Módulo de Criptografía}
     \begin{itemize}
         \item \textbf{Seguridad Robusta:} Ambos métodos proporcionan un intercambio de claves seguro contra espionaje pasivo si los parámetros se eligen correctamente.
-        \item \textbf{Evolución:} El paso de los logaritmos discretos tradicionales (Semana 13) a la curva elíptica refleja la necesidad de mayor seguridad con menores recursos [5].
+        \item \textbf{Evolución:} Las curvas elípticas surgieron para ofrecer mayor seguridad con claves más cortas frente al DLP clásico [5].
         \item \textbf{Estándar Actual:} ECDH es el estándar de la industria hoy en día (usado en TLS 1.3, Signal, WhatsApp).
     \end{itemize}
-    \begin{block}{Cierre del Curso}
-        La comprensión de las \textbf{Raíces Primitivas} y los \textbf{Grupos Modulares} es la base matemática que permite que el internet moderno sea seguro [5, 6].
+    \begin{block}{Conclusión}
+        Las \textbf{Raíces Primitivas} y los \textbf{Grupos Modulares} son la base matemática detrás de cada conexión HTTPS y cada mensaje cifrado [5, 6].
     \end{block}
 \end{frame}
 
