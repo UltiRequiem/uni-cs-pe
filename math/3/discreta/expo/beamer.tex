@@ -1,0 +1,382 @@
+\documentclass{beamer}
+\usetheme{Madrid}
+\usecolortheme{whale}
+
+% Paquete para manejar imágenes
+\usepackage{graphicx}
+\graphicspath{{./}}
+
+\logo{\includegraphics[height=0.7cm]{uni-logo.png}}
+
+\title[DLP y Diffie-Hellman]{El Problema del Logaritmo Discreto y su Importancia en el Cifrado}
+\author[Bobadilla \and Papuico \and Bustamante \and Quispe]{%
+    Eliaz Sebastian Bobadilla Camarena \and Raúl Papuico Palomino \\
+    Carlo Stefano Bustamante Martínez \and Carlos André Quispe Luna
+}
+\institute{Universidad Nacional de Ingeniería \\ Matemática Discreta}
+\date{Junio 2026}
+
+\begin{document}
+
+% --- DIAPOSITIVA 1: PORTADA ---
+\begin{frame}
+    \titlepage
+    \begin{center}
+        \includegraphics[height=1.2cm]{uni-logo.png}
+    \end{center}
+\end{frame}
+
+% --- DIAPOSITIVA 2: CONTEXTO ---
+\section{Contexto}
+\begin{frame}{1.1 Contexto: ¿Por qué un intercambio seguro de claves?}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+                \item \textbf{Canal Inseguro:} El emisor y receptor se comunican por medios interceptables [4].
+                \item \textbf{Cifrado Simétrico:} Requiere que ambos compartan la misma clave \textit{antes} de iniciar [4].
+                \item \textbf{Reto:} Acordar el secreto sin conocimiento previo.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                % Sugerencia: Usar el diagrama de la Clase 14.1 [4] que muestra:
+                % EMISOR -> Cifrado -> Canal Inseguro -> Descifrado -> RECEPTOR
+                \centering
+                \framebox{Diagrama: Canal Inseguro [4]}
+                \caption{Esquema de un Criptosistema General.}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- DIAPOSITIVA 3: DEFINICIÓN DEL DLP ---
+\section{Definición del DLP}
+\begin{frame}{1.2 Definición del Problema del Logaritmo Discreto (DLP)}
+    Sea $G = \mathbb{Z}_p^*$ y $g$ una \textbf{raíz primitiva} [5].
+    \begin{block}{El Problema}
+        Dado $h \equiv g^x \pmod n$, hallar el único entero $x \in \{0, \dots, \phi(n)-1\}$ [5].
+    \end{block}
+    
+    \begin{exampleblock}{Ejemplo Visual ($n=11, g=2$)}
+        % Sugerencia: Usar la tabla de potencias/índices de la Semana 13-1 [6].
+        \centering
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        $x$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \hline
+        $2^x$ & 2 & 4 & 8 & 5 & 10 & 9 & 7 & 3 & 6 & 1 \\ \hline
+        \end{tabular}
+        \small{Si te dan $h=7$, ¿puedes hallar $x$ rápidamente? [6]}
+    \end{exampleblock}
+\end{frame}
+
+% --- DIAPOSITIVA 4: IDEA CLAVE ---
+\section{Idea Clave}
+\begin{frame}{1.3 Idea Clave: Asimetría Computacional}
+    La seguridad se basa en funciones unidireccionales:
+    \begin{itemize}
+        \item \textbf{Exponenciación Binaria:} Muy rápida para calcular $g^x \pmod p$ incluso con $x$ gigante [5].
+        \item \textbf{Logaritmo Discreto:} Extremadamente difícil de revertir en grupos de gran orden [5].
+    \end{itemize}
+    \begin{figure}
+        % Sugerencia: Puedes usar una imagen representativa de una "llave pública" y una "privada" 
+        % o capturar la tabla ASCII [7] para mostrar cómo se ven los datos planos.
+        \centering
+        \framebox{Visualización de Complejidad Matemática}
+    \end{figure}
+\end{frame}
+
+% --- DIAPOSITIVA 5: IMPORTANCIA ---
+\section{Importancia}
+\begin{frame}{1.4 Importancia: Base de la seguridad en Diffie-Hellman}
+    \begin{itemize}
+        \item \textbf{Protocolo Diffie-Hellman:} Es la aplicación práctica de esta teoría para el acuerdo de claves [8].
+        \item \textbf{Propiedades de los Índices:} La regla $ind_m(c^t) \equiv t \cdot ind_m(c)$ permite la conmutatividad del secreto $(g^a)^b = (g^b)^a$ [9, 10].
+        \item \textbf{Impacto:} Es el cierre de la unidad de Criptografía en tu sílabo [8].
+    \end{itemize}
+    \begin{center}
+        \textbf{¡Sin el DLP no existiría el HTTPS seguro!}
+    \end{center}
+\end{frame}
+
+% =========================================================
+% RESPONSABLE 2: DIFFIE-HELLMAN CLÁSICO
+% =========================================================
+\section{Diffie-Hellman Clásico}
+\begin{frame}{2.1 Parámetros Públicos: El Grupo $\mathbb{Z}_p^*$}
+    Para iniciar el protocolo, ambas partes deben acordar dos valores públicos fundamentales:
+    \begin{itemize}
+        \item \textbf{Un número primo grande $p$:} Define el cuerpo finito sobre el cual operaremos.
+        \item \textbf{Un generador $g$:} En tus fuentes, este se define como una \textbf{raíz primitiva} módulo $p$ [1].
+    \end{itemize}
+    
+    \begin{block}{Definición de Raíz Primitiva [1]}
+        Un entero $g$ es raíz primitiva módulo $p$ si su \textbf{orden modular} es exactamente $\phi(p) = p-1$. Esto garantiza que el conjunto $\{g, g^2, \dots, g^{p-1}\}$ genera todos los elementos de $\mathbb{Z}_p^*$ [2].
+    \end{block}
+    
+    \begin{center}
+        \textit{Sugerencia de imagen: Insertar Tabla de Potencias de $g=2$ mod 11 de la pág. 2 de la Semana 13-1 [3].}
+    \end{center}
+\end{frame}
+
+% --- DIAPOSITIVA 2: GENERACIÓN E INTERCAMBIO ---
+\begin{frame}{2.2 Generación de Claves e Intercambio}
+    El protocolo utiliza la asimetría del Logaritmo Discreto:
+    \begin{enumerate}
+        \item \textbf{Secretos Privados:}
+        \begin{itemize}
+            \item Alice elige un entero aleatorio \textbf{$a$} (su clave privada).
+            \item Bob elige un entero aleatorio \textbf{$b$} (su clave privada).
+        \end{itemize}
+        \item \textbf{Claves Públicas (Valores de Intercambio):}
+        \begin{itemize}
+            \item Alice calcula $A \equiv g^a \pmod p$ y se lo envía a Bob.
+            \item Bob calcula $B \equiv g^b \pmod p$ y se lo envía a Alice.
+        \end{itemize}
+    \end{enumerate}
+    
+    \begin{exampleblock}{Propiedad de la Potencia [4]}
+        Recordando que $ind_m(c^t) \equiv t \cdot ind_m(c) \pmod{\phi(n)}$, el intercambio de claves es simplemente el intercambio de bases exponenciales.
+    \end{exampleblock}
+\end{frame}
+
+% --- DIAPOSITIVA 3: DERIVACIÓN DEL SECRETO ---
+\begin{frame}{2.3 Derivación del Secreto Compartido ($s$)}
+    Una vez realizado el intercambio, ambos realizan un cálculo final:
+    \begin{itemize}
+        \item \textbf{Alice calcula:} $s \equiv B^a \pmod p \implies (g^b)^a \equiv \mathbf{g^{ba}} \pmod p$.
+        \item \textbf{Bob calcula:} $s \equiv A^b \pmod p \implies (g^a)^b \equiv \mathbf{g^{ab}} \pmod p$.
+    \end{itemize}
+    
+    \begin{block}{Conclusión Matemática}
+        Debido a la conmutatividad de los exponentes en la aritmética modular [5], ambos llegan al mismo valor $s$. Este número será la clave para un cifrado de flujo como **Vernam** [6].
+    \end{block}
+
+    \begin{center}
+        \framebox{Diagrama: Alice ($g^a$) $\leftrightarrow$ Bob ($g^b$) $\implies$ Clave $g^{ab}$}
+    \end{center}
+\end{frame}
+
+% --- DIAPOSITIVA 4: EJEMPLO NUMÉRICO ---
+\begin{frame}{2.4 Ejemplo con valores del curso ($p=11, g=2$)}
+    Basado en el ejemplo de la \textbf{Semana 13-1} [3, 7]:
+    \begin{itemize}
+        \item \textbf{Parámetros:} $p=11$, $g=2$ (raíz primitiva).
+        \item \textbf{Alice:} Elige $a=3$. Calcula $A = 2^3 = \mathbf{8} \pmod{11}$.
+        \item \textbf{Bob:} Elige $b=4$. Calcula $B = 2^4 = 16 \equiv \mathbf{5} \pmod{11}$.
+        \item \textbf{Cómputo del Secreto:}
+        \begin{itemize}
+            \item Alice recibe 5: $s = 5^3 = 125 \equiv \mathbf{4} \pmod{11}$.
+            \item Bob recibe 8: $s = 8^4 = 4096 \equiv \mathbf{4} \pmod{11}$.
+        \end{itemize}
+    \end{itemize}
+    \textbf{Resultado:} Ambos comparten la clave secreta \textbf{4} de forma segura.
+\end{frame}
+
+% --- DIAPOSITIVA 5: CONCEPTO CLAVE CDH ---
+\begin{frame}{2.5 El Problema CDH (Computational Diffie-Hellman)}
+    La seguridad del Responsable 2 se resume en la dificultad de este problema:
+    
+    \begin{itemize}
+        \item \textbf{Dato para el atacante:} Conoce $g, p, g^a \pmod p$ y $g^b \pmod p$.
+        \item \textbf{Objetivo del atacante:} Hallar $g^{ab} \pmod p$.
+        \item \textbf{Dificultad:} Para resolverlo, el atacante típicamente intentaría resolver primero el **Logaritmo Discreto** [8] para hallar $a$ o $b$, lo cual es inviable en módulos grandes.
+    \end{itemize}
+    
+    \begin{alertblock}{Concepto Crucial}
+        No es posible obtener $g^{ab}$ de manera eficiente solo multiplicando $g^a \cdot g^b$, ya que esto daría $g^{a+b}$, un valor totalmente distinto al secreto compartido.
+    \end{alertblock}
+\end{frame}
+% =========================================================
+% RESPONSABLE 3: SEGURIDAD Y TEORÍA DE NÚMEROS
+% =========================================================
+% --- DIAPOSITIVA 1: FUNCIONES UNIDIRECCIONALES ---
+\section{Seguridad y Propiedades}
+\begin{frame}{3.1 Seguridad: La Función Unidireccional}
+    La seguridad de Diffie-Hellman se basa en el concepto de \textbf{función unidireccional} (one-way function):
+    \begin{itemize}
+        \item \textbf{Fácil en un sentido:} Calcular $g^a \pmod p$ es sumamente eficiente mediante exponenciación binaria.
+        \item \textbf{Difícil en el inverso:} Dado $A$, hallar $a = ind_g(A) \pmod p$ (el Logaritmo Discreto) es computacionalmente inviable para números grandes [1].
+    \end{itemize}
+    
+    \begin{block}{Ventaja Fundamental}
+        Permite establecer un secreto \textbf{sin secretos precompartidos}. A diferencia de los cifrados afines, Hill o Vigenère, donde emisor y receptor deben conocer la clave de antemano [2, 3].
+    \end{block}
+\end{frame}
+
+% --- DIAPOSITIVA 2: PROBLEMAS ASOCIADOS ---
+\begin{frame}{3.2 Dificultad Matemática: CDH y DDH}
+    El atacante se enfrenta a retos matemáticos profundos para romper el intercambio:
+    \begin{itemize}
+        \item \textbf{CDH (Computational Diffie-Hellman):} Dada la información pública $(g, p, g^a, g^b)$, el objetivo es calcular $g^{ab} \pmod p$. Se asume que este problema es tan difícil como el Logaritmo Discreto [1].
+        \item \textbf{DDH (Decisional Diffie-Hellman):} Consiste en distinguir si un valor dado es el secreto real $g^{ab}$ o simplemente un valor aleatorio del grupo $\mathbb{Z}_p^*$.
+    \end{itemize}
+    \begin{exampleblock}{Seguridad Semántica}
+        Si un atacante no puede resolver DDH, no puede obtener ni un solo bit de información útil sobre la clave final.
+    \end{exampleblock}
+\end{frame}
+
+% --- DIAPOSITIVA 3: LIMITACIONES Y MitM ---
+\begin{frame}{3.3 Limitaciones: El Canal Inseguro}
+    A pesar de su dureza matemática, el protocolo básico tiene una debilidad estructural:
+    \begin{itemize}
+        \item \textbf{Falta de Autenticación:} Alicia sabe que generó un secreto con "alguien", pero no tiene certeza de que ese alguien sea Beto.
+        \item \textbf{Ataque Man-in-the-Middle (MitM):} Un atacante (Eva) intercepta las claves públicas en el \textit{canal inseguro} [2] y establece dos secretos distintos: uno con Alicia y otro con Beto.
+    \end{itemize}
+    
+    \begin{center}
+        \framebox{Diagrama: Alicia $\leftrightarrow$ Eva $\leftrightarrow$ Beto}
+        \\ \small{Eva descifra, lee y vuelve a cifrar los mensajes sin que nadie lo note.}
+    \end{center}
+\end{frame}
+
+% --- DIAPOSITIVA 4: SOLUCIONES PRÁCTICAS ---
+\begin{frame}{3.4 Requisito Práctico: Firmas Digitales}
+    Para mitigar el ataque MitM, Diffie-Hellman debe implementarse junto con mecanismos de identidad:
+    \begin{itemize}
+        \item \textbf{Uso de RSA para Firmas:} Como se menciona en la \textbf{Semana 15}, RSA no solo sirve para cifrar, sino para \textbf{firmar digitalmente} [4].
+        \item \textbf{Infraestructura de TLS/SSL:} En la navegación web (HTTPS), el intercambio DH se protege firmando las claves públicas con certificados digitales.
+        \item \textbf{Protocolos Modernos:} El intercambio de claves autenticado asegura que el Logaritmo Discreto proteja el dato, mientras que la firma protege la identidad de las partes.
+    \end{itemize}
+\end{frame}
+
+% =========================================================
+% RESPONSABLE 4: CURVAS ELÍPTICAS (EXTENSIÓN TÉCNICA)
+% =========================================================
+% --- DIAPOSITIVA 1: CAMBIO DE ESTRUCTURA ---
+\section{Evolución de la Estructura}
+\begin{frame}{4.1 Evolución: De la Multiplicación a la Suma de Puntos}
+    En el Diffie-Hellman clásico se opera sobre el grupo multiplicativo $\mathbb{Z}_p^*$, basado en potencias modulares [1]:
+    \begin{itemize}
+        \item \textbf{DH Clásico:} La operación fundamental es $g^x \pmod p$ (multiplicaciones sucesivas).
+        \item \textbf{Evolución a ECC:} Se cambia el grupo algebraico. Ahora trabajamos con un conjunto de puntos $(x, y)$ que pertenecen a una curva.
+        \item \textbf{Nueva Operación:} El equivalente a la potencia modular es la \textbf{Suma de Puntos}. Si sumamos un punto $G$ consigo mismo $k$ veces, obtenemos un nuevo punto $Q$.
+    \end{itemize}
+    \begin{block}{Cambio de Paradigma}
+        Se pasa de un grupo cíclico de enteros a un grupo abeliano de puntos sobre un cuerpo finito.
+    \end{block}
+\end{frame}
+
+% --- DIAPOSITIVA 2: LA ECUACIÓN DE LA CURVA ---
+\begin{frame}{4.2 Definición Matemática de la Curva Elíptica}
+    Para fines criptográficos, se utiliza la forma reducida de Weierstrass sobre un cuerpo finito $\mathbb{F}_p$:
+    \begin{equation}
+        y^2 \equiv x^3 + ax + b \pmod p
+    \end{equation}
+    Donde se deben cumplir ciertas condiciones:
+    \begin{itemize}
+        \item \textbf{Determinante:} $4a^3 + 27b^2 \not\equiv 0 \pmod p$ (para evitar singularidades o cúspides).
+        \item \textbf{Conjunto de Puntos:} Incluye todos los pares $(x, y)$ que satisfacen la ecuación más un "punto al infinito" ($\mathcal{O}$) que actúa como el elemento neutro del grupo (equivalente al 1 en $\mathbb{Z}_n^*$) [2].
+    \end{itemize}
+    \textit{Sugerencia visual: Insertar gráfica de una curva elíptica continua para ilustrar la simetría respecto al eje X.}
+\end{frame}
+
+% --- DIAPOSITIVA 3: LA OPERACIÓN CLAVE ---
+\begin{frame}{4.3 Operación Clave: Multiplicación Escalar}
+    La seguridad de ECC no reside en multiplicar números, sino en la \textbf{multiplicación escalar} de un punto base $G$:
+    \begin{itemize}
+        \item \textbf{Definición:} $kG = G + G + \dots + G$ ($k$ veces).
+        \item \textbf{Mecánica:} No es una multiplicación aritmética simple, sino una serie de operaciones geométricas (duplicación y suma de puntos).
+        \item \textbf{Propiedad de Trampa:} Calcular $Q = kG$ es extremadamente rápido (usando el algoritmo de "doblar y sumar"), pero revertirlo es el desafío central.
+    \end{itemize}
+    \begin{exampleblock}{Análogo con el curso}
+        Así como en la Semana 13 vimos que $m^e \pmod n$ es fácil de calcular [3], $kG$ es la función unidireccional en el mundo de las curvas.
+    \end{exampleblock}
+\end{frame}
+
+% --- DIAPOSITIVA 4: EL PROBLEMA ECDLP ---
+\begin{frame}{4.4 El Problema ECDLP}
+    El **Problema del Logaritmo Discreto de Curva Elíptica** (ECDLP) es la base de la seguridad moderna:
+    \begin{block}{Definición del Problema}
+        Dados dos puntos de la curva, $G$ (punto base) y $Q$ (resultado), encontrar el entero secreto $k$ tal que:
+        $$Q = kG$$
+    \end{block}
+    \begin{itemize}
+        \item \textbf{Dificultad:} A diferencia del DLP clásico en $\mathbb{Z}_p^*$, no se conocen algoritmos sub-exponenciales (como el Cálculo de Índices) que funcionen para curvas bien elegidas.
+        \item \textbf{Resistencia:} Esto hace que el ECDLP sea órdenes de magnitud más difícil de resolver que el logaritmo discreto tradicional para el mismo tamaño de número.
+    \end{itemize}
+\end{frame}
+
+% --- DIAPOSITIVA 5: VENTAJAS Y COMPARACIÓN ---
+\begin{frame}{4.5 Ventaja Competitiva: Seguridad vs. Tamaño}
+    La mayor eficiencia del ECDLP permite alcanzar altos niveles de seguridad con llaves significativamente más pequeñas:
+    \begin{table}[]
+        \centering
+        \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Nivel de Seguridad} & \textbf{RSA / DH Clásico} & \textbf{ECC (ECDLP)} \\ \hline
+        80 bits (mínimo) & 1024 bits & 160 bits \\ \hline
+        128 bits (estándar) & \textbf{3072 bits} & \textbf{256 bits} \\ \hline
+        256 bits (máximo) & 15360 bits & 512 bits \\ \hline
+        \end{tabular}
+    \end{table}
+    \begin{itemize}
+        \item \textbf{Impacto Práctico:} Menor uso de CPU, menor consumo de batería en móviles y menos ancho de banda en la red.
+        \item \textbf{Conclusión:} Mientras que el sílabo menciona RSA y DH como pilares [1], ECC es la evolución necesaria para la computación moderna.
+    \end{itemize}
+\end{frame}
+
+% =========================================================
+% RESPONSABLE 5: COMPARACIÓN Y CONCLUSIONES
+% =========================================================
+\section{ECDH y Comparación Final}
+
+% --- DIAPOSITIVA 5.1: FUNCIONAMIENTO ECDH ---
+\begin{frame}{5.1 Mecanismo de Intercambio ECDH}
+    El protocolo **Elliptic Curve Diffie-Hellman (ECDH)** sigue la misma lógica que el DH clásico, pero sobre la estructura de la curva elíptica:
+    \begin{itemize}
+        \item \textbf{Alice:} Selecciona un entero secreto $a$ y calcula su punto público $A = aG$.
+        \item \textbf{Bob:} Selecciona un entero secreto $b$ y calcula su punto público $B = bG$.
+        \item \textbf{Intercambio:} Ambos envían sus puntos públicos por el canal inseguro [1].
+        \item \textbf{Secreto Compartido ($S$):}
+        \begin{itemize}
+            \item Alice calcula $S = aB = a(bG) = abG$.
+            \item Bob calcula $S = bA = b(aG) = abG$.
+        \end{itemize}
+    \end{itemize}
+    \begin{block}{Equivalencia Teórica}
+        Este proceso es análogo a la conmutatividad de los exponentes estudiada en las propiedades de los índices modulares [2].
+    \end{block}
+\end{frame}
+
+% --- DIAPOSITIVA 5.2: USO PRÁCTICO ---
+\begin{frame}{5.2 Del Secreto a la Clave Simétrica}
+    El resultado $S = abG$ es un punto $(x, y)$ en la curva. Para su uso real:
+    \begin{itemize}
+        \item \textbf{Extracción de Coordenada:} Generalmente se toma únicamente la coordenada $x$ del punto resultante.
+        \item \textbf{KDF (Key Derivation Function):} Este valor de la coordenada se pasa por una función de derivación de claves (como SHA-256).
+        \item \textbf{Cifrado Final:} La clave resultante se utiliza para alimentar un sistema de cifrado simétrico como **AES** o el cifrado de flujo **Vernam** visto en la Semana 15 [3].
+    \end{itemize}
+    \textit{Sugerencia visual: Diagrama que muestre la transformación del Punto S -> KDF -> Clave de Sesión.}
+\end{frame}
+
+% --- DIAPOSITIVA 5.3: COMPARATIVA TÉCNICA ---
+\begin{frame}{5.3 Comparación: DH Clásico vs. ECDH}
+    Basado en los estándares de seguridad y eficiencia computacional:
+    \vspace{0.3cm}
+    \begin{table}[]
+        \small
+        \centering
+        \begin{tabular}{|l|p{3.5cm}|p{3.5cm}|}
+        \hline
+        \textbf{Criterio} & \textbf{DH Clásico ($\mathbb{Z}_p^*$)} & \textbf{ECDH (Curva Elíptica)} \\ \hline
+        \textbf{Operación} & Exponenciación Modular & Multiplicación Escalar \\ \hline
+        \textbf{Dureza} & Problema del Logaritmo Discreto (DLP) [4] & Problema ECDLP \\ \hline
+        \textbf{Rendimiento} & \textbf{Pesado:} Requiere números de $>$2048 bits. & \textbf{Eficiente:} Misma seguridad con solo 256 bits. \\ \hline
+        \textbf{Velocidad} & Más lento, mayor latencia. & Muy rápido, ideal para móviles. \\ \hline
+        \end{tabular}
+    \end{table}
+\end{frame}
+
+% --- DIAPOSITIVA 5.4: CONCLUSIÓN ---
+\begin{frame}{5.4 Conclusiones del Módulo de Criptografía}
+    \begin{itemize}
+        \item \textbf{Seguridad Robusta:} Ambos métodos proporcionan un intercambio de claves seguro contra espionaje pasivo si los parámetros se eligen correctamente.
+        \item \textbf{Evolución:} El paso de los logaritmos discretos tradicionales (Semana 13) a la curva elíptica refleja la necesidad de mayor seguridad con menores recursos [5].
+        \item \textbf{Estándar Actual:} ECDH es el estándar de la industria hoy en día (usado en TLS 1.3, Signal, WhatsApp).
+    \end{itemize}
+    \begin{block}{Cierre del Curso}
+        La comprensión de las \textbf{Raíces Primitivas} y los \textbf{Grupos Modulares} es la base matemática que permite que el internet moderno sea seguro [5, 6].
+    \end{block}
+\end{frame}
+
+\end{document}
