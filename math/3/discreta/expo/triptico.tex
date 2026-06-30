@@ -1,0 +1,239 @@
+\documentclass[10pt,a4paper,landscape]{article}
+
+\usepackage[a4paper, landscape, top=0.8cm, bottom=0.8cm, left=0.6cm, right=0.6cm]{geometry}
+\usepackage{multicol}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\setlength{\columnseprule}{0.4pt}
+\setlength{\columnsep}{0.8cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+
+\setlist[itemize]{leftmargin=*, itemsep=0pt, topsep=1pt}
+\setlist[enumerate]{leftmargin=*, itemsep=0pt, topsep=1pt}
+
+\definecolor{headbg}{RGB}{30,80,140}
+\definecolor{exbg}{RGB}{220,235,255}
+\definecolor{alertbg}{RGB}{255,230,220}
+
+\newcommand{\secbox}[1]{%
+  \vspace{3pt}%
+  \noindent\colorbox{headbg}{\makebox[\dimexpr\linewidth-2\fboxsep\relax][l]{\color{white}\textbf{\small #1}}}%
+  \vspace{2pt}%
+}
+
+\newcommand{\formula}[1]{%
+  \begin{mdframed}[backgroundcolor=exbg, linewidth=0pt, innertopmargin=3pt, innerbottommargin=3pt, innerleftmargin=4pt, innerrightmargin=4pt]
+  \small #1
+  \end{mdframed}
+}
+
+\newcommand{\alerta}[1]{%
+  \begin{mdframed}[backgroundcolor=alertbg, linewidth=0pt, innertopmargin=3pt, innerbottommargin=3pt, innerleftmargin=4pt, innerrightmargin=4pt]
+  \small #1
+  \end{mdframed}
+}
+
+\begin{document}
+\footnotesize
+
+\begin{center}
+  {\large\textbf{Cheat Sheet: DLP, Diffie-Hellman y ECC}} \quad
+  {\small Matemática Discreta --- UNI 2026}\\[2pt]
+  {\footnotesize Eliaz S. Bobadilla Camarena \quad Raúl Papuico Palomino \quad Carlo S. Bustamante Martínez \quad Carlos A. Quispe Luna}
+\end{center}
+\vspace{2pt}
+\hrule
+\vspace{4pt}
+
+\begin{multicols}{3}
+
+%% =============================================
+%% COLUMNA 1: FUNDAMENTOS
+%% =============================================
+
+\secbox{1. Grupo $\mathbb{Z}_p^*$ y Raíz Primitiva}
+
+\textbf{Grupo $\mathbb{Z}_p^*$:} conjunto $\{1, 2, \dots, p{-}1\}$ con multiplicación módulo $p$ (primo).
+
+\textbf{Orden de $g$:} menor $k>0$ tal que $g^k \equiv 1 \pmod{p}$.
+
+\formula{
+  $g$ es \textbf{raíz primitiva} mod $p$ si\\
+  $\text{ord}(g) = \phi(p) = p-1$\\
+  $\Rightarrow \{g^1, g^2, \dots, g^{p-1}\} = \mathbb{Z}_p^*$
+}
+
+\textbf{Ejemplo} ($p=11$, $g=2$):
+
+\begin{center}
+\begin{tabular}{c|cccccccccc}
+\small$x$ & 1&2&3&4&5&6&7&8&9&10\\\hline
+\small$2^x$ & 2&4&8&5&10&9&7&3&6&1
+\end{tabular}
+\end{center}
+Genera los 10 elementos $\Rightarrow$ $g=2$ es raíz primitiva.
+
+\vspace{3pt}
+\secbox{2. Problema del Logaritmo Discreto (DLP)}
+
+\formula{
+  Dado $h \equiv g^x \pmod{p}$,\\
+  hallar $x \in \{0,\dots,p{-}2\}$
+}
+
+\begin{itemize}
+  \item \textbf{Fácil:} calcular $g^x \pmod{p}$ (exponenciación binaria, $O(\log x)$ multiplicaciones)
+  \item \textbf{Difícil:} invertir — no hay algoritmo eficiente para $p$ grande
+\end{itemize}
+
+\textbf{Exponenciación binaria rápida:}
+\begin{enumerate}
+  \item Escribir $x$ en binario
+  \item Aplicar \textit{doblar y multiplicar}
+\end{enumerate}
+\textit{Ej:} $2^{10} \pmod{11}$: $10=(1010)_2$
+$\rightarrow 2^2=4,\; 4^2=5,\; 5\cdot 2^0=5,\; 5^2=3,\; 3\cdot 2^0=3$... (resultado: $1$)
+
+\vspace{3pt}
+\secbox{Propiedad clave de índices}
+
+\formula{
+  $\text{ind}_g(c^t) \equiv t \cdot \text{ind}_g(c) \pmod{p{-}1}$
+}
+
+Esto hace que $(g^a)^b = (g^b)^a = g^{ab}$ — base del intercambio de claves.
+
+%% =============================================
+%% COLUMNA 2: DIFFIE-HELLMAN CLÁSICO
+%% =============================================
+
+\secbox{3. Protocolo Diffie-Hellman (DH)}
+
+\textbf{Setup público:} primo $p$, raíz primitiva $g$. Ambos conocen $(p,g)$.
+
+\vspace{2pt}
+\begin{enumerate}
+  \item \textbf{Alice} elige secreto $a$, publica $A = g^a \pmod{p}$
+  \item \textbf{Bob} elige secreto $b$, publica $B = g^b \pmod{p}$
+  \item \textbf{Alice} calcula $s = B^a \pmod{p}$
+  \item \textbf{Bob} calcula $s = A^b \pmod{p}$
+\end{enumerate}
+
+\formula{
+  $s = (g^b)^a = (g^a)^b = g^{ab} \pmod{p}$\\
+  \textbf{Ambos obtienen el mismo secreto} $s$
+}
+
+\textbf{Ejemplo numérico} ($p=11,\; g=2$):
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Alice ($a=3$) & Bob ($b=4$) \\\midrule
+$A = 2^3 = \mathbf{8}$ & $B = 2^4 = \mathbf{5}$ \\
+$s = 5^3 = 125 \equiv \mathbf{4}$ & $s = 8^4 = 4096 \equiv \mathbf{4}$ \\\bottomrule
+\end{tabular}
+\end{center}
+Clave compartida: $s = \mathbf{4}$ \checkmark
+
+\vspace{3pt}
+\secbox{4. Problemas CDH y DDH}
+
+\textbf{CDH} (Computational DH):
+\begin{itemize}
+  \item Conoces: $g,\; p,\; g^a,\; g^b$
+  \item Hallar: $g^{ab}$ \quad $\leftarrow$ inviable
+\end{itemize}
+
+\alerta{
+  \textbf{Trampa común:} $g^a \cdot g^b = g^{a+b} \neq g^{ab}$
+}
+
+\textbf{DDH} (Decisional DH): distinguir $g^{ab}$ de valor aleatorio en $\mathbb{Z}_p^*$. Si no se puede $\Rightarrow$ \textbf{seguridad semántica}.
+
+\vspace{3pt}
+\secbox{5. Ataque Man-in-the-Middle (MitM)}
+
+\begin{center}
+Alice $\leftrightarrow$ \textbf{Eva} $\leftrightarrow$ Bob
+\end{center}
+Eva intercepta $A$ y $B$, crea dos secretos separados. DH solo es seguro si los valores públicos están \textbf{autenticados} (ej. firmas RSA, certificados TLS).
+
+%% =============================================
+%% COLUMNA 3: ECC Y COMPARACIÓN
+%% =============================================
+
+\secbox{6. Curvas Elípticas (ECC)}
+
+\formula{
+  $y^2 \equiv x^3 + ax + b \pmod{p}$\\
+  Condición: $4a^3 + 27b^2 \not\equiv 0 \pmod{p}$
+}
+
+\begin{itemize}
+  \item Punto al infinito $\mathcal{O}$ = elemento neutro
+  \item \textbf{Suma de puntos:} operación geométrica (reflexión)
+  \item \textbf{Multiplicación escalar:} $kG = \underbrace{G+G+\cdots+G}_{k}$
+\end{itemize}
+
+\secbox{7. ECDLP}
+
+\formula{
+  Dado $Q = kG$, hallar $k$ — inviable
+}
+
+Sin algoritmos sub-exponenciales conocidos para curvas bien elegidas $\Rightarrow$ más duro que DLP clásico.
+
+\vspace{3pt}
+\secbox{8. Protocolo ECDH}
+
+\begin{enumerate}
+  \item Setup: curva $E$, punto base $G$, primo $p$
+  \item Alice: secreto $a$, publica $A = aG$
+  \item Bob: secreto $b$, publica $B = bG$
+  \item Secreto: $S = aB = bA = abG$
+\end{enumerate}
+Usar coordenada $x$ de $S$ + KDF (ej. SHA-256) $\rightarrow$ clave AES.
+
+\vspace{3pt}
+\secbox{9. DH Clásico vs. ECDH}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Seguridad} & \textbf{DH} & \textbf{ECDH} \\\midrule
+80 bits  & 1024 b & 160 b \\
+128 bits & 3072 b & \textbf{256 b} \\
+256 bits & 15360 b & 512 b \\\bottomrule
+\end{tabular}
+\end{center}
+
+ECDH = misma seguridad, claves $\sim$10$\times$ más cortas.
+
+\vspace{3pt}
+\secbox{10. Uso real}
+
+\begin{itemize}
+  \item \textbf{TLS 1.3} (HTTPS): ECDH para intercambio de clave de sesión
+  \item \textbf{Signal / WhatsApp}: X25519 (curva elíptica)
+  \item \textbf{SSH}: DH o ECDH en handshake
+  \item \textbf{PGP}: RSA o ECC para cifrado de clave
+\end{itemize}
+
+\alerta{
+  \textbf{Flujo completo:}\\
+  $p,g$ públicos $\to$ claves $A,B$ $\to$ secreto $g^{ab}$ $\to$ KDF $\to$ AES/Vernam
+}
+
+\end{multicols}
+
+\end{document}

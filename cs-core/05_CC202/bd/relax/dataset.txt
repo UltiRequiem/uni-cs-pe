@@ -1,0 +1,114 @@
+group: BilleteraDigital
+
+Usuario = {
+    id_usuario:number, dni:string, nombre:string, apellido:string, celular:string, email:string, fecha_registro:date, estado:string
+    1,  '73829142', 'Carlos',   'Bonifacio', '987654321', 'carlos.bonifacio@gmail.com',  2023-05-10, 'Activo'
+    2,  '74928374', 'Eliaz',    'Bobadilla', '956789012', 'eliaz.bobadilla@gmail.com',   2023-07-22, 'Activo'
+    3,  '75839465', 'Leonardo', 'Estacio',   '945678901', 'leonardo.estacio@gmail.com',  2023-09-15, 'Activo'
+    4,  '76948576', 'Maria',    'Quispe',    '932456789', 'maria.quispe@gmail.com',      2024-01-08, 'Activo'
+    5,  '77058687', 'Jose',     'Mamani',    '967891234', 'jose.mamani@gmail.com',       2024-03-12, 'Activo'
+    6,  '78168798', 'Lucia',    'Huaman',    '978912345', 'lucia.huaman@gmail.com',      2024-06-20, 'Activo'
+    7,  '79278809', 'Ana',      'Flores',    '989123456', 'ana.flores@gmail.com',        2024-08-05, 'Activo'
+    8,  '80388910', 'Diego',    'Rojas',     '991234567', 'diego.rojas@gmail.com',       2024-10-18, 'Activo'
+    9,  '81499021', 'Sofia',    'Gutierrez', '912345678', 'sofia.gutierrez@gmail.com',   2025-02-25, 'Activo'
+    10, '82609132', 'Pedro',    'Vargas',    '923456789', 'pedro.vargas@gmail.com',      2025-04-14, 'Activo'
+}
+
+Billetera = {
+    id_billetera:number, id_usuario:number, saldo:number, moneda:string, fecha_creacion:date, estado:string
+    1,  1,  320.00,  'PEN', 2023-05-10, 'Activa'
+    2,  2,  580.00,  'PEN', 2023-07-22, 'Activa'
+    3,  3,  450.00,  'PEN', 2023-09-15, 'Activa'
+    4,  4,  220.00,  'PEN', 2024-01-08, 'Activa'
+    5,  5,  780.00,  'PEN', 2024-03-12, 'Activa'
+    6,  6,  150.00,  'PEN', 2024-06-20, 'Activa'
+    7,  7,  620.00,  'PEN', 2024-08-05, 'Activa'
+    8,  8,  1100.00, 'PEN', 2024-10-18, 'Activa'
+    9,  9,  340.00,  'PEN', 2025-02-25, 'Activa'
+    10, 10, 80.00,   'PEN', 2025-04-14, 'Activa'
+}
+
+Contacto = {
+    id_contacto:number, id_usuario:number, id_usuario_contacto:number, alias:string, fecha_agregado:date
+    1,  1, 2,  'Eliaz - U',   2024-01-15
+    2,  1, 3,  'Leo',         2024-02-20
+    3,  2, 1,  'Carlitos',    2024-02-22
+    4,  2, 4,  'Maria Q',     2024-04-10
+    5,  3, 1,  'Carlos B',    2024-08-12
+    6,  4, 5,  'Jose M',      2024-05-18
+    7,  5, 6,  'Lucia H',     2024-07-25
+    8,  7, 8,  'Diego R',     2024-09-30
+    9,  8, 7,  'Ana F',       2024-11-05
+    10, 9, 10, 'Pedro V',     2025-03-15
+    11, 4, 3,  'Leo Estacio', 2024-11-05
+}
+
+CuentaBancaria = {
+    id_cuenta:number, id_billetera:number, numero_cuenta:string, banco:string, tipo_cuenta:string, fecha_vinculacion:date
+    1,  1, '19101234567890', 'BCP',        'Ahorros',   2023-05-15
+    2,  1, '00310045678901', 'Interbank',  'Corriente', 2023-06-01
+    3,  2, '01112233445566', 'BBVA',       'Ahorros',   2023-08-10
+    4,  3, '19198765432101', 'BCP',        'Ahorros',   2023-09-20
+    5,  4, '00908172635445', 'Scotiabank', 'Corriente', 2024-02-05
+    6,  5, '19156473829100', 'BCP',        'Ahorros',   2024-03-20
+    7,  7, '00345678123456', 'Interbank',  'Ahorros',   2024-08-15
+    8,  8, '19198273645501', 'BCP',        'Corriente', 2024-11-01
+    9,  8, '01156473829112', 'BBVA',       'Ahorros',   2024-12-10
+    10, 9, '00945678234567', 'Scotiabank', 'Ahorros',   2025-03-05
+}
+
+Tarjeta = {
+    id_tarjeta:number, id_billetera:number, ultimos_4_digitos:string, tipo:string, banco:string, fecha_vencimiento:date
+    1,  1, '4521', 'Debito',  'BCP',        2027-08-31
+    2,  2, '8843', 'Credito', 'BBVA',       2026-12-31
+    3,  3, '1290', 'Debito',  'BCP',        2028-03-31
+    4,  3, '5678', 'Credito', 'Interbank',  2027-11-30
+    5,  4, '3412', 'Debito',  'Scotiabank', 2027-05-31
+    6,  5, '9087', 'Debito',  'BCP',        2028-09-30
+    7,  7, '2244', 'Credito', 'Interbank',  2027-02-28
+    8,  8, '6655', 'Debito',  'BCP',        2028-07-31
+    9,  8, '7788', 'Credito', 'BBVA',       2027-04-30
+    10, 9, '3399', 'Debito',  'Scotiabank', 2028-06-30
+}
+
+Recarga = {
+    id_recarga:number, id_billetera:number, id_cuenta:number, id_tarjeta:number, monto:number, fecha:date, estado:string
+    1,  1, 1,    null, 200.00, 2024-12-10, 'Exitosa'
+    2,  2, 3,    null, 300.00, 2025-01-05, 'Exitosa'
+    3,  3, 4,    null, 500.00, 2025-01-20, 'Exitosa'
+    4,  4, null, 5,    100.00, 2025-02-10, 'Fallida'
+    5,  5, 6,    null, 400.00, 2025-02-25, 'Exitosa'
+    6,  1, null, 1,    150.00, 2025-03-15, 'Exitosa'
+    7,  7, 7,    null, 250.00, 2025-04-02, 'Exitosa'
+    8,  8, 8,    null, 800.00, 2025-04-18, 'Exitosa'
+    9,  9, 10,   null, 180.00, 2025-05-08, 'Exitosa'
+    10, 3, null, 4,    220.00, 2025-05-15, 'Pendiente'
+}
+
+Transaccion = {
+    id_transaccion:number, id_billetera_emisor:number, id_billetera_receptor:number, monto:number, fecha:date, mensaje:string, estado:string
+    1,  1, 2, 50.00,  2025-01-15, 'Almuerzo',      'Completada'
+    2,  3, 4, 120.00, 2025-02-03, 'Pago alquiler', 'Completada'
+    3,  4, 6, 250.00, 2025-02-18, 'Servicio',      'Fallida'
+    4,  2, 5, 80.00,  2025-03-22, 'Cumpleanos',    'Completada'
+    5,  5, 1, 200.00, 2025-04-10, 'Devolucion',    'Completada'
+    6,  1, 3, 40.00,  2025-04-22, 'Cafe',          'Pendiente'
+    7,  6, 7, 35.50,  2025-05-01, 'Cafe',          'Completada'
+    8,  7, 9, 300.00, 2025-05-08, 'Prestamo',      'Pendiente'
+    9,  8, 3, 500.00, 2025-05-12, 'Prestamo',      'Completada'
+    10, 4, 9, 75.00,  2025-05-18, 'Taxi',          'Completada'
+}
+
+Notificacion = {
+    id_notificacion:number, id_usuario:number, id_transaccion:number, tipo:string, mensaje:string, fecha:date
+    1,  2,  1,    'Transaccion', 'Recibiste S/ 50 de Carlos',    2025-01-15
+    2,  4,  2,    'Transaccion', 'Enviaste S/ 120 a Maria',      2025-02-03
+    3,  5,  4,    'Transaccion', 'Recibiste S/ 80 de Eliaz',     2025-03-22
+    4,  1,  5,    'Transaccion', 'Recibiste S/ 200 de Jose',     2025-04-10
+    5,  7,  7,    'Transaccion', 'Recibiste S/ 35.50 de Lucia',  2025-05-01
+    6,  3,  9,    'Transaccion', 'Recibiste S/ 500 de Diego',    2025-05-12
+    7,  10, null, 'Sistema',     'Bienvenido a la billetera',    2025-04-14
+    8,  1,  null, 'Sistema',     'Actualizacion de terminos',    2025-03-01
+    9,  1,  null, 'Recarga',     'Recarga exitosa por S/ 200',   2024-12-10
+    10, 2,  null, 'Recarga',     'Recarga exitosa por S/ 300',   2025-01-05
+}

@@ -1,0 +1,240 @@
+-- =============================================================
+-- Queries para RelaX - Proyecto Billetera Digital
+-- =============================================================
+-- Como usar:
+--   1. Carga primero el dataset.txt en el "group editor".
+--   2. Copia y pega CADA query individualmente en el editor
+--      del lenguaje correspondiente:
+--        * Algebra Relacional (queries 1 a 16)
+--        * Calculo de Tuplas (TRC 1 a 4)
+--        * Calculo de Dominios (DRC 1 a 4)
+--   3. NO pegues todo el archivo de una vez: RelaX ejecuta una
+--      sola expresion por vez.
+-- =============================================================
+
+
+-- =============================================================
+-- ALGEBRA RELACIONAL
+-- =============================================================
+
+-- -------------------------------------------------------------
+-- 1. SELECCION: transacciones completadas
+-- -------------------------------------------------------------
+sigma estado = 'Completada' (Transaccion)
+
+
+-- -------------------------------------------------------------
+-- 2. PROYECCION: nombres, apellidos y celulares
+-- -------------------------------------------------------------
+pi nombre, apellido, celular (Usuario)
+
+
+-- -------------------------------------------------------------
+-- 3. UNION: billeteras que enviaron O recibieron al menos
+--    una transaccion. Renombramos para que ambos esquemas
+--    coincidan (requisito de la union).
+-- -------------------------------------------------------------
+(pi id_billetera_emisor -> id_billetera (Transaccion))
+union
+(pi id_billetera_receptor -> id_billetera (Transaccion))
+
+
+-- -------------------------------------------------------------
+-- 4. INTERSECCION: usuarios que tienen al menos una cuenta
+--    bancaria Y al menos una tarjeta vinculada.
+-- -------------------------------------------------------------
+(pi id_usuario (Billetera join CuentaBancaria))
+intersect
+(pi id_usuario (Billetera join Tarjeta))
+
+
+-- -------------------------------------------------------------
+-- 5. DIFERENCIA: usuarios que nunca han enviado una transaccion
+-- -------------------------------------------------------------
+(pi id_usuario (Usuario))
+-
+(pi id_usuario (
+    (Usuario join Billetera)
+    join id_billetera = id_billetera_emisor
+    Transaccion
+))
+
+
+-- -------------------------------------------------------------
+-- 6. PRODUCTO CARTESIANO: combinaciones banco x tipo de tarjeta
+-- -------------------------------------------------------------
+(pi banco (CuentaBancaria)) cross join (pi tipo (Tarjeta))
+
+
+-- -------------------------------------------------------------
+-- 7. RENOMBRAMIENTO: Usuario proyectado y renombrado a Cliente
+-- -------------------------------------------------------------
+rho Cliente (pi id_usuario, nombre, apellido, celular (Usuario))
+
+
+-- -------------------------------------------------------------
+-- 8. THETA JOIN: transacciones con monto > 100 unidas con su
+--    billetera emisora.
+-- -------------------------------------------------------------
+Transaccion
+join monto > 100 and id_billetera_emisor = id_billetera
+Billetera
+
+
+-- -------------------------------------------------------------
+-- 9. EQUIJOIN: usuario con el saldo de su billetera
+-- -------------------------------------------------------------
+Usuario
+join Usuario.id_usuario = Billetera.id_usuario
+Billetera
+
+
+-- -------------------------------------------------------------
+-- 10. NATURAL JOIN: Billetera y Usuario por id_usuario
+-- -------------------------------------------------------------
+Billetera join Usuario
+
+
+-- -------------------------------------------------------------
+-- 11. LEFT OUTER JOIN: todos los usuarios y, si existen, sus
+--     recargas. Renombramos el lado derecho para evitar
+--     ambiguedad en id_usuario.
+-- -------------------------------------------------------------
+Usuario
+left outer join Usuario.id_usuario = BR.id_usuario
+(rho BR (Billetera join Recarga))
+
+
+-- -------------------------------------------------------------
+-- 12. RIGHT OUTER JOIN: todas las notificaciones y, si existe,
+--     la transaccion asociada.
+-- -------------------------------------------------------------
+Transaccion
+right outer join Transaccion.id_transaccion = Notificacion.id_transaccion
+Notificacion
+
+
+-- -------------------------------------------------------------
+-- 13. FULL OUTER JOIN: usuarios y contactos preservando ambos
+-- -------------------------------------------------------------
+Usuario
+full outer join Usuario.id_usuario = Contacto.id_usuario
+Contacto
+
+
+-- -------------------------------------------------------------
+-- 14. DIVISION: billeteras que tienen tarjetas de TODOS los
+--     tipos registrados (Debito y Credito).
+-- -------------------------------------------------------------
+(pi id_billetera, tipo (Tarjeta)) / (pi tipo (Tarjeta))
+
+
+-- -------------------------------------------------------------
+-- 15. ASIGNACION: guarda en TransaccionesGrandes las
+--     transacciones con monto > 100, luego se consulta.
+--     Pegar las DOS lineas juntas en el mismo editor.
+-- -------------------------------------------------------------
+TransaccionesGrandes = sigma monto > 100 (Transaccion)
+TransaccionesGrandes
+
+
+-- -------------------------------------------------------------
+-- 16. AGREGACION: suma y promedio del monto agrupado por estado
+-- -------------------------------------------------------------
+gamma estado ; sum(monto)->total_monto, avg(monto)->promedio_monto (Transaccion)
+
+
+
+-- =============================================================
+-- CALCULO RELACIONAL DE TUPLAS (TRC)
+-- (Pegar en el editor "Tuple Relational Calculus")
+-- =============================================================
+
+-- -------------------------------------------------------------
+-- TRC 1: usuarios con saldo en billetera > 500
+-- -------------------------------------------------------------
+{ t | Usuario(t) and exists b ( Billetera(b)
+        and b.id_usuario = t.id_usuario
+        and b.saldo > 500 ) }
+
+
+-- -------------------------------------------------------------
+-- TRC 2: transacciones completadas con monto > 100
+-- -------------------------------------------------------------
+{ t | Transaccion(t)
+        and t.estado = 'Completada'
+        and t.monto > 100 }
+
+
+-- -------------------------------------------------------------
+-- TRC 3: usuarios que han recibido al menos una
+--        transaccion mayor a 100 soles
+-- -------------------------------------------------------------
+{ t | Usuario(t) and exists b ( exists x (
+        Billetera(b) and Transaccion(x)
+        and b.id_usuario = t.id_usuario
+        and x.id_billetera_receptor = b.id_billetera
+        and x.monto > 100 ) ) }
+
+
+-- -------------------------------------------------------------
+-- TRC 4: usuarios con al menos una cuenta en el banco "BCP"
+-- -------------------------------------------------------------
+{ t | Usuario(t) and exists b ( exists c (
+        Billetera(b) and CuentaBancaria(c)
+        and b.id_usuario = t.id_usuario
+        and c.id_billetera = b.id_billetera
+        and c.banco = 'BCP' ) ) }
+
+
+
+-- =============================================================
+-- CALCULO RELACIONAL DE DOMINIO (DRC)
+-- (Pegar en el editor "Domain Relational Calculus")
+-- =============================================================
+
+-- -------------------------------------------------------------
+-- DRC 1: nombre y celular de usuarios registrados antes de 2025
+-- Esquema Usuario:
+--   (id_usuario, dni, nombre, apellido, celular, email,
+--    fecha_registro, estado)
+-- -------------------------------------------------------------
+{ n, c | exists i ( exists d ( exists a ( exists e ( exists f ( exists s (
+        Usuario(i, d, n, a, c, e, f, s) and f < 2025-01-01 ) ) ) ) ) ) }
+
+
+-- -------------------------------------------------------------
+-- DRC 2: id y monto de recargas con estado 'Exitosa'
+-- Esquema Recarga:
+--   (id_recarga, id_billetera, id_cuenta, id_tarjeta,
+--    monto, fecha, estado)
+-- -------------------------------------------------------------
+{ i, m | exists b ( exists c ( exists t ( exists f (
+        Recarga(i, b, c, t, m, f, 'Exitosa') ) ) ) ) }
+
+
+-- -------------------------------------------------------------
+-- DRC 3: id_cuenta y banco de las cuentas vinculadas a la
+--        billetera del usuario con id_usuario = 1
+-- Esquema CuentaBancaria:
+--   (id_cuenta, id_billetera, numero_cuenta, banco,
+--    tipo_cuenta, fecha_vinculacion)
+-- Esquema Billetera:
+--   (id_billetera, id_usuario, saldo, moneda,
+--    fecha_creacion, estado)
+-- -------------------------------------------------------------
+{ i, b | exists w ( exists n ( exists t ( exists f (
+        CuentaBancaria(i, w, n, b, t, f)
+        and exists s ( exists m ( exists fc ( exists e (
+            Billetera(w, 1, s, m, fc, e) ) ) ) ) ) ) ) ) }
+
+
+-- -------------------------------------------------------------
+-- DRC 4: alias y fecha en que distintos usuarios agregaron al
+--        usuario con id_usuario = 3 (Leonardo) como contacto
+-- Esquema Contacto:
+--   (id_contacto, id_usuario, id_usuario_contacto, alias,
+--    fecha_agregado)
+-- -------------------------------------------------------------
+{ a, f | exists i ( exists u (
+        Contacto(i, u, 3, a, f) ) ) }
